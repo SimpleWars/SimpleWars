@@ -26,15 +26,16 @@
         /// Initializes a new instance of the <see cref="DisplayManager"/> class.
         /// </summary>
         private DisplayManager()
-        {
-            this.CurrentDisplay = new MenuDisplay();
+        {          
             this.Dimensions = new Vector2(1280, 720);
+
+            this.CurrentDisplay = new MenuDisplay();
         }
 
         /// <summary>
         /// The instance.
         /// </summary>
-        public static DisplayManager Instance = instance ?? (instance = new DisplayManager());
+        public static readonly DisplayManager Instance = instance ?? (instance = new DisplayManager());
 
         /// <summary>
         /// Gets the dimensions.

@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SimpleWars
 {
+    using System.Diagnostics;
+
     using SimpleWars.Display;
     using SimpleWars.InputManager;
 
@@ -28,7 +30,7 @@ namespace SimpleWars
         public Master()
         {
             this.graphics = new GraphicsDeviceManager(this);
-
+            var a = DisplayManager.Instance.Dimensions.X;
             this.Content.RootDirectory = "Content";
         }
 
@@ -40,6 +42,7 @@ namespace SimpleWars
         /// </summary>
         protected override void Initialize()
         {
+            Debug.WriteLine(DisplayManager.Instance.Dimensions.X);
             this.graphics.PreferredBackBufferWidth = (int)DisplayManager.Instance.Dimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)DisplayManager.Instance.Dimensions.Y;
             this.graphics.ApplyChanges();

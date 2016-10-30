@@ -5,35 +5,27 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Res;
+    using SimpleWars.Res.DisplayAssets;
+
     /// <summary>
     /// The menu display.
     /// </summary>
     public class MenuDisplay : GameDisplay
     {
-        /// <summary>
-        /// The background.
-        /// </summary>
-        private Texture2D background;
-
-        /// <summary>
-        /// The main frame.
-        /// </summary>
-        private Rectangle mainFrame;
+        private MenuAssets assets;
 
         /// <summary>
         /// The load content.
         /// </summary>
         public override void LoadContent()
         {
-            base.LoadContent();
+            this.assets = new MenuAssets();
+        }
 
-            this.background = this.Content.Load<Texture2D>("Menu/menu-background");
-
-            this.mainFrame = new Rectangle(
-                0,
-                0,
-                (int)DisplayManager.Instance.Dimensions.X,
-                (int)DisplayManager.Instance.Dimensions.Y);
+        public override void UnloadContent()
+        {
+            this.assets.UnloadAssets();
         }
 
         /// <summary>
@@ -44,7 +36,6 @@
         /// </param>
         public override void Update(GameTime gameTime)
         {
-            
         }
 
         /// <summary>
@@ -55,7 +46,7 @@
         /// </param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.background, null, this.mainFrame);
+            spriteBatch.Draw(this.assets.Background, null, this.assets.MainFrame);
         }
     }
 }

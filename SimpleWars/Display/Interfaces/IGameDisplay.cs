@@ -4,6 +4,8 @@
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Res.Interfaces;
+
     /// <summary>
     /// The GameDisplay interface.
     /// </summary>

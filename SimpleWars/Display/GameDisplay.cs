@@ -7,6 +7,7 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Display.Interfaces;
+    using SimpleWars.Res.Interfaces;
 
     /// <summary>
     /// The game display.
@@ -14,28 +15,14 @@
     public abstract class GameDisplay : IGameDisplay
     {
         /// <summary>
-        /// Gets the content.
-        /// </summary>
-        protected ContentManager Content { get; private set; }
-
-        /// <summary>
         /// The load content.
         /// </summary>
-        public virtual void LoadContent()
-        {
-            this.Content =
-                new ContentManager(
-                DisplayManager.Instance.Content.ServiceProvider,
-                DisplayManager.Instance.Content.RootDirectory);
-        }
+        public abstract void LoadContent();
 
         /// <summary>
         /// The unload content.
         /// </summary>
-        public virtual void UnloadContent()
-        {
-            this.Content.Unload();
-        }
+        public abstract void UnloadContent();
 
         /// <summary>
         /// The update.

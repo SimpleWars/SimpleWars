@@ -53,6 +53,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Res\Asset.cs" />
+    <Compile Include="Res\Interfaces\IAsset.cs" />
+    <Compile Include="Res\Interfaces\IAsset2D.cs" />
+    <Compile Include="Res\Asset2D.cs" />
+    <Compile Include="Res\Assets.cs" />
     <Compile Include="Display\DisplayManager.cs" />
     <Compile Include="Display\GameDisplay.cs" />
     <Compile Include="Display\Interfaces\IDisplayManager.cs" />
@@ -62,6 +67,8 @@
     <Compile Include="Master.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Res\Interfaces\IAssetLoader.cs" />
+    <Compile Include="Res\DisplayAssets\MenuAssets.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
