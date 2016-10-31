@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Displays.DisplaysHolder
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
 
     using Microsoft.Xna.Framework;
@@ -14,14 +16,25 @@
     {
         private Test3Assets assets;
 
-        private Tree testEntity;
+        private IList<Entity> entities;
 
         private Camera camera;
 
         public override void LoadContent()
         {
             this.assets = new Test3Assets();
-            this.testEntity = new Tree(this.assets.Model, new Vector3(5, 5, 2), 1);
+            this.entities = new List<Entity>();
+            var random = new Random();
+            var numberOfTrees = random.Next(30, 100);
+
+            for (int i = 0; i < numberOfTrees; i++)
+            {
+                var x = random.Next(1, 50);
+                var y = random.Next(1, 50);
+
+                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, 0), 1));
+            }
+
             this.camera = new Camera();
         }
 
@@ -32,14 +45,20 @@
 
         public override void Update(GameTime gameTime)
         {
-            this.testEntity.Move(new Vector3(-0.002f, 0, 0));
-            this.testEntity.Rotate(new Vector3(0, 0, 2));
+            foreach (var entity in this.entities)
+            {
+                entity.Rotate(new Vector3(0, 0, 2));
+            }
+            
             this.camera.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.DrawModel(this.testEntity);
+            foreach (var entity in this.entities)
+            {
+                this.DrawModel(entity);
+            }
         }
 
         private void DrawModel(Entity entity)

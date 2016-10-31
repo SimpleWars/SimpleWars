@@ -5,84 +5,80 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Displays;
     using SimpleWars.InputManager;
 
     public class Camera
     {
-        private readonly Vector3 upVector = Vector3.UnitZ;
-
         private const float FieldOfView = MathHelper.PiOver4;
         private const float NearPlaneDistance = 0.1f;
-        private const float FarPlaneDistance = 1000f;
-        private const float AspectRatio = 1280 / (float)720;
+        private const float FarPlaneDistance = 1000;
+        private const float CameraSpeed = 4f;
 
-        private static readonly Vector3 LookAt = new Vector3(0, -1, -0.5f);
+        private const float ProjectionWidth = 60;
+        private const float ProjectionHeight = 30;
 
-        private Vector3 position = new Vector3(0, 20, 10);
+        //private static readonly Vector3 Look = new Vector3(0, -2f, -2f);
+        //private static readonly Vector3 Look = new Vector3(0, -1f, -0.5f);
 
-        private static float angle = 0.0f;
+        private readonly float width;
+        private readonly float height;
 
-        public Matrix ViewMatrix
+        private readonly Vector3 upVector = Vector3.Backward;
+        private readonly Vector3 moveCameraLeft = new Vector3(-1, 0, 0);
+        private readonly Vector3 moveCameraRight = new Vector3(1, 0, 0);
+        private readonly Vector3 moveCameraUp = new Vector3(0, -1, 0);
+        private readonly Vector3 moveCameraDown = new Vector3(0, 1, 0);
+
+        public Camera()
         {
-            get
-            {
-                var lookAtVector = LookAt;
-                var rotationMatrix = Matrix.CreateRotationZ(angle);
+            this.width = DisplayManager.Instance.Dimensions.X;
+            this.height = DisplayManager.Instance.Dimensions.Y;
 
-                lookAtVector = Vector3.Transform(lookAtVector, rotationMatrix);
-                lookAtVector += this.position;
-
-                return Matrix.CreateLookAt(this.position, lookAtVector, this.upVector);
-            }
+            this.ViewMatrix = Matrix.CreateLookAt(new Vector3(0, 100, 80), Vector3.Zero, this.upVector);
         }
 
-        public Matrix ProjectionMatrix => Matrix.CreatePerspectiveFieldOfView(
-            FieldOfView, AspectRatio, NearPlaneDistance, FarPlaneDistance);
+        public Matrix ViewMatrix { get; private set; }
+
+        public Matrix ProjectionMatrix => Matrix.CreateOrthographic(
+            ProjectionWidth, ProjectionHeight, NearPlaneDistance, FarPlaneDistance);
 
         public void Update(GameTime gameTime)
         {
-            if (!Input.Instance.RightMouseHold())
-                return;
+            float xRatio = Input.Instance.MousePos().X / this.width;
+            float yRatio = Input.Instance.MousePos().Y / this.height;
 
-        
-            float xRatio = Input.Instance.MousePos().X / (float)1280;
-            float yRatio = Input.Instance.MousePos().Y / (float)720;
+            Vector3 movement = Vector3.Zero;
 
-            if (xRatio < 0.2f)
+            if (xRatio < 0.05f && xRatio > 0)
             {
-                angle += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                movement += this.moveCameraRight;
             }
-            else if (xRatio < 0.8f)
+            else if (xRatio > 0.95f && xRatio < 1)
             {
-                if (yRatio < 0.5f)
-                {
-                    var forwardVector = new Vector3(0, -1, 0);
-
-                    var rotationMatrix = Matrix.CreateRotationZ(angle);
-                    forwardVector = Vector3.Transform(forwardVector, rotationMatrix);
-
-                    const float UnitsPerSecond = 5;
-
-                    this.position += forwardVector * UnitsPerSecond * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
-                else
-                {
-                    var backwardVector = new Vector3(0, 1, 0);
-
-                    var rotationMatrix = Matrix.CreateRotationZ(angle);
-                    backwardVector = Vector3.Transform(backwardVector, rotationMatrix);
-
-                    const float UnitsPerSecond = 5;
-
-                    this.position += backwardVector * UnitsPerSecond *
-                        (float)gameTime.ElapsedGameTime.TotalSeconds;                
-                }
-            }
-            else
-            {
-                angle -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                movement += this.moveCameraLeft;
             }
 
+            if (yRatio < 0.05f && yRatio > 0)
+            {
+                movement += this.moveCameraUp;
+            }
+            else if (yRatio > 0.95f && yRatio < 1)
+            {
+                movement += this.moveCameraDown;
+            }
+
+            this.CalculateCameraMovement(movement, gameTime);
+        }
+
+        private void CalculateCameraMovement(Vector3 movementVector, GameTime gameTime)
+        {
+            this.ViewMatrix = 
+                this.ViewMatrix 
+                * Matrix.CreateTranslation(
+                    movementVector 
+                    * (float)gameTime.ElapsedGameTime.TotalSeconds 
+                    * CameraSpeed);
         }
     }
 }
