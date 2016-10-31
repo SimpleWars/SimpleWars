@@ -106,5 +106,22 @@
         {
             return this.mouseState.LeftButton == ButtonState.Released;
         }
+
+        public Vector2 MousePos()
+        {
+            return new Vector2(this.mouseState.X, this.mouseState.Y);
+        }
+
+        //void OnMouseDrag()
+        //{
+        //    Vector3 cursorPoint = new Vector3(this.mouseState.X, this.mouseState.Y, );
+        //    Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + offset;
+        //    Vector3 heading = cursorPosition - initialPosition;
+        //    Vector3 direction = heading / heading.magnitude;     // heading magnitude = distance 
+        //    rb.velocity = new Vector3(150 * Time.deltaTime, 0, 0);
+        //    //Do what you want.
+        //    //if you want to drag object on only swipe gesture comment below. Otherwise:
+        //    initialPosition = cursorPosition;
+        //}
     }
 }

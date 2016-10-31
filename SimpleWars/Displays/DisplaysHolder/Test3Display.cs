@@ -1,21 +1,28 @@
 ﻿namespace SimpleWars.Displays.DisplaysHolder
 {
+    using System.Diagnostics;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Camera;
+    using SimpleWars.Entities;
+    using SimpleWars.Entities.Environment;
     using SimpleWars.Res.DisplayAssets;
 
     public class Test3Display : Display
     {
         private Test3Assets assets;
 
-        private Matrix world = Matrix.Identity;
-        private Matrix view = Matrix.CreateLookAt(new Vector3(5, 8, 5), new Vector3(0, 0, 0), Vector3.UnitZ);
-        private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 1280f / 720f, 1, 200);
+        private Tree testEntity;
+
+        private Camera camera;
 
         public override void LoadContent()
         {
             this.assets = new Test3Assets();
+            this.testEntity = new Tree(this.assets.Model, new Vector3(5, 5, 2), 1);
+            this.camera = new Camera();
         }
 
         public override void UnloadContent()
@@ -25,25 +32,28 @@
 
         public override void Update(GameTime gameTime)
         {
+            this.testEntity.Move(new Vector3(-0.002f, 0, 0));
+            this.testEntity.Rotate(new Vector3(0, 0, 2));
+            this.camera.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.DrawModel(this.assets.Model, this.world, this.view, this.projection);
+            this.DrawModel(this.testEntity);
         }
 
-        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
+        private void DrawModel(Entity entity)
         {
-            foreach (ModelMesh mesh in model.Meshes)
+            foreach (ModelMesh mesh in entity.Model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
                     effect.PreferPerPixelLighting = true;
                     
-                    effect.World = world;
-                    effect.View = view;
-                    effect.Projection = projection;
+                    effect.World = entity.GetTransformationMatrix();
+                    effect.View = this.camera.ViewMatrix;
+                    effect.Projection = this.camera.ProjectionMatrix;
                 }
 
                 mesh.Draw();

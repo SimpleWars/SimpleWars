@@ -14,14 +14,14 @@
 
         public void LoadAssets()
         {
-            Assets3Manager.Instance.Load3DAsset("Models3D", "lowpolytree");
+            Assets3Manager.Instance.Load3DAsset("Models3D", "tree");
 
-            this.Model = Assets3Manager.Instance.Get3DAsset("lowpolytree").Model;
+            this.Model = Assets3Manager.Instance.Get3DAsset("tree").Model;
         }
 
         public void UnloadAssets()
         {
-            Assets3Manager.Instance.Dispose3DAsset("Models3D", "lowpolytree");
+            Assets3Manager.Instance.Dispose3DAsset("Models3D", "tree");
         }
     }
 }
