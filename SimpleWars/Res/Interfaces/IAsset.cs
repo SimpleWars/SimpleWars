@@ -2,6 +2,9 @@
 {
     using Microsoft.Xna.Framework.Content;
 
+    /// <summary>
+    /// The Asset interface.
+    /// </summary>
     public interface IAsset
     {
         /// <summary>
@@ -24,6 +27,17 @@
         /// The asset.
         /// </param>
         void LoadContentManager();
+
+        /// <summary>
+        /// The load content.
+        /// </summary>
+        /// <param name="dir">
+        /// The dir.
+        /// </param>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        void LoadAsset(string dir, string name);
 
         /// <summary>
         /// The unload content.

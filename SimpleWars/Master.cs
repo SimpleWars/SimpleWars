@@ -5,9 +5,12 @@ using Microsoft.Xna.Framework.Input;
 namespace SimpleWars
 {
     using System.Diagnostics;
+    using System.Linq;
 
-    using SimpleWars.Display;
+    using SimpleWars.Displays;
+    using SimpleWars.Displays.DisplaysHolder;
     using SimpleWars.InputManager;
+    using SimpleWars.Res;
 
     /// <summary>
     /// This is the main type for your game.
@@ -30,7 +33,6 @@ namespace SimpleWars
         public Master()
         {
             this.graphics = new GraphicsDeviceManager(this);
-            var a = DisplayManager.Instance.Dimensions.X;
             this.Content.RootDirectory = "Content";
         }
 
@@ -42,13 +44,13 @@ namespace SimpleWars
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine(DisplayManager.Instance.Dimensions.X);
             this.graphics.PreferredBackBufferWidth = (int)DisplayManager.Instance.Dimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)DisplayManager.Instance.Dimensions.Y;
             this.graphics.ApplyChanges();
+            
             this.IsMouseVisible = true;
 
-            base.Initialize();     
+            base.Initialize();
         }
 
         /// <summary>
@@ -63,7 +65,6 @@ namespace SimpleWars
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             DisplayManager.Instance.LoadContent(this.Content);
-
         }
 
         /// <summary>
@@ -72,6 +73,9 @@ namespace SimpleWars
         /// </summary>
         protected override void UnloadContent()
         {
+            Assets2Manager.Instance.DisposeAll();
+            Assets3Manager.Instance.DisposeAll();
+
             DisplayManager.Instance.UnloadContent();
 
             this.Content.Unload();
@@ -92,6 +96,16 @@ namespace SimpleWars
 
             Input.Instance.Update();
 
+            if (Input.Instance.KeyPressed(Keys.A))
+            {
+                DisplayManager.Instance.ChangeDisplay(new Test3Display());
+            }
+
+            if (Input.Instance.KeyPressed(Keys.S))
+            {
+                DisplayManager.Instance.ChangeDisplay(new MenuDisplay());
+            }
+
             DisplayManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
@@ -103,7 +117,8 @@ namespace SimpleWars
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            this.GraphicsDevice.Clear(Color.CornflowerBlue);
+            this.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             this.spriteBatch.Begin();
             DisplayManager.Instance.Draw(this.spriteBatch);

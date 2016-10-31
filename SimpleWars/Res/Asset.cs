@@ -4,7 +4,7 @@
 
     using Microsoft.Xna.Framework.Content;
 
-    using SimpleWars.Display;
+    using SimpleWars.Displays;
     using SimpleWars.Res.Interfaces;
 
     /// <summary>
@@ -44,12 +44,15 @@
             this.Content = new ContentManager(DisplayManager.Instance.Content.ServiceProvider, DisplayManager.Instance.Content.RootDirectory);
         }
 
+        public abstract void LoadAsset(string dir, string name);
+
         /// <summary>
         /// The unload content.
         /// </summary>
         public virtual void UnloadContent()
         {
             this.Content.Unload();
+            this.Content.Dispose();
         }
 
         /// <summary>

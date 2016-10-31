@@ -1,14 +1,13 @@
-﻿namespace SimpleWars.Display
+﻿namespace SimpleWars.Displays
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Display.Interfaces;
+    using SimpleWars.Displays.DisplaysHolder;
+    using SimpleWars.Displays.Interfaces;
 
     /// <summary>
     /// The display manager.
@@ -50,7 +49,7 @@
         /// <summary>
         /// Gets the current display.
         /// </summary>
-        public IGameDisplay CurrentDisplay { get; set; }
+        public IDisplay CurrentDisplay { get; private set; }
 
         /// <summary>
         /// The load content.
@@ -73,7 +72,7 @@
             this.CurrentDisplay.UnloadContent();
         }
 
-        public void ChangeDisplay(IGameDisplay display)
+        public void ChangeDisplay(IDisplay display)
         {
             this.CurrentDisplay.UnloadContent();
             this.CurrentDisplay = display;

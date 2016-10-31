@@ -1,15 +1,12 @@
-﻿namespace SimpleWars.Display.Interfaces
+﻿namespace SimpleWars.Displays.Interfaces
 {
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Res.Interfaces;
-
     /// <summary>
-    /// The GameDisplay interface.
+    /// The Display interface.
     /// </summary>
-    public interface IGameDisplay
+    public interface IDisplay
     {
         /// <summary>
         /// The load content.

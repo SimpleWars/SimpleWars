@@ -1,17 +1,14 @@
-﻿namespace SimpleWars.Display
+﻿namespace SimpleWars.Displays.DisplaysHolder
 {
-    using System;
-
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Res;
     using SimpleWars.Res.DisplayAssets;
 
     /// <summary>
     /// The menu display.
     /// </summary>
-    public class MenuDisplay : GameDisplay
+    public class MenuDisplay : Display
     {
         private MenuAssets assets;
 

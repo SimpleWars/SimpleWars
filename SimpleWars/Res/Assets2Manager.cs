@@ -2,12 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using SimpleWars.Res.Interfaces;
 
-    public class Assets
+    public class Assets2Manager
     {
-        private static Assets instance;
+        private static Assets2Manager instance;
 
         /// <summary>
         /// The 2D Assets.
@@ -18,7 +19,7 @@
 
         private readonly ISet<IAsset2D> assets2D;
 
-        private Assets()
+        private Assets2Manager()
         {
             this.assetsInDirs2Dict = new Dictionary<string, IList<IAsset2D>>();
             this.assets2Dict = new Dictionary<string, IAsset2D>();
@@ -26,7 +27,7 @@
             // Sprite sheets and other assets will be declared below when needed
         }
 
-        public static Assets Instance => instance ?? (instance = new Assets());
+        public static Assets2Manager Instance => instance ?? (instance = new Assets2Manager());
 
         public void Load2DAsset(string dir, string name)
         {
@@ -81,6 +82,24 @@
             this.assetsInDirs2Dict[dir].Remove(asset);
 
             asset.UnloadContent();
+        }
+
+        public void DisposeAll()
+        {
+            foreach (var asset in this.assets2D)
+            {
+                asset.UnloadContent();
+            }
+
+            foreach (var name in this.assets2Dict.Keys)
+            {
+                this.assets2Dict[name].UnloadContent();
+            }
+
+            foreach (var asset in this.assetsInDirs2Dict.Keys.SelectMany(dir => this.assetsInDirs2Dict[dir]))
+            {
+                asset.UnloadContent();
+            }
         }
     }
 }

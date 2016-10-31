@@ -6,10 +6,13 @@
 
     using SimpleWars.Res.Interfaces;
 
-    public class Asset2D : Asset, IAsset2D
+    /// <summary>
+    /// The asset 3 d.
+    /// </summary>
+    public class Asset3D : Asset, IAsset3D
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Asset2D"/> class.
+        /// Initializes a new instance of the <see cref="Asset3D"/> class.
         /// </summary>
         /// <param name="dir">
         /// The dir.
@@ -17,16 +20,11 @@
         /// <param name="name">
         /// The name.
         /// </param>
-        public Asset2D(string dir, string name)
+        public Asset3D(string dir, string name)
             : base(name)
         {
             this.LoadAsset(dir, name);
         }
-
-        /// <summary>
-        /// Gets the texture.
-        /// </summary>
-        public Texture2D Texture { get; private set; }
 
         /// <summary>
         /// The load asset.
@@ -41,22 +39,17 @@
         /// </exception>
         public override void LoadAsset(string dir, string name)
         {
-            if (this.Texture != null)
+            if (this.Model != null)
             {
-                throw new InvalidOperationException("You are trying to load texture over existing one!");
+                throw new InvalidOperationException("You are trying to load model over existing one!");
             }
 
-            this.Texture = this.Content.Load<Texture2D>(dir + "/" + name);
+            this.Model = this.Content.Load<Model>(dir + "/" + name);
         }
 
         /// <summary>
-        /// The unload content.
+        /// Gets the model.
         /// </summary>
-        public override void UnloadContent()
-        {
-            this.Texture.Dispose();
-
-            base.UnloadContent();
-        }
+        public Model Model { get; private set; }
     }
 }

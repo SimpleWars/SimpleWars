@@ -3,7 +3,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Display;
+    using SimpleWars.Displays;
     using SimpleWars.Res.Interfaces;
 
     /// <summary>
@@ -40,9 +40,9 @@
         /// </summary>
         public void LoadAssets()
         {
-            Assets.Instance.Load2DAsset("Menu", "menu-background");
+            Assets2Manager.Instance.Load2DAsset("Menu", "menu-background");
 
-            this.Background = Assets.Instance.Get2DAsset("menu-background").Texture;
+            this.Background = Assets2Manager.Instance.Get2DAsset("menu-background").Texture;
         }
 
         /// <summary>
@@ -50,7 +50,7 @@
         /// </summary>
         public void UnloadAssets()
         {
-            Assets.Instance.Dispose2DAsset("Menu", "menu-background");
+            Assets2Manager.Instance.Dispose2DAsset("Menu", "menu-background");
         }
     }
 }

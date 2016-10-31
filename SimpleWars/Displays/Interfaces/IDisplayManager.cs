@@ -1,8 +1,5 @@
-﻿namespace SimpleWars.Display.Interfaces
+﻿namespace SimpleWars.Displays.Interfaces
 {
-    using System.Collections.Generic;
-    using System.Security.Cryptography.X509Certificates;
-
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +22,7 @@
         /// <summary>
         /// Gets the current display.
         /// </summary>
-        IGameDisplay CurrentDisplay { get; }
+        IDisplay CurrentDisplay { get; }
 
         /// <summary>
         /// The load content.
@@ -46,7 +43,7 @@
         /// <param name="display">
         /// The display.
         /// </param>
-        void ChangeDisplay(IGameDisplay display);
+        void ChangeDisplay(IDisplay display);
 
         /// <summary>
         /// The update.
