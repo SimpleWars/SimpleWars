@@ -2,6 +2,7 @@
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 using SimpleWars.Displays;
 using SimpleWars.InputManager;
@@ -30,14 +31,18 @@ public class CameraPerspective
     private void ReCreateViewMatrix()
     {
         // Calculate the relative position of the camera                        
-        this.position = Vector3.Transform(this.Up, Matrix.CreateFromYawPitchRoll(this.yaw, this.pitch, 0));
-        // Convert the relative position to the absolute position
+        this.position = Vector3.Transform(Vector3.Up, Matrix.CreateFromYawPitchRoll(0, this.pitch, this.yaw));
+
+        //// Convert the relative position to the absolute position
         this.position *= this.zoom;
         this.position += this.lookAt;
-
+        var up = new Vector3(0, 0, 0.8f);
         //Calculate a new viewmatrix
-        this.viewMatrix = Matrix.CreateLookAt(this.position, this.lookAt, this.Up);
+        this.viewMatrix = Matrix.CreateLookAt(this.position, this.lookAt, this.Up - up);
         this.viewMatrixDirty = false;
+
+        Debug.WriteLine("pos: " + this.Position.X + " " + this.Position.Y + " " + this.Position.Z);
+        Debug.WriteLine("look: " + this.LookAt.X + " " + this.LookAt.Y + " " + this.LookAt.Z);
     }
 
     /// <summary>
@@ -52,54 +57,78 @@ public class CameraPerspective
 
     public void Update(GameTime gameTime)
     {
-        //if (!Input.Instance.RightMouseHold())
-        //{
-        //    return;
-        //}
-
         float xRatio = Input.Instance.MousePos.X / DisplayManager.Instance.Dimensions.X;
         float yRatio = Input.Instance.MousePos.Y / DisplayManager.Instance.Dimensions.Y;
         int scroll = Input.Instance.MouseScroll;
+        var movement = (float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed;
 
-        //float deltaX = Input.Instance.PrevMountPos.X - Input.Instance.MousePos.X;
-        //float deltaY = Input.Instance.PrevMountPos.Y - Input.Instance.MousePos.Y;
+        // Camera movement when mouse is very close to any edge of the game window
+        //if (xRatio < 0.05f && xRatio > 0)
+        //{
+        //    this.MoveCameraLeft((float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed);
+        //}
+        //else if (xRatio > 0.95f && xRatio < 1)
+        //{
+        //    this.MoveCameraRight((float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed);
+        //}
 
-        //this.Yaw += deltaX * (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f;
-        //this.Pitch += deltaY * (float)gameTime.ElapsedGameTime.TotalSeconds * 0.5f;
+        //if (yRatio < 0.05f && yRatio > 0)
+        //{
+        //    this.MoveCameraForward((float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed);
+        //}
+        //else if (yRatio > 0.95f && yRatio < 1)
+        //{
+        //    this.MoveCameraBackward((float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed);
+        //}
 
-        if (xRatio < 0.05f && xRatio > 0)
+        if (Input.Instance.KeyDown(Keys.W))
         {
-            //this.Pitch += (float)gameTime.ElapsedGameTime.TotalSeconds * 0.2f;
-            //this.Pitch -= (float)gameTime.ElapsedGameTime.TotalSeconds * 0.2f;
-            this.MoveCameraLeft((float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed);
+            this.MoveCameraForward(movement);
         }
-        else if (xRatio > 0.95f && xRatio < 1)
+        if (Input.Instance.KeyDown(Keys.A))
         {
-            //this.Pitch -= (float)gameTime.ElapsedGameTime.TotalSeconds * 0.2f;
-            //this.Pitch += (float)gameTime.ElapsedGameTime.TotalSeconds * 0.2f;
-            this.MoveCameraRight((float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed);
+            this.MoveCameraLeft(movement);
+        }
+        if (Input.Instance.KeyDown(Keys.S))
+        {
+            this.MoveCameraBackward(movement);
+        }
+        if (Input.Instance.KeyDown(Keys.D))
+        {
+            this.MoveCameraRight(movement);
         }
 
-        if (yRatio < 0.05f && yRatio > 0)
+        if (Input.Instance.RightMouseHold())
         {
-            this.MoveCameraForward((float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed);
+            float deltaX = Input.Instance.PrevMountPos.X - Input.Instance.MousePos.X;          
+            this.Yaw += deltaX * (float)gameTime.ElapsedGameTime.TotalSeconds * 0.1f;
+
+            // Pitch (look up, down) change with mouse. Probably wont use it
+            //float deltaY = Input.Instance.PrevMountPos.Y - Input.Instance.MousePos.Y;
+            //this.Pitch += deltaY * (float)gameTime.ElapsedGameTime.TotalSeconds * 0.1f;
         }
-        else if (yRatio > 0.95f && yRatio < 1)
-        {
-            this.MoveCameraBackward((float)gameTime.ElapsedGameTime.TotalSeconds * CameraSpeed);
-        }
+
+        // Yaw (look left, right) with arrow keys
+        //if (Input.Instance.KeyDown(Keys.Left))
+        //{
+        //    this.Yaw -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+        //}
+        //else if (Input.Instance.KeyDown(Keys.Right))
+        //{
+        //    this.Yaw += (float)gameTime.ElapsedGameTime.TotalSeconds ;
+        //}
 
         if (scroll > 0)
         {
-            this.Zoom += 1;
+            this.Zoom -= 1;
         }
         else if (scroll < 0)
         {
-            this.Zoom -= 1;
+            this.Zoom += 1;
         }
     }
 
-    public void MoveCameraRight(float amount)
+    private void MoveCameraRight(float amount)
     {
         Vector3 right = Vector3.Normalize(this.LookAt - this.Position); //calculate forward
         right = Vector3.Cross(right, this.Up); //calculate the real right
@@ -108,7 +137,7 @@ public class CameraPerspective
         this.LookAt += right * amount;
     }
 
-    public void MoveCameraLeft(float amount)
+    private void MoveCameraLeft(float amount)
     {
         Vector3 left = Vector3.Normalize(this.LookAt - this.Position); //calculate forward
         left = Vector3.Cross(left, this.Up); //calculate the real left
@@ -117,7 +146,7 @@ public class CameraPerspective
         this.LookAt -= left * amount;
     }
 
-    public void MoveCameraForward(float amount)
+    private void MoveCameraForward(float amount)
     {
         Vector3 forward = Vector3.Normalize(this.LookAt - this.Position);
         forward.Z = 0;
@@ -125,7 +154,7 @@ public class CameraPerspective
         this.LookAt += forward * amount;
     }
 
-    public void MoveCameraBackward(float amount)
+    private void MoveCameraBackward(float amount)
     {
         Vector3 backward = Vector3.Normalize(this.LookAt - this.Position);
         backward.Z = 0;
@@ -136,6 +165,7 @@ public class CameraPerspective
     private bool viewMatrixDirty = true;
     private bool projectionMatrixDirty = true;
 
+    // Those are for 1st person perspective (pitch limited to ~100 degrees)
     private const float MinPitch = -MathHelper.PiOver2 + 0.3f;
     private const float MaxPitch = MathHelper.PiOver2 - 0.3f;
     private float pitch;
@@ -146,6 +176,7 @@ public class CameraPerspective
         {
             this.viewMatrixDirty = true;
             this.pitch = MathHelper.Clamp(value, MinPitch, MaxPitch);
+            //this.pitch = value;
         }
     }
 
@@ -206,7 +237,7 @@ public class CameraPerspective
 
     private const float MinZoom = 1;
     private const float MaxZoom = float.MaxValue;
-    private float zoom = 10;
+    private float zoom = 1;
     public float Zoom
     {
         get { return this.zoom; }
@@ -228,7 +259,14 @@ public class CameraPerspective
             {
                 this.ReCreateViewMatrix();
             }
+
             return this.position;
+        }
+
+        set
+        {
+            this.viewMatrixDirty = true;
+            this.position = value;
         }
     }
 

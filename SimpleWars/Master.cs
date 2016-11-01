@@ -99,12 +99,12 @@ namespace SimpleWars
 
             Input.Instance.Update();
 
-            if (Input.Instance.KeyPressed(Keys.A))
+            if (Input.Instance.KeyPressed(Keys.N))
             {
                 DisplayManager.Instance.ChangeDisplay(new Test3Display());
             }
 
-            if (Input.Instance.KeyPressed(Keys.S))
+            if (Input.Instance.KeyPressed(Keys.M))
             {
                 DisplayManager.Instance.ChangeDisplay(new MenuDisplay());
             }
@@ -125,6 +125,7 @@ namespace SimpleWars
 
             this.GraphicsDevice.BlendState = BlendState.Opaque;
             this.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            //this.GraphicsDevice.RasterizerState = RasterizerState.CullClockwise;
             this.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
             DisplayManager.Instance.Draw(this.spriteBatch);

@@ -64,6 +64,7 @@
         {
             this.effect.View = this.camera.ViewMatrix;
             this.effect.Projection = this.camera.ProjectionMatrix;
+            this.effect.World = Matrix.Identity;
             this.effect.TextureEnabled = true;
             this.effect.Texture = this.texture;
             foreach (var pass in this.effect.CurrentTechnique.Passes)
@@ -89,13 +90,13 @@
             this.terrainVertices[4].Position = new Vector3(plus, plus, 0);
             this.terrainVertices[5].Position = this.terrainVertices[2].Position;
 
-            terrainVertices[0].TextureCoordinate = new Vector2(0, 0);
-            terrainVertices[1].TextureCoordinate = new Vector2(0, 1);
-            terrainVertices[2].TextureCoordinate = new Vector2(1, 0);
+            this.terrainVertices[0].TextureCoordinate = new Vector2(0, 0);
+            this.terrainVertices[1].TextureCoordinate = new Vector2(0, 1);
+            this.terrainVertices[2].TextureCoordinate = new Vector2(1, 0);
 
-            terrainVertices[3].TextureCoordinate = terrainVertices[1].TextureCoordinate;
-            terrainVertices[4].TextureCoordinate = new Vector2(1, 1);
-            terrainVertices[5].TextureCoordinate = terrainVertices[2].TextureCoordinate;
+            this.terrainVertices[3].TextureCoordinate = terrainVertices[1].TextureCoordinate;
+            this.terrainVertices[4].TextureCoordinate = new Vector2(1, 1);
+            this.terrainVertices[5].TextureCoordinate = terrainVertices[2].TextureCoordinate;
 
 
             this.effect = new BasicEffect(this.device);

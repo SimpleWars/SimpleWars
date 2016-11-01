@@ -28,10 +28,9 @@
         public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
-            this.camera = new CameraPerspective(aspectRatio, new Vector3(20, 0, 25));
-            //this.camera = new CameraOrthographic();
-            this.camera.Pitch = 0;
-            this.camera.Yaw = 0.7f;
+            this.camera = new CameraPerspective(aspectRatio, new Vector3(0, 100, 20));
+            //this.camera.Pitch = 0.5f;
+            //this.camera.Yaw = 0.7f;
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
             this.terrain = new Terrain(this.camera, this.assets.TerrainTexture);
@@ -57,9 +56,9 @@
             foreach (var entity in this.entities)
             {
                 entity.Rotate(new Vector3(0, 0, 2));
-                //entity.Move(new Vector3(0, 0, 0));
+                entity.Move(new Vector3(0.02f, 0, 0));
             }
-            
+
             this.camera.Update(gameTime);
         }
 
@@ -75,16 +74,20 @@
 
         private void DrawModel(Entity entity)
         {
+            var world = entity.GetTransformationMatrix();
+            var view = this.camera.ViewMatrix;
+            var projection = this.camera.ProjectionMatrix;
+
             foreach (ModelMesh mesh in entity.Model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
                     effect.PreferPerPixelLighting = true;
-                    
-                    effect.World = entity.GetTransformationMatrix();
-                    effect.View = this.camera.ViewMatrix;
-                    effect.Projection = this.camera.ProjectionMatrix;
+
+                    effect.World = world;
+                    effect.View = view;
+                    effect.Projection = projection;
                 }
 
                 mesh.Draw();
