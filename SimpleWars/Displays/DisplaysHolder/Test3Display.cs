@@ -19,6 +19,8 @@
 
         private IList<Entity> entities;
 
+        //private CameraOrthographic camera;
+
         private CameraPerspective camera;
 
         private Terrain terrain;
@@ -26,8 +28,10 @@
         public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
-            this.camera = new CameraPerspective(aspectRatio, new Vector3(-20, -20, 50));
-            this.camera.Pitch = 1f;
+            this.camera = new CameraPerspective(aspectRatio, new Vector3(20, 0, 25));
+            //this.camera = new CameraOrthographic();
+            this.camera.Pitch = 0;
+            this.camera.Yaw = 0.7f;
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
             this.terrain = new Terrain(this.camera, this.assets.TerrainTexture);
@@ -36,8 +40,8 @@
 
             for (int i = 0; i < numberOfTrees; i++)
             {
-                var x = random.Next(1, 50);
-                var y = random.Next(1, 50);
+                var x = random.Next(-20, 20);
+                var y = random.Next(-20, 20);
 
                 this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, 2), 1));
             }
@@ -53,6 +57,7 @@
             foreach (var entity in this.entities)
             {
                 entity.Rotate(new Vector3(0, 0, 2));
+                //entity.Move(new Vector3(0, 0, 0));
             }
             
             this.camera.Update(gameTime);

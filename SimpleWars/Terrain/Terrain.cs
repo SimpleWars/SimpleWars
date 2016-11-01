@@ -15,6 +15,8 @@
         /// <summary>
         /// The camera.
         /// </summary>
+        //private readonly CameraOrthographic camera;
+
         private readonly CameraPerspective camera;
 
         /// <summary>
@@ -77,8 +79,8 @@
         /// </summary>
         private void Init()
         {
-            var minus = -60;
-            var plus = 60;
+            var minus = -20;
+            var plus = 20;
             this.terrainVertices = new VertexPositionNormalTexture[6];
             this.terrainVertices[0].Position = new Vector3(minus, minus, 0);
             this.terrainVertices[1].Position = new Vector3(minus, plus, 0);

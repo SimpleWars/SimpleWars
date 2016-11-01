@@ -53,6 +53,7 @@ namespace SimpleWars
             base.Initialize();
 
             DisplayManager.Instance.GraphicsDevice = this.GraphicsDevice;
+            this.Window.Position = new Point(30, 30);
         }
 
         /// <summary>

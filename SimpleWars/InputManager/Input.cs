@@ -35,6 +35,8 @@
         /// </summary>
         private MouseState previousMouseState;
 
+        private int scroll;
+
         /// <summary>
         /// Prevents a default instance of the <see cref="Input"/> class from being created.
         /// </summary>
@@ -42,6 +44,7 @@
         {
             this.keyState = Keyboard.GetState();
             this.mouseState = Mouse.GetState();
+            this.scroll = 0;
         }
 
         /// <summary>
@@ -110,6 +113,25 @@
         public Vector2 MousePos => this.mouseState.Position.ToVector2();
 
         public Vector2 PrevMountPos => this.previousMouseState.Position.ToVector2();
+
+        public int MouseScroll
+        {
+            get
+            {
+                if (this.mouseState.ScrollWheelValue < this.previousMouseState.ScrollWheelValue)
+                {
+                    return -1;
+                }
+                else if (this.mouseState.ScrollWheelValue > this.previousMouseState.ScrollWheelValue)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
 
         //void OnMouseDrag()
         //{
