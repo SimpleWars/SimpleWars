@@ -1,25 +1,18 @@
 ﻿namespace SimpleWars.Camera
 {
-    using System;
-
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Displays;
     using SimpleWars.InputManager;
 
-    public class Camera
+    public class CameraOrthographic
     {
-        private const float FieldOfView = MathHelper.PiOver4;
-        private const float NearPlaneDistance = 0.1f;
-        private const float FarPlaneDistance = 1000;
+        private const float NearPlaneDistance = -2000;
+        private const float FarPlaneDistance = 2000;
         private const float CameraSpeed = 4f;
 
         private const float ProjectionWidth = 60;
         private const float ProjectionHeight = 30;
-
-        //private static readonly Vector3 Look = new Vector3(0, -2f, -2f);
-        //private static readonly Vector3 Look = new Vector3(0, -1f, -0.5f);
 
         private readonly float width;
         private readonly float height;
@@ -27,15 +20,15 @@
         private readonly Vector3 upVector = Vector3.Backward;
         private readonly Vector3 moveCameraLeft = new Vector3(-1, 0, 0);
         private readonly Vector3 moveCameraRight = new Vector3(1, 0, 0);
-        private readonly Vector3 moveCameraUp = new Vector3(0, -1, 0);
-        private readonly Vector3 moveCameraDown = new Vector3(0, 1, 0);
+        private readonly Vector3 moveCameraUp = new Vector3(0, 0, -1);
+        private readonly Vector3 moveCameraDown = new Vector3(0, 0, 1);
 
-        public Camera()
+        public CameraOrthographic()
         {
             this.width = DisplayManager.Instance.Dimensions.X;
             this.height = DisplayManager.Instance.Dimensions.Y;
 
-            this.ViewMatrix = Matrix.CreateLookAt(new Vector3(0, 100, 80), Vector3.Zero, this.upVector);
+            this.ViewMatrix = Matrix.CreateLookAt(new Vector3(0, 120, 60), Vector3.Zero, this.upVector);
         }
 
         public Matrix ViewMatrix { get; private set; }
@@ -45,8 +38,8 @@
 
         public void Update(GameTime gameTime)
         {
-            float xRatio = Input.Instance.MousePos().X / this.width;
-            float yRatio = Input.Instance.MousePos().Y / this.height;
+            float xRatio = Input.Instance.MousePos.X / this.width;
+            float yRatio = Input.Instance.MousePos.Y / this.height;
 
             Vector3 movement = Vector3.Zero;
 
@@ -68,16 +61,17 @@
                 movement += this.moveCameraDown;
             }
 
+
             this.CalculateCameraMovement(movement, gameTime);
         }
 
         private void CalculateCameraMovement(Vector3 movementVector, GameTime gameTime)
         {
-            this.ViewMatrix = 
-                this.ViewMatrix 
+            this.ViewMatrix =
+                this.ViewMatrix
                 * Matrix.CreateTranslation(
-                    movementVector 
-                    * (float)gameTime.ElapsedGameTime.TotalSeconds 
+                    movementVector
+                    * (float)gameTime.ElapsedGameTime.TotalSeconds
                     * CameraSpeed);
         }
     }

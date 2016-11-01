@@ -19,7 +19,6 @@
         /// </summary>
         private static DisplayManager instance;
 
-
         /// <summary>
         /// Prevents a default instance of the <see cref="DisplayManager"/> class from being created. 
         /// Initializes a new instance of the <see cref="DisplayManager"/> class.
@@ -35,6 +34,11 @@
         /// The instance.
         /// </summary>
         public static readonly DisplayManager Instance = instance ?? (instance = new DisplayManager());
+
+        /// <summary>
+        /// Gets or sets the graphics device.
+        /// </summary>
+        public GraphicsDevice GraphicsDevice { get; set; }
 
         /// <summary>
         /// Gets the dimensions.

@@ -11,6 +11,7 @@
     using SimpleWars.Entities;
     using SimpleWars.Entities.Environment;
     using SimpleWars.Res.DisplayAssets;
+    using SimpleWars.Terrain;
 
     public class Test3Display : Display
     {
@@ -18,12 +19,18 @@
 
         private IList<Entity> entities;
 
-        private Camera camera;
+        private CameraPerspective camera;
+
+        private Terrain terrain;
 
         public override void LoadContent()
         {
+            var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
+            this.camera = new CameraPerspective(aspectRatio, new Vector3(-20, -20, 50));
+            this.camera.Pitch = 1f;
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
+            this.terrain = new Terrain(this.camera, this.assets.TerrainTexture);
             var random = new Random();
             var numberOfTrees = random.Next(30, 100);
 
@@ -32,10 +39,8 @@
                 var x = random.Next(1, 50);
                 var y = random.Next(1, 50);
 
-                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, 0), 1));
+                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, 2), 1));
             }
-
-            this.camera = new Camera();
         }
 
         public override void UnloadContent()
@@ -55,6 +60,8 @@
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            this.terrain.DrawTerrain();
+
             foreach (var entity in this.entities)
             {
                 this.DrawModel(entity);

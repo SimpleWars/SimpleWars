@@ -107,10 +107,9 @@
             return this.mouseState.LeftButton == ButtonState.Released;
         }
 
-        public Vector2 MousePos()
-        {
-            return new Vector2(this.mouseState.X, this.mouseState.Y);
-        }
+        public Vector2 MousePos => this.mouseState.Position.ToVector2();
+
+        public Vector2 PrevMountPos => this.previousMouseState.Position.ToVector2();
 
         //void OnMouseDrag()
         //{

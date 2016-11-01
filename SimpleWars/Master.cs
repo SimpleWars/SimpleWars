@@ -47,10 +47,12 @@ namespace SimpleWars
             this.graphics.PreferredBackBufferWidth = (int)DisplayManager.Instance.Dimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)DisplayManager.Instance.Dimensions.Y;
             this.graphics.ApplyChanges();
-            
+
             this.IsMouseVisible = true;
 
             base.Initialize();
+
+            DisplayManager.Instance.GraphicsDevice = this.GraphicsDevice;
         }
 
         /// <summary>
@@ -118,9 +120,12 @@ namespace SimpleWars
         protected override void Draw(GameTime gameTime)
         {
             this.GraphicsDevice.Clear(Color.CornflowerBlue);
-            this.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-
             this.spriteBatch.Begin();
+
+            this.GraphicsDevice.BlendState = BlendState.Opaque;
+            this.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            this.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+
             DisplayManager.Instance.Draw(this.spriteBatch);
             this.spriteBatch.End();
             

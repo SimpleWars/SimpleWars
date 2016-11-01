@@ -20,6 +20,9 @@
             this.assets = new MenuAssets();
         }
 
+        /// <summary>
+        /// The unload content.
+        /// </summary>
         public override void UnloadContent()
         {
             this.assets.UnloadAssets();
