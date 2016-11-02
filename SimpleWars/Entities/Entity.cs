@@ -107,7 +107,6 @@
             }
         }    
 
-        //public Matrix WorldMatrix => Matrix.CreateTranslation(-this.Position.Y, this.Position.X, this.Position.Z);
         public Matrix WorldMatrix => Matrix.CreateTranslation(this.Position);
 
         public Matrix ScaleMatrix => Matrix.CreateScale(this.Scale);

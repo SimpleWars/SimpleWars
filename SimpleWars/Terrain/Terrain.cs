@@ -80,8 +80,8 @@
         /// </summary>
         private void Init()
         {
-            var minus = -20;
-            var plus = 20;
+            var minus = -80;
+            var plus = 80;
             this.terrainVertices = new VertexPositionNormalTexture[6];
             this.terrainVertices[0].Position = new Vector3(minus, minus, 0);
             this.terrainVertices[1].Position = new Vector3(minus, plus, 0);

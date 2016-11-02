@@ -10,6 +10,7 @@
     using SimpleWars.Camera;
     using SimpleWars.Entities;
     using SimpleWars.Entities.Environment;
+    using SimpleWars.InputManager;
     using SimpleWars.Res.DisplayAssets;
     using SimpleWars.Terrain;
 
@@ -23,12 +24,14 @@
 
         private CameraPerspective camera;
 
+
         private Terrain terrain;
 
         public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
-            this.camera = new CameraPerspective(aspectRatio, new Vector3(0, 100, 20));
+            this.camera = new CameraPerspective(aspectRatio, new Vector3(0, 35, 40));
+            //this.camera = new CameraOrthographic();
             //this.camera.Pitch = 0.5f;
             //this.camera.Yaw = 0.7f;
             this.assets = new Test3Assets();
@@ -56,7 +59,7 @@
             foreach (var entity in this.entities)
             {
                 entity.Rotate(new Vector3(0, 0, 2));
-                entity.Move(new Vector3(0.02f, 0, 0));
+                //entity.Move(new Vector3(0.02f, 0, 0));
             }
 
             this.camera.Update(gameTime);
@@ -79,7 +82,7 @@
             var projection = this.camera.ProjectionMatrix;
 
             foreach (ModelMesh mesh in entity.Model.Meshes)
-            {
+            {              
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
