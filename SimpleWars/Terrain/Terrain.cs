@@ -34,10 +34,14 @@
         /// </summary>
         private VertexPositionNormalTexture[] terrainVertices;
 
+        private Model model;
+
         /// <summary>
         /// The effect.
         /// </summary>
         private BasicEffect effect;
+
+        private Matrix worldMatrix;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Terrain"/> class.
@@ -48,11 +52,13 @@
         /// <param name="texture">
         /// The texture.
         /// </param>
-        public Terrain(CameraPerspective camera, Texture2D texture)
+        public Terrain(CameraPerspective camera, Texture2D texture, Model model)
         {
             this.device = DisplayManager.Instance.GraphicsDevice;
             this.camera = camera;
             this.texture = texture;
+            this.model = model;
+            this.worldMatrix = Matrix.CreateScale(100) * Matrix.CreateRotationZ(MathHelper.ToRadians(270)) * Matrix.CreateRotationY(MathHelper.ToRadians(180)) * Matrix.CreateTranslation(new Vector3(0, -70, 9));
 
             this.Init();
         }
@@ -60,7 +66,7 @@
         /// <summary>
         /// The draw terrain.
         /// </summary>
-        public void DrawTerrain()
+        public void DrawTerrainTexture()
         {
             this.effect.View = this.camera.ViewMatrix;
             this.effect.Projection = this.camera.ProjectionMatrix;
@@ -72,6 +78,24 @@
                 pass.Apply();
 
                 this.device.DrawUserPrimitives(PrimitiveType.TriangleList, this.terrainVertices, 0, 2);
+            }
+        }
+
+        public void DrawTerrainModel()
+        {
+            foreach (var mesh in this.model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.PreferPerPixelLighting = true;
+
+                    effect.World = this.worldMatrix;
+                    effect.View = this.camera.ViewMatrix;
+                    effect.Projection = this.camera.ProjectionMatrix;
+                }
+
+                mesh.Draw();
             }
         }
 

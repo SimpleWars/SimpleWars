@@ -36,7 +36,7 @@
             //this.camera.Yaw = 0.7f;
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
-            this.terrain = new Terrain(this.camera, this.assets.TerrainTexture);
+            this.terrain = new Terrain(this.camera, this.assets.TerrainTexture, this.assets.Terra);
             var random = new Random();
             var numberOfTrees = random.Next(30, 100);
 
@@ -67,7 +67,7 @@
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.terrain.DrawTerrain();
+            this.terrain.DrawTerrainModel();
 
             foreach (var entity in this.entities)
             {

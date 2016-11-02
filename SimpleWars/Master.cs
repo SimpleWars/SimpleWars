@@ -125,7 +125,7 @@ namespace SimpleWars
 
             this.GraphicsDevice.BlendState = BlendState.Opaque;
             this.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            //this.GraphicsDevice.RasterizerState = RasterizerState.CullClockwise;
+            this.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             this.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
             DisplayManager.Instance.Draw(this.spriteBatch);

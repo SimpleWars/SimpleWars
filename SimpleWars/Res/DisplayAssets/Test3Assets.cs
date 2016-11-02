@@ -27,16 +27,20 @@
         /// </summary>
         public Texture2D TerrainTexture { get; private set; }
 
+        public Model Terra { get; private set; }
+
         /// <summary>
         /// The load assets.
         /// </summary>
         public void LoadAssets()
         {
             Assets3Manager.Instance.Load3DAsset("Models3D", "tree");
+            Assets3Manager.Instance.Load3DAsset("TerrainTextures", "test");
             Assets2Manager.Instance.Load2DAsset("TerrainTextures", "grass");
 
             this.Model = Assets3Manager.Instance.Get3DAsset("tree").Model;
             this.TerrainTexture = Assets2Manager.Instance.Get2DAsset("grass").Texture;
+            this.Terra = Assets3Manager.Instance.Get3DAsset("test").Model;
         }
 
         /// <summary>
@@ -46,6 +50,7 @@
         {
             Assets3Manager.Instance.Dispose3DAsset("Models3D", "tree");
             Assets2Manager.Instance.Dispose2DAsset("TerrainTextures", "grass");
+            Assets3Manager.Instance.Dispose3DAsset("TerrainTextures", "test");
         }
     }
 }
