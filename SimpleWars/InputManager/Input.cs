@@ -35,8 +35,6 @@
         /// </summary>
         private MouseState previousMouseState;
 
-        private int scroll;
-
         /// <summary>
         /// Prevents a default instance of the <see cref="Input"/> class from being created.
         /// </summary>
@@ -44,7 +42,6 @@
         {
             this.keyState = Keyboard.GetState();
             this.mouseState = Mouse.GetState();
-            this.scroll = 0;
         }
 
         /// <summary>
@@ -108,6 +105,11 @@
         public bool LeftMouseRelease()
         {
             return this.mouseState.LeftButton == ButtonState.Released;
+        }
+
+        public bool MiddleButtonHold()
+        {
+            return this.mouseState.MiddleButton == ButtonState.Pressed;
         }
 
         public Vector2 MousePos => this.mouseState.Position.ToVector2();

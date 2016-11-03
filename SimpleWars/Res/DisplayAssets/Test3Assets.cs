@@ -35,12 +35,19 @@
         public void LoadAssets()
         {
             Assets3Manager.Instance.Load3DAsset("Models3D", "tree");
-            Assets3Manager.Instance.Load3DAsset("TerrainTextures", "test");
+            Assets3Manager.Instance.Load3DAsset("TerrainTextures", "terrain");
+
+            // Landscape textures
             Assets2Manager.Instance.Load2DAsset("TerrainTextures", "grass");
+            Assets2Manager.Instance.Load2DAsset("TerrainTextures", "snow");
+            Assets2Manager.Instance.Load2DAsset("TerrainTextures", "rocky");
+            Assets2Manager.Instance.Load2DAsset("TerrainTextures", "dirt");
 
             this.Model = Assets3Manager.Instance.Get3DAsset("tree").Model;
+            this.Terra = Assets3Manager.Instance.Get3DAsset("terrain").Model;
+
+            // Texture for flat 2d terrain in 3d space
             this.TerrainTexture = Assets2Manager.Instance.Get2DAsset("grass").Texture;
-            this.Terra = Assets3Manager.Instance.Get3DAsset("test").Model;
         }
 
         /// <summary>
@@ -48,9 +55,15 @@
         /// </summary>
         public void UnloadAssets()
         {
+            // Unload models
             Assets3Manager.Instance.Dispose3DAsset("Models3D", "tree");
+            Assets3Manager.Instance.Dispose3DAsset("TerrainTextures", "terrain");
+
+            // Unload textures
             Assets2Manager.Instance.Dispose2DAsset("TerrainTextures", "grass");
-            Assets3Manager.Instance.Dispose3DAsset("TerrainTextures", "test");
+            Assets2Manager.Instance.Dispose2DAsset("TerrainTextures", "snow");
+            Assets2Manager.Instance.Dispose2DAsset("TerrainTextures", "rocky");
+            Assets2Manager.Instance.Dispose2DAsset("TerrainTextures", "dirt");
         }
     }
 }

@@ -25,7 +25,7 @@
         private CameraPerspective camera;
 
 
-        private Terrain terrain;
+        private HomeTerrain terrain;
 
         public override void LoadContent()
         {
@@ -36,7 +36,14 @@
             //this.camera.Yaw = 0.7f;
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
-            this.terrain = new Terrain(this.camera, this.assets.TerrainTexture, this.assets.Terra);
+
+            this.terrain = new HomeTerrain(
+                                this.assets.Terra, 
+                                this.assets.TerrainTexture, 
+                                new Vector3(0, -100, 12), 
+                                new Vector3(0, 180, 90), 
+                                150);
+            
             var random = new Random();
             var numberOfTrees = random.Next(30, 100);
 
@@ -45,7 +52,7 @@
                 var x = random.Next(-20, 20);
                 var y = random.Next(-20, 20);
 
-                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, 2), 1));
+                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, 0), 1));
             }
         }
 
@@ -67,33 +74,11 @@
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.terrain.DrawTerrainModel();
+            this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
 
             foreach (var entity in this.entities)
             {
-                this.DrawModel(entity);
-            }
-        }
-
-        private void DrawModel(Entity entity)
-        {
-            var world = entity.GetTransformationMatrix();
-            var view = this.camera.ViewMatrix;
-            var projection = this.camera.ProjectionMatrix;
-
-            foreach (ModelMesh mesh in entity.Model.Meshes)
-            {              
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.PreferPerPixelLighting = true;
-
-                    effect.World = world;
-                    effect.View = view;
-                    effect.Projection = projection;
-                }
-
-                mesh.Draw();
+                entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             }
         }
     }
