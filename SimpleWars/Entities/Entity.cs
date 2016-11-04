@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Entities
 {
+    using System.Diagnostics;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -116,7 +118,7 @@
             set
             {
                 this.position = value;
-                this.WorldMatrix = Matrix.CreateTranslation(this.position);
+                this.WorldMatrix = Matrix.CreateTranslation(this.Position);
                 this.transformationMatrixDirty = true;
             }
         }
@@ -188,7 +190,7 @@
         protected Matrix RotationMatrix { get; private set; }
         protected Matrix WorldMatrix { get; private set; }
 
-        // Cornflower blue color code
+        // Cornflowerblue color code
         protected static Vector3 fogColor = new Vector3(0.392157f, 0.584314f, 0.929412f);
 
         // the unit distance at which fog starts being calculated
@@ -197,9 +199,20 @@
         // the unit distance at which fog ends and models behind it are hidden
         protected static float fogEnd = 500f;
 
-        // static objects with no animation and bones would use the default draw
+        /// <summary>
+        /// The draw. Static objects with no animation and bones would use the default draw
+        /// </summary>
+        /// <param name="viewMatrix">
+        /// The view matrix.
+        /// </param>
+        /// <param name="projectionMatrix">
+        /// The projection matrix.
+        /// </param>
         public virtual void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
+            Matrix[] transforms = new Matrix[this.model.Bones.Count];
+            this.model.CopyAbsoluteBoneTransformsTo(transforms);
+
             foreach (ModelMesh mesh in this.Model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
@@ -211,7 +224,7 @@
                     effect.FogStart = fogStart;
                     effect.FogEnd = fogEnd;
 
-                    effect.World = this.TransformationMatrix;
+                    effect.World = this.TransformationMatrix;        
                     effect.View = viewMatrix;
                     effect.Projection = projectionMatrix;
                 }
@@ -220,6 +233,9 @@
             }
         }
 
+        /// <summary>
+        /// The calculate rotation matrix.
+        /// </summary>
         protected virtual void CalculateRotationMatrix()
         {
             Vector3 radians = new Vector3(

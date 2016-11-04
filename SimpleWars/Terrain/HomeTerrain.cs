@@ -1,6 +1,7 @@
 ﻿namespace SimpleWars.Terrain
 {
     using System.Data.Entity.Infrastructure;
+    using System.Diagnostics;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -144,8 +145,8 @@
             // This will be used for custom terrains that have many meshes on them
             // and that need to be relative to their root which is the only part of the model 
             // that has to be transformed to world space
-            // Matrix[] transforms = new Matrix[this.Model.Bones.Count];
-            // this.Model.CopyAbsoluteBoneTransformsTo(transforms);
+            //Matrix[] transforms = new Matrix[this.Model.Bones.Count];
+            //this.Model.CopyAbsoluteBoneTransformsTo(transforms);
 
             foreach (var mesh in this.Model.Meshes)
             {
@@ -163,9 +164,9 @@
                     // the transform would still have to be properly rotated and scaled
                     // this is done by multiplying the scale matrix to the the rotation matrix
                     // and then to the transform matrix
-                    // effect.World = transforms[mesh.ParentBone.Index];
+                    //effect.World = transforms[mesh.ParentBone.Index];
 
-                    // my current terrain has only 1 mesh and I'm good with default entity world transformation
+                    // my current terrain has only 1 mesh and I'm good with default entity world transformation  
                     effect.World = this.TransformationMatrix;
                     effect.View = viewMatrix;
                     effect.Projection = projectionMatrix;

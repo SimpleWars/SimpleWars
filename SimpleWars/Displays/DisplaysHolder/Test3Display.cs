@@ -30,18 +30,15 @@
         public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
-            this.camera = new CameraPerspective(aspectRatio, new Vector3(0, 35, 40));
-            //this.camera = new CameraOrthographic();
-            //this.camera.Pitch = 0.5f;
-            //this.camera.Yaw = 0.7f;
+            this.camera = new CameraPerspective(aspectRatio, new Vector3(0, 30, 0));
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
 
             this.terrain = new HomeTerrain(
                                 this.assets.Terra, 
                                 this.assets.TerrainTexture, 
-                                new Vector3(0, -100, 12), 
-                                new Vector3(0, 180, 90), 
+                                new Vector3(-100, 0, 0), 
+                                new Vector3(1, 0, 0),
                                 150);
             
             var random = new Random();
@@ -50,9 +47,9 @@
             for (int i = 0; i < numberOfTrees; i++)
             {
                 var x = random.Next(-20, 20);
-                var y = random.Next(-20, 20);
+                var z = random.Next(-20, 20);
 
-                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, 0), 1));
+                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, 0, z), 1));
             }
         }
 
@@ -65,8 +62,8 @@
         {
             foreach (var entity in this.entities)
             {
-                entity.Rotate(new Vector3(0, 0, 2));
-                //entity.Move(new Vector3(0.02f, 0, 0));
+                entity.Rotate(new Vector3(0, 2, 0));
+                //entity.Move(new Vector3(0, 0, 0));
             }
 
             this.camera.Update(gameTime);
