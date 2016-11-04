@@ -25,10 +25,26 @@
         /// The screen aspect ratio (width / height).
         /// </param>
         /// <param name="position">
-        /// The inital camera position.
+        /// The initial camera position.
         /// </param>
         public CameraPerspective(float aspectRatio, Vector3 position)
-            : this(aspectRatio, MathHelper.PiOver4, position, Vector3.Up, 0.1f, 500f)
+            : this(aspectRatio, MathHelper.PiOver4, position, Quaternion.Identity, 0.1f, 500f)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CameraPerspective"/> class.
+        /// </summary>
+        /// <param name="aspectRatio">
+        /// The screen aspect ratio
+        /// </param>
+        /// <param name="position">
+        /// The position of the camera
+        /// </param>
+        /// <param name="rotation">
+        /// The rotation of the camera
+        /// </param>
+        public CameraPerspective(float aspectRatio, Vector3 position, Quaternion rotation)
+            : this(aspectRatio, MathHelper.PiOver4, position, rotation, 0.1f, 500f)
         { }
 
         /// <summary>
@@ -43,8 +59,8 @@
         /// <param name="position">
         /// The inital camera position.
         /// </param>
-        /// <param name="up">
-        /// The view matrix up vector.
+        /// <param name="rotation">
+        /// The initial camera rotation.
         /// </param>
         /// <param name="nearPlane">
         /// The projection matrix near plane.
@@ -53,17 +69,15 @@
         /// The projection matrix far plane.
         /// </param>
         public CameraPerspective(
-            float aspectRatio, float fieldOfView, Vector3 position, 
-            Vector3 up, 
-            float nearPlane, float farPlane)
+            float aspectRatio,
+            float fieldOfView,
+            Vector3 position,
+            Quaternion rotation,
+            float nearPlane, 
+            float farPlane)
         {
             this.Position = position;
-            this.Up = up;
-
-            // Constant distance between the camera position and the look at vector
-            this.LookAt = this.position - Vector3.One;
-
-
+            this.Rotation = rotation;
             this.aspectRatio = aspectRatio;
             this.fieldOfView = fieldOfView;
             this.nearPlane = nearPlane;
@@ -76,7 +90,8 @@
         /// </summary>
         private void ReCreateViewMatrix()
         {
-            this.viewMatrix = Matrix.CreateLookAt(this.Position, this.LookAt, this.Up);
+            this.viewMatrix = Matrix.CreateTranslation(this.Position) 
+                * Matrix.CreateFromQuaternion(this.Rotation);
             this.viewMatrixDirty = false;
         }
 
@@ -105,14 +120,14 @@
 
             float movement = timeFraction * CameraSpeed;
 
-            //Camera movement when mouse is very close to any edge of the game window
+            //Camera movement when mouse is close to any edge of the game window
             if (xRatio < 0.02f && xRatio > 0)
             {
-                this.MoveRight(-movement);
+                this.MoveRight(movement);
             }
             else if (xRatio > 0.98f && xRatio < 1)
             {
-                this.MoveRight(movement);
+                this.MoveRight(-movement);
             }
 
             if (yRatio < 0.02f && yRatio > 0)
@@ -143,7 +158,7 @@
 
             if (Input.Instance.KeyPressed(Keys.Q))
             {
-                this.SnapViewAngle();
+                this.SnapView();
             }
 
             float deltaX = Input.Instance.PrevMountPos.X - Input.Instance.MousePos.X;
@@ -151,14 +166,14 @@
 
             if (Input.Instance.MiddleButtonHold())
             {
-                this.TurnRight(deltaX * timeFraction * 0.06f);
+                this.TurnRight(deltaX * timeFraction);
 
-                this.TurnUp(-deltaY * timeFraction * 0.06f);
+                this.TurnUp(-deltaY * timeFraction);
             }
 
             if (Input.Instance.RightMouseHold())
             {
-                this.MoveRight(movement * deltaX * 0.1f);
+                this.MoveRight(-movement * deltaX * 0.1f);
 
                 this.MoveForward(-movement * deltaY * 0.1f);
             }
@@ -181,15 +196,9 @@
         /// </param>
         private void MoveRight(float amount)
         {
-            Vector3 forward = Vector3.Normalize(this.LookAt - this.Position);
-            Vector3 right = Vector3.Cross(forward, this.Up);
-            right.Normalize();
+            Vector3 axis = this.AxisX;
 
-            right.Y = 0;
-
-            right *= amount;
-            this.Position += right;
-            this.LookAt += right;
+            this.Position += axis * amount;
         }
 
         /// <summary>
@@ -202,14 +211,9 @@
         /// </param>
         private void MoveForward(float amount)
         {
-            Vector3 forward = Vector3.Normalize(this.LookAt - this.Position);
+            Vector3 axis = this.AxisZ;
 
-            forward.Y = 0;
-
-            forward *= amount;
-
-            this.Position += forward;
-            this.LookAt += forward;
+            this.Position += axis * amount;
         }
 
         /// <summary>
@@ -220,46 +224,52 @@
         /// </param>
         private void MoveUp(float amount)
         {
-            this.Position += this.Up * amount;
-            this.LookAt += this.Up * amount;
+            Vector3 axis = this.AxisY;
+
+            this.Position += axis * amount;
         }
 
         /// <summary>
         /// Turns the camera left or right (yaw)
         /// It does not respect the pitch!
         /// </summary>
-        /// <param name="amount">
+        /// <param name="degrees">
         /// The amount to turn (negative turns left, positive turns right)
         /// </param>
-        private void TurnRight(float amount)
+        private void TurnRight(float degrees)
         {
-            Vector3 forward = Vector3.Normalize(this.LookAt - this.Position);
-            Vector3 right = Vector3.Cross(forward, this.Up);
-            right.Normalize();
-            right *= amount;
+            float radians = MathHelper.ToRadians(degrees);
+            Vector3 axis = this.AxisY;
 
-            this.LookAt += right;
+            Quaternion rot = Quaternion.CreateFromAxisAngle(axis, radians);
+            rot.X = 0;
+            rot.Z = 0;
+
+            this.Rotation *= rot;
         }
 
         /// <summary>
         /// Turns the camera up or down (pitch)
         /// It does not respect the yaw!
         /// </summary>
-        /// <param name="amount">
+        /// <param name="degrees">
         /// The amount to turn (negative turns down, positive turns up)
         /// </param>
-        private void TurnUp(float amount)
+        private void TurnUp(float degrees)
         {
-            this.LookAt += this.Up * amount;
+            float radians = MathHelper.ToRadians(degrees);
+            Vector3 axis = this.AxisX;
+            this.Rotation *= Quaternion.CreateFromAxisAngle(axis, radians);
+
         }
 
         /// <summary>
-        /// Snaps the look at point to (0, 0, 0)
+        /// Snaps camera to initial position
         /// </summary>
-        private void SnapViewAngle()
+        private void SnapView()
         {
-            this.Position = new Vector3(30, 30, 30);
-            this.LookAt = this.Position - Vector3.One;
+            this.Position = Vector3.Zero;
+            this.Rotation = Quaternion.Identity;
         }
 
         /// <summary>
@@ -344,6 +354,31 @@
             }
         }
 
+        private Vector3 AxisX => new Vector3(this.viewMatrix.M11, this.viewMatrix.M21, this.viewMatrix.M31);
+
+        private Vector3 AxisY => new Vector3(this.viewMatrix.M12, this.viewMatrix.M22, this.viewMatrix.M32);
+
+        private Vector3 AxisZ => new Vector3(this.ViewMatrix.M13, this.ViewMatrix.M23, this.ViewMatrix.M33);
+
+        /// <summary>
+        /// The rotation.
+        /// </summary>
+        private Quaternion rotation;
+
+        private Quaternion Rotation
+        {
+            get
+            {
+                return this.rotation;
+            }
+
+            set
+            {
+                this.rotation = value;
+                this.viewMatrixDirty = true;
+            }
+        }
+
         /// <summary>
         /// The position.
         /// </summary>
@@ -365,33 +400,6 @@
                 this.position = value;
             }
         }
-
-        /// <summary>
-        /// The look at.
-        /// </summary>
-        private Vector3 lookAt;
-
-        /// <summary>
-        /// Gets or sets the look at.
-        /// </summary>
-        private Vector3 LookAt
-        {
-            get
-            {
-                return this.lookAt;
-            }
-
-            set
-            {
-                this.viewMatrixDirty = true;
-                this.lookAt = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets the up vector for the camera.
-        /// </summary>
-        private Vector3 Up { get; }
 
         /// <summary>
         /// The view matrix.

@@ -30,7 +30,11 @@
         public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
-            this.camera = new CameraPerspective(aspectRatio, new Vector3(0, 30, 0));
+            this.camera = new CameraPerspective(
+                aspectRatio,
+                new Vector3(-50, -30, 0),
+                Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.ToRadians(-90))
+                * Quaternion.CreateFromAxisAngle(Vector3.Backward, MathHelper.ToRadians(-15)));
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
 
