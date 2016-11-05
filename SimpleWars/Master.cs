@@ -46,6 +46,7 @@ namespace SimpleWars
         {
             this.graphics.PreferredBackBufferWidth = (int)DisplayManager.Instance.Dimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)DisplayManager.Instance.Dimensions.Y;
+            this.graphics.PreferMultiSampling = true;
             this.graphics.ApplyChanges();
 
             this.IsMouseVisible = true;
@@ -126,7 +127,7 @@ namespace SimpleWars
             this.GraphicsDevice.BlendState = BlendState.Opaque;
             this.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             this.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            this.GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            this.GraphicsDevice.SamplerStates[0] = SamplerState.AnisotropicWrap;
 
             DisplayManager.Instance.Draw(this.spriteBatch);
             this.spriteBatch.End();

@@ -80,6 +80,7 @@
     <Compile Include="Res\Interfaces\IAssetLoader.cs" />
     <Compile Include="Res\DisplayAssets\MenuAssets.cs" />
     <Compile Include="Terrain\HomeTerrain.cs" />
+    <Compile Include="Terrain\Skybox.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">

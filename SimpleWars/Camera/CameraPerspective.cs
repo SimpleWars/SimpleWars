@@ -28,7 +28,7 @@
         /// The initial camera position.
         /// </param>
         public CameraPerspective(float aspectRatio, Vector3 position)
-            : this(aspectRatio, MathHelper.PiOver4, position, Quaternion.Identity, 0.1f, 500f)
+            : this(aspectRatio, MathHelper.PiOver4, position, Quaternion.Identity, 0.1f, 5000f)
         { }
 
         /// <summary>
@@ -166,9 +166,9 @@
 
             if (Input.Instance.MiddleButtonHold())
             {
-                this.TurnRight(deltaX * timeFraction);
+                this.TurnRight(deltaX * timeFraction * 2);
 
-                this.TurnUp(-deltaY * timeFraction);
+                this.TurnUp(-deltaY * timeFraction * 2);
             }
 
             if (Input.Instance.RightMouseHold())
@@ -268,8 +268,9 @@
         /// </summary>
         private void SnapView()
         {
-            this.Position = Vector3.Zero;
-            this.Rotation = Quaternion.Identity;
+            this.Position = new Vector3(-50, -30, 0);
+            this.Rotation = Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.ToRadians(-90))
+                            * Quaternion.CreateFromAxisAngle(Vector3.Backward, MathHelper.ToRadians(-15));
         }
 
         /// <summary>

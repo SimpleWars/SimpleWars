@@ -27,6 +27,8 @@
         /// </summary>
         public Texture2D TerrainTexture { get; private set; }
 
+        public Texture2D SkyboxTexture { get; private set; }
+
         public Model Terra { get; private set; }
 
         /// <summary>
@@ -42,12 +44,18 @@
             Assets2Manager.Instance.Load2DAsset("TerrainTextures", "snow");
             Assets2Manager.Instance.Load2DAsset("TerrainTextures", "rocky");
             Assets2Manager.Instance.Load2DAsset("TerrainTextures", "dirt");
+            
+            // Skybox texture
+            Assets2Manager.Instance.Load2DAsset("Skybox", "skybox");
 
             this.Model = Assets3Manager.Instance.Get3DAsset("tree").Model;
             this.Terra = Assets3Manager.Instance.Get3DAsset("terrain").Model;
 
             // Texture for flat 2d terrain in 3d space
             this.TerrainTexture = Assets2Manager.Instance.Get2DAsset("grass").Texture;
+
+            // Texture for skybox
+            this.SkyboxTexture = Assets2Manager.Instance.Get2DAsset("skybox").Texture;
         }
 
         /// <summary>
@@ -64,6 +72,7 @@
             Assets2Manager.Instance.Dispose2DAsset("TerrainTextures", "snow");
             Assets2Manager.Instance.Dispose2DAsset("TerrainTextures", "rocky");
             Assets2Manager.Instance.Dispose2DAsset("TerrainTextures", "dirt");
+            Assets2Manager.Instance.Dispose2DAsset("Skybox", "skybox");
         }
     }
 }

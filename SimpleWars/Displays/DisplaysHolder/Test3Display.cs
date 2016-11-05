@@ -27,6 +27,8 @@
 
         private HomeTerrain terrain;
 
+        private Skybox skybox;
+
         public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
@@ -35,6 +37,7 @@
                 new Vector3(-50, -30, 0),
                 Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.ToRadians(-90))
                 * Quaternion.CreateFromAxisAngle(Vector3.Backward, MathHelper.ToRadians(-15)));
+            //this.camera = new CameraOrthographic();
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
 
@@ -42,8 +45,10 @@
                                 this.assets.Terra, 
                                 this.assets.TerrainTexture, 
                                 new Vector3(-100, 0, 0), 
-                                new Vector3(1, 0, 0),
+                                new Vector3(-90, 0, 180),
                                 150);
+
+            this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice, this.assets.SkyboxTexture);
             
             var random = new Random();
             var numberOfTrees = random.Next(30, 100);
@@ -51,9 +56,9 @@
             for (int i = 0; i < numberOfTrees; i++)
             {
                 var x = random.Next(-20, 20);
-                var z = random.Next(-20, 20);
+                var y = random.Next(-20, 20);
 
-                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, 0, z), 1));
+                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, 0, y), new Vector3(-90, 0, 0), 1));
             }
         }
 
@@ -76,6 +81,7 @@
         public override void Draw(SpriteBatch spriteBatch)
         {
             this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+            this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
 
             foreach (var entity in this.entities)
             {
