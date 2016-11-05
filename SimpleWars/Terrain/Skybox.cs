@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Terrain
 {
+    using System.Diagnostics;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -13,19 +15,24 @@
 
         private Texture2D texture;
 
+        private Matrix rotation;
+
         public Skybox(GraphicsDevice device, Texture2D texture)
         {
             this.device = device;
             this.texture = texture;
 
+            this.rotation = Matrix.CreateRotationX(MathHelper.ToRadians(180));
+
             this.InitTexturedCube();
         }
 
-        public void Draw(Matrix projectionMatrix, Matrix viewMatrix)
+        public void Draw(Matrix projectionMatrix, Matrix viewMatrix, Vector3 position)
         {
-            this.effect.View = viewMatrix;
+            this.effect.View = Matrix.CreateFromQuaternion(viewMatrix.Rotation);
             this.effect.Projection = projectionMatrix;
-            this.effect.World = Matrix.CreateRotationX(MathHelper.ToRadians(180)) * Matrix.Identity;
+            this.effect.World = this.rotation;
+            Debug.WriteLine(position);
             this.effect.TextureEnabled = true;
             this.effect.Texture = this.texture;
             this.effect.PreferPerPixelLighting = true;
@@ -38,18 +45,24 @@
             }
         }
 
+        public void Update(GameTime gameTime)
+        {
+            this.rotation *= Matrix.CreateRotationY(
+                MathHelper.ToRadians(-(float)gameTime.ElapsedGameTime.TotalSeconds) * 0.4f);
+        }
+
         /// <summary>
         /// The init textured cube.
         /// </summary>
         private void InitTexturedCube()
         {
-            int size = 200;
+            int size = 500;
             float col = 0.25f;
             float row = 1/3f;
 
             this.cubeVertices = new VertexPositionNormalTexture[36];
 
-            // Right -> left
+            // Left
             this.cubeVertices[0].Position = new Vector3(-size, size, -size);
             this.cubeVertices[1].Position = new Vector3(-size, -size, -size);
             this.cubeVertices[2].Position = new Vector3(size, -size, -size);
@@ -64,7 +77,7 @@
             this.cubeVertices[4].TextureCoordinate = new Vector2(col * 1, row * 2);
             this.cubeVertices[5].TextureCoordinate = this.cubeVertices[0].TextureCoordinate;
 
-            // Left -> front
+            // Front
             this.cubeVertices[6].Position = new Vector3(-size, -size, size);
             this.cubeVertices[7].Position = new Vector3(-size, -size, -size);
             this.cubeVertices[8].Position = new Vector3(-size, size, -size);
@@ -79,7 +92,7 @@
             this.cubeVertices[10].TextureCoordinate = new Vector2(col * 3, row * 2);
             this.cubeVertices[11].TextureCoordinate = this.cubeVertices[6].TextureCoordinate;
 
-            //// Up -> back
+            //// Back
             this.cubeVertices[12].Position = new Vector3(size, -size, -size);
             this.cubeVertices[13].Position = new Vector3(size, -size, size);
             this.cubeVertices[14].Position = new Vector3(size, size, size);
@@ -94,7 +107,7 @@
             this.cubeVertices[16].TextureCoordinate = new Vector2(col * 1, row * 2);
             this.cubeVertices[17].TextureCoordinate = this.cubeVertices[12].TextureCoordinate;
 
-            //// Down -> right
+            //// Right
             this.cubeVertices[18].Position = new Vector3(-size, -size, size);
             this.cubeVertices[19].Position = new Vector3(-size, size, size);
             this.cubeVertices[20].Position = new Vector3(size, size, size);
@@ -109,7 +122,7 @@
             this.cubeVertices[22].TextureCoordinate = new Vector2(col * 4, row * 1);
             this.cubeVertices[23].TextureCoordinate = this.cubeVertices[18].TextureCoordinate;
 
-            // Back -> down
+            // Down
             this.cubeVertices[24].Position = new Vector3(-size, size, -size);
             this.cubeVertices[25].Position = new Vector3(size, size, -size);
             this.cubeVertices[26].Position = new Vector3(size, size, size);
@@ -124,7 +137,7 @@
             this.cubeVertices[28].TextureCoordinate = new Vector2(col * 2, row * 3);
             this.cubeVertices[29].TextureCoordinate = this.cubeVertices[24].TextureCoordinate;
 
-            // Front -> up
+            // Up
             this.cubeVertices[30].Position = new Vector3(-size, -size, -size );
             this.cubeVertices[31].Position = new Vector3(size, -size, -size);
             this.cubeVertices[32].Position = new Vector3(size, -size, size);

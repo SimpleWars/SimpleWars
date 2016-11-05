@@ -28,7 +28,7 @@
         /// The initial camera position.
         /// </param>
         public CameraPerspective(float aspectRatio, Vector3 position)
-            : this(aspectRatio, MathHelper.PiOver4, position, Quaternion.Identity, 0.1f, 5000f)
+            : this(aspectRatio, MathHelper.PiOver4, position, Quaternion.Identity, 0.1f, 1000f)
         { }
 
         /// <summary>
@@ -44,7 +44,7 @@
         /// The rotation of the camera
         /// </param>
         public CameraPerspective(float aspectRatio, Vector3 position, Quaternion rotation)
-            : this(aspectRatio, MathHelper.PiOver4, position, rotation, 0.1f, 500f)
+            : this(aspectRatio, MathHelper.PiOver4, position, rotation, 0.1f, 1000f)
         { }
 
         /// <summary>
@@ -101,7 +101,7 @@
         /// </summary>
         private void ReCreateProjectionMatrix()
         {
-            this.projectionMatrix = Matrix.CreatePerspectiveFieldOfView(this.fieldOfView, this.AspectRatio, this.nearPlane, this.farPlane);
+            this.projectionMatrix = Matrix.CreatePerspectiveFieldOfView(this.fieldOfView, this.AspectRatio, this.NearPlane, this.FarPlane);
             this.projectionMatrixDirty = false;
         }
 
@@ -388,7 +388,7 @@
         /// <summary>
         /// Gets or sets the position.
         /// </summary>
-        private Vector3 Position
+        public Vector3 Position
         {
             get
             {

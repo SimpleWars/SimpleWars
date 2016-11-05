@@ -75,13 +75,14 @@
                 //entity.Move(new Vector3(0, 0, 0));
             }
 
+            this.skybox.Update(gameTime);
             this.camera.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
-            this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
+            this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.camera.Position);
 
             foreach (var entity in this.entities)
             {

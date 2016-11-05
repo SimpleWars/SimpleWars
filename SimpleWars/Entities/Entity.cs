@@ -197,7 +197,7 @@
         protected static float fogStart = 50f;
 
         // the unit distance at which fog ends and models behind it are hidden
-        protected static float fogEnd = 500f;
+        protected static float fogEnd = 600f;
 
         /// <summary>
         /// The draw. Static objects with no animation and bones would use the default draw
@@ -210,8 +210,8 @@
         /// </param>
         public virtual void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
-            Matrix[] transforms = new Matrix[this.model.Bones.Count];
-            this.model.CopyAbsoluteBoneTransformsTo(transforms);
+            //Matrix[] transforms = new Matrix[this.model.Bones.Count];
+            //this.model.CopyAbsoluteBoneTransformsTo(transforms);
 
             foreach (ModelMesh mesh in this.Model.Meshes)
             {
