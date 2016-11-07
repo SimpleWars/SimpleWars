@@ -5,6 +5,8 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Terrain;
+
     public abstract class Entity
     {
         /// <summary>

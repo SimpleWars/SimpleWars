@@ -191,13 +191,16 @@
         }
 
         /// <summary>
-        /// Initializes terrain of flat square 2d terrain in 3d space and maps a texture to it.
-        /// Prepared for Perlin Noise height mapping
+        /// Initializes terrain. 
+        /// Applies Noise function to map the height.
+        /// Random by default but will produce same results if seed is provided.
         /// </summary>
         private void InitTerrain()
         {
+            // I will seed it once the game get playable.
             HeightGenerator generator = new HeightGenerator();
 
+            // The size on x and z of the produced terrain. Square shape.
             int size = 800;
 
             int vertexCount = 128;

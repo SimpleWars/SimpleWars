@@ -32,10 +32,6 @@
             this.effect.View = Matrix.CreateFromQuaternion(viewMatrix.Rotation);
             this.effect.Projection = projectionMatrix;
             this.effect.World = this.rotation;
-            Debug.WriteLine(position);
-            this.effect.TextureEnabled = true;
-            this.effect.Texture = this.texture;
-            this.effect.PreferPerPixelLighting = true;
 
             foreach (var pass in this.effect.CurrentTechnique.Passes)
             {
@@ -153,6 +149,9 @@
             this.cubeVertices[35].TextureCoordinate = this.cubeVertices[30].TextureCoordinate;
 
             this.effect = new BasicEffect(this.device);
+            this.effect.TextureEnabled = true;
+            this.effect.Texture = this.texture;
+            this.effect.PreferPerPixelLighting = true;
         }
     }
 }
