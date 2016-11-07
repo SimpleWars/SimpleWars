@@ -233,7 +233,7 @@
                     textureCoords[vertexPointer * 2] = 
                         (float)j / ((float)vertexCount - 1) * size;
                     textureCoords[(vertexPointer * 2) + 1] = 
-                        (float)j / ((float)vertexCount - 1) * size;
+                        (float)i / ((float)vertexCount - 1) * size;
 
 
                     vertexPointer++;
@@ -274,7 +274,8 @@
 
                 float textureX = textureCoords[i * 2];
                 float textureY = textureCoords[i * 2 + 1];
-                this.terrainVertices[i].TextureCoordinate = new Vector2(this.texture.Width / textureX, this.texture.Height / textureY);
+                this.terrainVertices[i].TextureCoordinate = new Vector2(
+                    size / textureX, size / textureY);
             }
 
             this.effect = new BasicEffect(this.device);
