@@ -79,6 +79,7 @@
     <Compile Include="Res\Interfaces\IAsset3D.cs" />
     <Compile Include="Res\Interfaces\IAssetLoader.cs" />
     <Compile Include="Res\DisplayAssets\MenuAssets.cs" />
+    <Compile Include="Terrain\HeightGenerator.cs" />
     <Compile Include="Terrain\HomeTerrain.cs" />
     <Compile Include="Terrain\Skybox.cs" />
   </ItemGroup>

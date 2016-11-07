@@ -34,9 +34,7 @@
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
             this.camera = new CameraPerspective(
                 aspectRatio,
-                new Vector3(-50, -30, 0),
-                Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.ToRadians(-90))
-                * Quaternion.CreateFromAxisAngle(Vector3.Backward, MathHelper.ToRadians(-15)));
+                new Vector3(-50, -30, 0));
             //this.camera = new CameraOrthographic();
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
@@ -44,9 +42,7 @@
             this.terrain = new HomeTerrain(
                                 this.assets.Terra, 
                                 this.assets.TerrainTexture, 
-                                new Vector3(-100, 0, 0), 
-                                new Vector3(-90, 0, 180),
-                                150);
+                                new Vector3(400, 0, 400));
 
             this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice, this.assets.SkyboxTexture);
             
@@ -81,7 +77,8 @@
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+            //this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+            this.terrain.DrawProceduralTerrain(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.camera.Position);
 
             foreach (var entity in this.entities)
