@@ -47,7 +47,7 @@
             this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice, this.assets.SkyboxTexture);
             
             var random = new Random();
-            var numberOfTrees = random.Next(50, 150);
+            var numberOfTrees = random.Next(300, 400);
 
             for (int i = 0; i < numberOfTrees; i++)
             {

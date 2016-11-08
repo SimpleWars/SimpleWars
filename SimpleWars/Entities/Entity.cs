@@ -213,7 +213,7 @@
         protected static Vector3 fogColor = new Vector3(0.392157f, 0.584314f, 0.929412f);
 
         // the unit distance at which fog starts being calculated
-        protected static float fogStart = 50f;
+        protected static float fogStart = 100f;
 
         // the unit distance at which fog ends and models behind it are hidden
         protected static float fogEnd = 600f;

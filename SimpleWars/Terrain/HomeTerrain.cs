@@ -5,7 +5,6 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Camera;
     using SimpleWars.Displays;
     using SimpleWars.Entities;
 
@@ -196,7 +195,6 @@
             this.effect.View = viewMatrix;
             this.effect.Projection = projectionMatrix;
             this.effect.World = this.WorldMatrix;
-            this.effect.EnableDefaultLighting();
 
             this.device.RasterizerState = RasterizerState.CullClockwise;
             foreach (var pass in this.effect.CurrentTechnique.Passes)
@@ -372,6 +370,11 @@
             this.effect = new BasicEffect(this.device);
             this.effect.TextureEnabled = true;
             this.effect.Texture = this.texture;
+            this.effect.EnableDefaultLighting();
+            this.effect.FogEnabled = true;
+            this.effect.FogStart = fogStart;
+            this.effect.FogEnd = fogEnd;
+            this.effect.FogColor = fogColor;
         }
 
         /// <summary>
