@@ -82,12 +82,10 @@
             this.skybox.Update(gameTime);
             this.camera.Update(gameTime, this.terrain);
 
-            Vector3? res = RayCaster.GetTerrainPoint(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.terrain);
-
-            if (res != null)
-            {
-                this.testtree2.Position = res.Value;
-            }
+            this.testtree2.Position = RayCaster.GetTerrainPoint(
+                    this.camera.ProjectionMatrix,
+                    this.camera.ViewMatrix,
+                    this.terrain);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

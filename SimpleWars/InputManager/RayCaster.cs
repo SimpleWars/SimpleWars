@@ -20,6 +20,9 @@
         /// </summary>
         private const int SearchIterations = 100;
 
+        /// <summary>
+        /// The number of recursive binary splits
+        /// </summary>
         private const uint BinarySplits = 50;
 
         /// <summary>
@@ -38,17 +41,21 @@
         /// <returns>
         /// The <see cref="Vector3?"/>
         /// </returns>
-        public static Vector3? GetTerrainPoint(Matrix projectionMatrix, Matrix viewMatrix, HomeTerrain terrain)
+        public static Vector3 GetTerrainPoint(
+            Matrix projectionMatrix, 
+            Matrix viewMatrix, 
+            HomeTerrain terrain)
         {
             Ray ray = CastRay(projectionMatrix, viewMatrix);
 
-            if (IsIntersectionInRange(0, Range, ray, terrain))
-            {
-                Vector3 currentTerrainPoint = BinarySplitSearch(0, Range, ray, terrain, BinarySplits);
-                return currentTerrainPoint;
-            }
+            Vector3 currentTerrainPoint = BinarySplitSearch(0, Range, ray, terrain, BinarySplits);
 
-            return null;
+            if (!IsIntersectionInRange(0, Range, ray, terrain))
+            {
+                currentTerrainPoint.Y = terrain.GetWorldHeight(currentTerrainPoint.X, currentTerrainPoint.Z);
+            }
+          
+            return currentTerrainPoint;          
         }
 
         /// <summary>
@@ -151,7 +158,6 @@
 
             Vector3[] endpoints = new Vector3[binarySplits + 1];
 
-
             // The section size of each split
             float sectionSize = binarySplits > 0 ? (finish - start) / binarySplits : finish - start;
             for (int i = 0; i < binarySplits; i++)
@@ -170,8 +176,7 @@
 
                 if (count >= SearchIterations)
                 {
-                    Vector3 endPoint = GetPointOnRay(ray, half);
-                    endpoints[endpoints.Length - 1] = endPoint;
+                    endpoints[endpoints.Length - 1] = GetPointOnRay(ray, half);
                     break;
                 }
 
