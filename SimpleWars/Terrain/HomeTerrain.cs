@@ -1,6 +1,7 @@
 ﻿namespace SimpleWars.Terrain
 {
     using System;
+    using System.Data.Entity.Infrastructure;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -299,6 +300,7 @@
             float[] normals = new float[count * 3];
             float[] textureCoords = new float[count * 2];
             this.indices = new int[6 * (vertexCount - 1) * (vertexCount * 1)];
+
             int vertexPointer = 0;
     
             for (int i = 0; i < vertexCount; i++)

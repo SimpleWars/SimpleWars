@@ -81,9 +81,13 @@
 
             this.skybox.Update(gameTime);
             this.camera.Update(gameTime, this.terrain);
-            Ray ray = RayCaster.GetMouseRay(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
-            this.testtree.Position = ray.Position;
-            this.testtree2.Position = ray.Direction * 20 + ray.Position;
+
+            Vector3? res = RayCaster.GetTerrainPoint(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.terrain);
+
+            if (res != null)
+            {
+                this.testtree2.Position = res.Value;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
