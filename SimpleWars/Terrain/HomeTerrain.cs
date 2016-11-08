@@ -298,7 +298,7 @@
             float[] vertices = new float[count * 3];
             float[] normals = new float[count * 3];
             float[] textureCoords = new float[count * 2];
-            this.indices = new int[6 * (vertexCount - 1) * (vertexCount - 1)];
+            this.indices = new int[6 * (vertexCount - 1) * (vertexCount * 1)];
             int vertexPointer = 0;
     
             for (int i = 0; i < vertexCount; i++)
@@ -363,8 +363,7 @@
 
                 float textureX = textureCoords[i * 2];
                 float textureY = textureCoords[i * 2 + 1];
-                this.terrainVertices[i].TextureCoordinate = new Vector2(
-                    Size / textureX, Size / textureY);
+                this.terrainVertices[i].TextureCoordinate = new Vector2(textureX, textureY);
             }
 
             this.effect = new BasicEffect(this.device);

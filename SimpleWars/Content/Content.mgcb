@@ -25,18 +25,6 @@
 /processorParam:TextureFormat=Color
 /build:Menu\menu-background.jpg
 
-#begin TerrainTextures/grass.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=False
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:TerrainTextures/grass.jpg
-
 #begin TerrainTextures/dirt.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -122,4 +110,16 @@
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=DxtCompressed
 /build:Models3D/tree.fbx
+
+#begin TerrainTextures/grass.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TerrainTextures/grass.jpg
 
