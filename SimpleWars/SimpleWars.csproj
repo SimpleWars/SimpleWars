@@ -59,6 +59,7 @@
     <Compile Include="Displays\DisplayType.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Environment\Tree.cs" />
+    <Compile Include="InputManager\RayCaster.cs" />
     <Compile Include="Res\Asset.cs" />
     <Compile Include="Res\Asset3D.cs" />
     <Compile Include="Res\Assets3Manager.cs" />

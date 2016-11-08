@@ -29,6 +29,9 @@
 
         private Skybox skybox;
 
+        private Tree testtree;
+        private Tree testtree2;
+
         public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
@@ -59,6 +62,8 @@
 
                 this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, z), new Vector3(-90, 0, 0), weight, 1));
             }
+            this.testtree = new Tree(this.assets.Model, new Vector3(0, 50, 0), new Vector3(-90, 0, 0), 0, 1);
+            this.testtree2 = new Tree(this.assets.Model, new Vector3(0, 50, 0), new Vector3(-90, 0, 0), 0, 1);
         }
 
         public override void UnloadContent()
@@ -76,6 +81,9 @@
 
             this.skybox.Update(gameTime);
             this.camera.Update(gameTime, this.terrain);
+            Ray ray = RayCaster.GetMouseRay(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
+            this.testtree.Position = ray.Position;
+            this.testtree2.Position = ray.Direction * 20 + ray.Position;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -88,6 +96,9 @@
             {
                 entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             }
+
+            //this.testtree.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+            this.testtree2.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
         }
     }
 }

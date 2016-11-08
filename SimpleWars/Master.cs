@@ -100,12 +100,12 @@ namespace SimpleWars
 
             Input.Instance.Update();
 
-            if (Input.Instance.KeyPressed(Keys.N))
+            if (Input.Instance.KeyPressed(Keys.R))
             {
                 DisplayManager.Instance.ChangeDisplay(new Test3Display());
             }
 
-            if (Input.Instance.KeyPressed(Keys.M))
+            if (Input.Instance.KeyPressed(Keys.T))
             {
                 DisplayManager.Instance.ChangeDisplay(new MenuDisplay());
             }
