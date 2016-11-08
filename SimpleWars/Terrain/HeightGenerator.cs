@@ -17,7 +17,7 @@
         /// <summary>
         /// The octaves (cycles) that the height function will apply
         /// </summary>
-        private const int Octaves = 3;
+        private const int Octaves = 4;
 
         /// <summary>
         /// The roughness of the produced terrain.

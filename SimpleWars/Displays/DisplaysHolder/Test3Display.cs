@@ -42,19 +42,20 @@
             this.terrain = new HomeTerrain(
                                 this.assets.Terra, 
                                 this.assets.TerrainTexture, 
-                                new Vector3(400, 0, 400));
+                                new Vector3(-400, 0, -400));
 
             this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice, this.assets.SkyboxTexture);
             
             var random = new Random();
-            var numberOfTrees = random.Next(30, 100);
+            var numberOfTrees = random.Next(50, 150);
 
             for (int i = 0; i < numberOfTrees; i++)
             {
-                var x = random.Next(-20, 20);
-                var y = random.Next(-20, 20);
+                var x = random.Next(-200, 200);
+                var z = random.Next(-200, 200);
+                var y = this.terrain.GetWorldHeight(x, z);
 
-                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, 0, y), new Vector3(-90, 0, 0), 1));
+                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, z), new Vector3(-90, 0, 0), 1));
             }
         }
 

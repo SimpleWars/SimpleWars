@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Terrain
 {
+    using System;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -36,6 +38,16 @@
         /// The vertex indices.
         /// </summary>
         private int[] indices;
+
+        /// <summary>
+        /// Gets the height at the specific point of the terrain.
+        /// </summary>
+        private float[,] heights { get; set; }
+
+        /// <summary>
+        /// The size of the terrain. Square shape.
+        /// </summary>
+        private const int Size = 800;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeTerrain"/> class.
@@ -117,10 +129,59 @@
         }
 
         /// <summary>
-        /// Gets the height at the specific point of the terrain.
+        /// Calculates the height of the terrain in world space for the specified x and z
         /// </summary>
-        public float[,] Heights { get; private set; }
-        
+        /// <param name="x">
+        /// The x coord
+        /// </param>
+        /// <param name="z">
+        /// The z coord
+        /// </param>
+        /// <returns>
+        /// The <see cref="float"/>.
+        /// </returns>
+        public float GetWorldHeight(float x, float z)
+        {
+            float terrainX = x - this.Position.X;
+            float terrainZ = z - this.Position.Z;
+            float gridSquareSize = Size / ((float)this.heights.GetLength(0) - 1);
+
+            int gridX = (int)Math.Floor(terrainX / gridSquareSize);
+            int gridZ = (int)Math.Floor(terrainZ / gridSquareSize);
+
+            if (gridX < 0 
+                || gridZ < 0 
+                || gridX >= this.heights.GetLength(0) - 1 
+                || gridZ >= this.heights.GetLength(1) - 1)
+            {
+                return 0;
+            }
+
+            float coordX = (terrainX % gridSquareSize) / gridSquareSize;
+            float coordZ = (terrainZ % gridSquareSize) / gridSquareSize;
+
+            float height;
+
+            if (coordX <= (1 - coordZ))
+            {
+                height = this.BarycentricInterpolation(
+                    new Vector3(0, this.heights[gridX, gridZ], 0), 
+                    new Vector3(1, this.heights[gridX + 1, gridZ], 0), 
+                    new Vector3(0, this.heights[gridX, gridZ + 1], 1), 
+                    new Vector2(coordX, coordZ));
+            }
+            else
+            {
+                height = this.BarycentricInterpolation(
+                    new Vector3(1, this.heights[gridX + 1, gridZ], 0), 
+                    new Vector3(1, this.heights[gridX + 1, gridZ + 1], 1), 
+                    new Vector3(0, this.heights[gridX, gridZ + 1], 1), 
+                    new Vector2(coordX, coordZ));
+            }
+
+            return height;
+        }
+
         /// <summary>
         /// Draw flat 2d terrain in 3d space
         /// </summary>
@@ -194,23 +255,47 @@
         }
 
         /// <summary>
+        /// The barycentric interpolation.
+        /// </summary>
+        /// <param name="p1">
+        /// The p 1.
+        /// </param>
+        /// <param name="p2">
+        /// The p 2.
+        /// </param>
+        /// <param name="p3">
+        /// The p 3.
+        /// </param>
+        /// <param name="pos">
+        /// The pos.
+        /// </param>
+        /// <returns>
+        /// The <see cref="float"/>.
+        /// </returns>
+        private float BarycentricInterpolation(Vector3 p1, Vector3 p2, Vector3 p3, Vector2 pos)
+        {
+            float det = (p2.Z - p3.Z) * (p1.X - p3.X) + (p3.X - p2.X) * (p1.Z - p3.Z);
+            float l1 = ((p2.Z - p3.Z) * (pos.X - p3.X) + (p3.X - p2.X) * (pos.Y - p3.Z)) / det;
+            float l2 = ((p3.Z - p1.Z) * (pos.X - p3.X) + (p1.X - p3.X) * (pos.Y - p3.Z)) / det;
+            float l3 = 1.0f - l1 - l2;
+            return l1 * p1.Y + l2 * p2.Y + l3 * p3.Y;
+        }
+
+        /// <summary>
         /// Initializes terrain. 
         /// Applies Noise function to map the height.
         /// Random by default but will produce same results if seed is provided.
         /// </summary>
         private void InitTerrain()
         {
-            // I will seed it once the game get playable.
+            // I will seed it once the game gets playable. Maybe.
             HeightGenerator generator = new HeightGenerator();
-
-            // The size on x and z of the produced terrain. Square shape.
-            int size = 800;
 
             int vertexCount = 128;
 
             int count = vertexCount * vertexCount;
 
-            this.Heights = new float[vertexCount, vertexCount];
+            this.heights = new float[vertexCount, vertexCount];
 
             float[] vertices = new float[count * 3];
             float[] normals = new float[count * 3];
@@ -223,11 +308,11 @@
                 for (int j = 0; j < vertexCount; j++)
                 {
                     // Position
-                    vertices[vertexPointer * 3] = -(float)j / ((float)vertexCount - 1) * size;
+                    vertices[vertexPointer * 3] = (float)j / ((float)vertexCount - 1) * Size;
                     float height = this.GetHeight(j, i, generator);
                     vertices[(vertexPointer * 3) + 1] = height;
-                    this.Heights[j, i] = height;
-                    vertices[(vertexPointer * 3) + 2] = -(float)i / ((float)vertexCount - 1) * size;
+                    this.heights[j, i] = height;
+                    vertices[(vertexPointer * 3) + 2] = (float)i / ((float)vertexCount - 1) * Size;
 
                     // Normals
                     Vector3 normal = this.CalculateNormal(j, i, generator);
@@ -237,9 +322,9 @@
 
                     // Texture Coords
                     textureCoords[vertexPointer * 2] = 
-                        (float)j / ((float)vertexCount - 1) * size;
+                        (float)j / ((float)vertexCount - 1) * Size;
                     textureCoords[(vertexPointer * 2) + 1] = 
-                        (float)i / ((float)vertexCount - 1) * size;
+                        (float)i / ((float)vertexCount - 1) * Size;
 
 
                     vertexPointer++;
@@ -281,7 +366,7 @@
                 float textureX = textureCoords[i * 2];
                 float textureY = textureCoords[i * 2 + 1];
                 this.terrainVertices[i].TextureCoordinate = new Vector2(
-                    size / textureX, size / textureY);
+                    Size / textureX, Size / textureY);
             }
 
             this.effect = new BasicEffect(this.device);

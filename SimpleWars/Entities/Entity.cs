@@ -75,9 +75,26 @@
         /// <param name="direction">
         /// The direction represented as world units in x, y, z axes.
         /// </param>
-        public void Move(Vector3 direction)
+        public void Move(Vector3 direction, HomeTerrain terrain)
         {
             this.Position += direction;
+            float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
+            if (this.Position.Y < height)
+            {
+                this.Position = new Vector3(this.Position.X, height, this.Position.Z);
+            }
+        }
+
+        /// <summary>
+        /// Snaps the entity Y position to the terrain Y at the specified point
+        /// </summary>
+        /// <param name="terrain">
+        /// The terrain.
+        /// </param>
+        public void SnapToTerrainHeight(HomeTerrain terrain)
+        {
+            float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
+            this.Position = new Vector3(this.Position.X, height, this.Position.Z);
         }
 
         /// <summary>
