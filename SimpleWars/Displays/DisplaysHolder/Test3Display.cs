@@ -53,9 +53,11 @@
             {
                 var x = random.Next(-200, 200);
                 var z = random.Next(-200, 200);
-                var y = this.terrain.GetWorldHeight(x, z);
+                //var y = this.terrain.GetWorldHeight(x, z);
+                var weight = random.Next(5, 10);
+                var y = 100;
 
-                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, z), new Vector3(-90, 0, 0), 1));
+                this.entities.Add(new Tree(this.assets.Model, new Vector3(x, y, z), new Vector3(-90, 0, 0), weight, 1));
             }
         }
 
@@ -69,7 +71,7 @@
             foreach (var entity in this.entities)
             {
                 entity.Rotate(new Vector3(0, 2, 0));
-                //entity.Move(new Vector3(0, 0, 0));
+                entity.Move(gameTime, Vector3.Zero, this.terrain);
             }
 
             this.skybox.Update(gameTime);

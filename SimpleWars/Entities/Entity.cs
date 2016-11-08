@@ -30,6 +30,11 @@
         private float scale;
 
         /// <summary>
+        /// The weight of the entity.
+        /// </summary>
+        private float weight;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
         /// <param name="model">
@@ -61,27 +66,65 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(Model model, Vector3 position, Vector3 rotation, float scale = 1)
+        protected Entity(Model model, Vector3 position, Vector3 rotation, float scale)
+            : this(model, position, rotation, 1f, scale)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Entity"/> class.
+        /// </summary>
+        /// <param name="model">
+        /// The model.
+        /// </param>
+        /// <param name="position">
+        /// The position.
+        /// </param>
+        /// <param name="rotation">
+        /// The rotation.
+        /// </param>
+        /// <param name="weight">
+        /// The weight.
+        /// </param>
+        /// <param name="scale">
+        /// The scale.
+        /// </param>
+        protected Entity(Model model, Vector3 position, Vector3 rotation, float weight, float scale)
         {
             this.Model = model;
             this.Position = position;
             this.Rotation = rotation;
+            this.weight = weight;
             this.Scale = scale;
         }
 
         /// <summary>
         /// Moves entity in world space.
         /// </summary>
+        /// <param name="gameTime">
+        /// The game time.
+        /// </param>
         /// <param name="direction">
         /// The direction represented as world units in x, y, z axes.
         /// </param>
-        public void Move(Vector3 direction, HomeTerrain terrain)
+        /// <param name="terrain">
+        /// The terrain.
+        /// </param>
+        public void Move(GameTime gameTime, Vector3 direction, HomeTerrain terrain)
         {
-            this.Position += direction;
-            float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
-            if (this.Position.Y < height)
+            float x = this.Position.X + direction.X;
+            float z = this.Position.Z + direction.Z;
+            float height = terrain.GetWorldHeight(x, z);
+
+            if (this.Position.Y <= height)
             {
-                this.Position = new Vector3(this.Position.X, height, this.Position.Z);
+                this.Position = new Vector3(x, height, z);
+            }
+            else
+            {
+                float y = this.Position.Y - this.weight * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                y = y < height ? height : y;
+                this.Position = new Vector3(x, y, z);
             }
         }
 
@@ -98,7 +141,7 @@
         }
 
         /// <summary>
-        /// Rotates entity around own x, y, z axes.
+        /// Rotates entities around their own axes.
         /// </summary>
         /// <param name="angle">
         /// The rotation in degrees around x, y, z represented as vector.

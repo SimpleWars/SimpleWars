@@ -14,5 +14,9 @@
             : base(model, position, rotation, scale)
         {
         }
+
+        public Tree(Model model, Vector3 position, Vector3 rotation, float weight, float scale) : base(model, position, rotation, weight, scale)
+        {
+        }
     }
 }
