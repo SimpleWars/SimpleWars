@@ -79,7 +79,7 @@
         {
             //this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             this.terrain.DrawProceduralTerrain(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
-            this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.camera.Position);
+            this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
 
             foreach (var entity in this.entities)
             {

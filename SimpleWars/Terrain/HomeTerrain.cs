@@ -136,13 +136,16 @@
             this.effect.Projection = projectionMatrix;
             this.effect.World = this.WorldMatrix;
             this.effect.EnableDefaultLighting();
+
+            this.device.RasterizerState = RasterizerState.CullClockwise;
             foreach (var pass in this.effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
 
-                //this.device.DrawUserPrimitives(PrimitiveType.TriangleList, this.terrainVertices, 0, 3);
                 this.device.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, this.terrainVertices, 0, this.terrainVertices.Length, this.indices, 0, this.indices.Length / 3);
             }
+
+            this.device.RasterizerState = RasterizerState.CullNone;
         }
 
         /// <summary>

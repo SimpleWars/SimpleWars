@@ -27,18 +27,21 @@
             this.InitTexturedCube();
         }
 
-        public void Draw(Matrix projectionMatrix, Matrix viewMatrix, Vector3 position)
+        public void Draw(Matrix projectionMatrix, Matrix viewMatrix)
         {
             this.effect.View = Matrix.CreateFromQuaternion(viewMatrix.Rotation);
             this.effect.Projection = projectionMatrix;
             this.effect.World = this.rotation;
-
+            
+            this.device.RasterizerState = RasterizerState.CullClockwise;
             foreach (var pass in this.effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
       
                 this.device.DrawUserPrimitives(PrimitiveType.TriangleList, this.cubeVertices, 0, 12);
             }
+
+            this.device.RasterizerState = RasterizerState.CullNone;
         }
 
         public void Update(GameTime gameTime)
@@ -134,18 +137,18 @@
             this.cubeVertices[29].TextureCoordinate = this.cubeVertices[24].TextureCoordinate;
 
             // Up
-            this.cubeVertices[30].Position = new Vector3(-size, -size, -size );
-            this.cubeVertices[31].Position = new Vector3(size, -size, -size);
+            this.cubeVertices[30].Position = new Vector3(-size, -size, -size);
+            this.cubeVertices[31].Position = new Vector3(-size, -size, size);
             this.cubeVertices[32].Position = new Vector3(size, -size, size);
             this.cubeVertices[33].Position = this.cubeVertices[32].Position;
-            this.cubeVertices[34].Position = new Vector3(-size, -size, size);
+            this.cubeVertices[34].Position = new Vector3(size, -size, -size);
             this.cubeVertices[35].Position = this.cubeVertices[30].Position;
 
             this.cubeVertices[30].TextureCoordinate = new Vector2(col * 2, row * 1);
-            this.cubeVertices[31].TextureCoordinate = new Vector2(col * 1, row * 1);
+            this.cubeVertices[31].TextureCoordinate = new Vector2(col * 2, row * 0);
             this.cubeVertices[32].TextureCoordinate = new Vector2(col * 1, row * 0);
             this.cubeVertices[33].TextureCoordinate = this.cubeVertices[32].TextureCoordinate;
-            this.cubeVertices[34].TextureCoordinate = new Vector2(col * 2, row * 0);
+            this.cubeVertices[34].TextureCoordinate = new Vector2(col * 1, row * 1);
             this.cubeVertices[35].TextureCoordinate = this.cubeVertices[30].TextureCoordinate;
 
             this.effect = new BasicEffect(this.device);
