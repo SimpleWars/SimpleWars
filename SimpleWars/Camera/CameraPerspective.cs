@@ -1,12 +1,11 @@
 ﻿namespace SimpleWars.Camera
 {
-    using System.Linq.Expressions;
-
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
 
     using SimpleWars.Displays;
     using SimpleWars.InputManager;
+    using SimpleWars.Terrain;
 
     /// <summary>
     /// Perspective camera in 3D space.
@@ -90,7 +89,7 @@
         /// </summary>
         private void ReCreateViewMatrix()
         {
-            this.viewMatrix = Matrix.CreateTranslation(this.Position) 
+            this.viewMatrix = Matrix.CreateTranslation(-this.Position) 
                 * Matrix.CreateFromQuaternion(this.Rotation);
             this.viewMatrixDirty = false;
         }
@@ -111,7 +110,7 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, HomeTerrain terrain)
         {
             float xRatio = Input.Instance.MousePos.X / DisplayManager.Instance.Dimensions.X;
             float yRatio = Input.Instance.MousePos.Y / DisplayManager.Instance.Dimensions.Y;
@@ -123,20 +122,20 @@
             //Camera movement when mouse is close to any edge of the game window
             if (xRatio < 0.02f && xRatio > 0)
             {
-                this.MoveRight(movement);
+                this.MoveLeft(-movement, terrain);
             }
             else if (xRatio > 0.98f && xRatio < 1)
             {
-                this.MoveRight(-movement);
+                this.MoveLeft(movement, terrain);
             }
 
             if (yRatio < 0.02f && yRatio > 0)
             {
-                this.MoveForward(movement);
+                this.MoveForward(-movement, terrain);
             }
             else if (yRatio > 0.98f && yRatio < 1)
             {
-                this.MoveForward(-movement);
+                this.MoveForward(movement, terrain);
             }
 
             //if (Input.Instance.KeyDown(Keys.W))
@@ -145,7 +144,7 @@
             //}
             //if (Input.Instance.KeyDown(Keys.A))
             //{
-            //    this.MoveRight(-movement);
+            //    this.MoveLeft(-movement);
             //}
             //if (Input.Instance.KeyDown(Keys.S))
             //{
@@ -153,7 +152,7 @@
             //}
             //if (Input.Instance.KeyDown(Keys.D))
             //{
-            //    this.MoveRight(movement);
+            //    this.MoveLeft(movement);
             //}
 
             if (Input.Instance.KeyPressed(Keys.Q))
@@ -173,60 +172,85 @@
 
             if (Input.Instance.RightMouseHold())
             {
-                this.MoveRight(-movement * deltaX * 0.1f);
+                this.MoveLeft(movement * deltaX * 0.1f, terrain);
 
-                this.MoveForward(-movement * deltaY * 0.1f);
+                this.MoveForward(movement * deltaY * 0.1f, terrain);
             }
 
             if (scroll > 0)
             {
-                this.MoveUp(1);
+                this.ZoomIn(-1, terrain);
             }
             else if (scroll < 0)
             {
-                this.MoveUp(-1);
+                this.ZoomIn(1, terrain);
             }
         }
 
         /// <summary>
-        /// Moves the camera left or right.
+        /// Moves the camera left or right while maintaining height.
         /// </summary>
         /// <param name="amount">
-        /// The amount to move (negative moves to the left, positive moves to the right)
+        /// The amount to move (negative moves to the right, positive moves to the left)
         /// </param>
-        private void MoveRight(float amount)
+        /// <param name="terrain">
+        /// The terrain
+        /// </param>
+        private void MoveLeft(float amount, HomeTerrain terrain)
         {
             Vector3 axis = this.AxisX;
+            Vector3 delta = this.Position + axis * amount;
 
-            this.Position += axis * amount;
+            float height = terrain.GetWorldHeight(delta.X, delta.Z) + 1;
+
+            delta.Y = delta.Y <= height ? height: delta.Y;
+
+            this.Position = delta;
         }
 
         /// <summary>
         /// Moves the camera forward while maintaining height.
         /// If you want to stop the height maintenance just remove the
-        /// forward.YourUpVector = 0 part
+        /// axis.YourUpVector = 0 part
         /// </summary>
         /// <param name="amount">
-        /// The amount to move (negative moves backwards, positive moves forward)
+        /// The amount to move (negative moves forward, positive moves backward)
         /// </param>
-        private void MoveForward(float amount)
+        /// <param name="terrain">
+        /// The terrain
+        /// </param>
+        private void MoveForward(float amount, HomeTerrain terrain)
         {
             Vector3 axis = this.AxisZ;
+            axis.Y = 0;
+            Vector3 delta = this.Position + axis * amount;
 
-            this.Position += axis * amount;
+            float height = terrain.GetWorldHeight(delta.X, delta.Z) + 1;
+
+            delta.Y = delta.Y <= height ? height : delta.Y;
+
+            this.Position = delta;
         }
 
         /// <summary>
-        /// Moves the camera by the up axis you defined.
+        /// Zooms camera
         /// </summary>
         /// <param name="amount">
-        /// The amount to move (negative moves down, positive moves up)
+        /// The amount to zoom (negative zooms in, positive zooms out)
         /// </param>
-        private void MoveUp(float amount)
+        /// <param name="terrain">
+        /// The terrain
+        /// </param>
+        private void ZoomIn(float amount, HomeTerrain terrain)
         {
-            Vector3 axis = this.AxisY;
+            Vector3 axis = this.AxisZ;
+            Vector3 delta = this.Position + axis * amount;
 
-            this.Position += axis * amount;
+            float height = terrain.GetWorldHeight(delta.X, delta.Z) + 1;
+
+            delta.Y = delta.Y <= height ? height : delta.Y;
+
+            this.Position = delta;
         }
 
         /// <summary>
@@ -260,7 +284,6 @@
             float radians = MathHelper.ToRadians(degrees);
             Vector3 axis = this.AxisX;
             this.Rotation *= Quaternion.CreateFromAxisAngle(axis, radians);
-
         }
 
         /// <summary>

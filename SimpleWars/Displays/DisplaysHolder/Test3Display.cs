@@ -34,7 +34,7 @@
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
             this.camera = new CameraPerspective(
                 aspectRatio,
-                new Vector3(-50, -30, 0));
+                new Vector3(50, 30, 0));
             //this.camera = new CameraOrthographic();
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
@@ -75,7 +75,7 @@
             }
 
             this.skybox.Update(gameTime);
-            this.camera.Update(gameTime);
+            this.camera.Update(gameTime, this.terrain);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
