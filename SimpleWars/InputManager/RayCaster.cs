@@ -13,12 +13,12 @@
         /// <summary>
         /// The range of the ray cast
         /// </summary>
-        private const float Range = 400f;
+        private const float Range = 300f;
 
         /// <summary>
         /// The search iterations for the binary search
         /// </summary>
-        private const int SearchIterations = 250;
+        private const int SearchIterations = 1000;
 
         /// <summary>
         /// Gets the point of the terrain that the mouse cursor is currently casting a ray to.
