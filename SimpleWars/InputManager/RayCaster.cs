@@ -13,12 +13,14 @@
         /// <summary>
         /// The range of the ray cast
         /// </summary>
-        private const float Range = 300f;
+        private const float Range = 100f;
 
         /// <summary>
         /// The search iterations for the binary search
         /// </summary>
-        private const int SearchIterations = 1000;
+        private const int SearchIterations = 100;
+
+        private const uint BinarySplits = 50;
 
         /// <summary>
         /// Gets the point of the terrain that the mouse cursor is currently casting a ray to.
@@ -42,7 +44,7 @@
 
             if (IsIntersectionInRange(0, Range, ray, terrain))
             {
-                Vector3 currentTerrainPoint = BinarySearch(0, Range, ray, terrain);
+                Vector3 currentTerrainPoint = BinarySplitSearch(0, Range, ray, terrain, BinarySplits);
                 return currentTerrainPoint;
             }
 
@@ -116,7 +118,7 @@
         }
 
         /// <summary>
-        /// A simple binary search.
+        /// Custom split binary search implementation.
         /// Returns the closest point projected from the mouse cursor
         /// to the terrain surface.
         /// </summary>
@@ -132,13 +134,36 @@
         /// <param name="terrain">
         /// The terrain.
         /// </param>
+        /// <param name="binarySplits">
+        /// The number of recursive splits for the binary search.
+        /// </param>
         /// <returns>
         /// The <see cref="Vector3"/>.
         /// </returns>
-        private static Vector3 BinarySearch(float start, float finish, Ray ray, HomeTerrain terrain)
+        private static Vector3 BinarySplitSearch(float start, float finish, Ray ray, HomeTerrain terrain, uint binarySplits = 0)
         {
-            int count = 0;
+            // I'm preventing stack overflow
+            // if someone goes crazy with the splits
+            if (binarySplits > 256)
+            {
+                binarySplits = 256;
+            }
 
+            Vector3[] endpoints = new Vector3[binarySplits + 1];
+
+
+            // The section size of each split
+            float sectionSize = binarySplits > 0 ? (finish - start) / binarySplits : finish - start;
+            for (int i = 0; i < binarySplits; i++)
+            {
+                float s = i * sectionSize;
+                float f = (i + 1) * sectionSize;
+
+                endpoints[i] = BinarySplitSearch(s, f, ray, terrain);
+            }
+
+            // Normal binary search used by each split
+            int count = 0;
             while (true)
             {
                 float half = start + ((finish - start) / 2f);
@@ -146,7 +171,8 @@
                 if (count >= SearchIterations)
                 {
                     Vector3 endPoint = GetPointOnRay(ray, half);
-                    return endPoint;
+                    endpoints[endpoints.Length - 1] = endPoint;
+                    break;
                 }
 
                 if (IsIntersectionInRange(start, half, ray, terrain))
@@ -160,6 +186,31 @@
                     start = half;
                 }
             }
+
+            // If it's part of the recursive splits returns it directly
+            if (binarySplits == 0)
+            {
+                return endpoints[0];
+            }
+
+            // Calculates the best result from all splits and master
+            Vector3 winner = endpoints[0];
+            foreach (var endpoint in endpoints)
+            {
+                float height = terrain.GetWorldHeight(endpoint.X, endpoint.Z);
+                Vector3 currentTerrainVertice = new Vector3(endpoint.X, height, endpoint.Z);
+
+                float winnerHeight = terrain.GetWorldHeight(winner.X, winner.Z);
+                Vector3 winnerTerrainVertice = new Vector3(winner.X, winnerHeight, winner.Z);
+
+                if (Vector3.Distance(endpoint, currentTerrainVertice)
+                    < Vector3.Distance(winner, winnerTerrainVertice))
+                {
+                    winner = endpoint;
+                }
+            }
+
+            return winner;           
         }
 
         /// <summary>
