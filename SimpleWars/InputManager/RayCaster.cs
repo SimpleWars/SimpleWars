@@ -25,6 +25,11 @@
         /// </summary>
         private const uint BinarySplits = 50;
 
+        /// <summary>
+        /// The seamless distance.
+        /// Usually the binary search achieves precision of 1x10^-7
+        /// so its set to pretty high value.
+        /// </summary>
         private const float SeamlessDistance = 0.0001f;
 
         /// <summary>
@@ -149,35 +154,62 @@
         /// <returns>
         /// The <see cref="Vector3"/>.
         /// </returns>
-        private static Vector3 BinarySplitSearch(float start, float finish, Ray ray, HomeTerrain terrain, uint binarySplits = 0)
+        private static Vector3 BinarySplitSearch(float start, float finish, Ray ray, HomeTerrain terrain, uint binarySplits = 1)
         {
-            Vector3[] endpoints = new Vector3[binarySplits + 1];
+            binarySplits = binarySplits == 0 ? 1 : binarySplits;
+
+            Vector3[] endpoints = new Vector3[binarySplits];
 
             // The section size of each split
             float sectionSize = binarySplits > 0 ? (finish - start) / binarySplits : finish - start;
+
+            bool found = false;
+
             for (uint i = 0; i < binarySplits; i++)
             {
                 float s = i * sectionSize;
                 float f = (i + 1) * sectionSize;
 
-                endpoints[i] = BinarySearch(s, f, ray, terrain);
+                bool intersectionFound = false;
+                Vector3 endpoint = BinarySearch(s, f, ray, terrain, out intersectionFound);
+
+                if (intersectionFound)
+                {
+                    found = true;
+               
+                    float height = terrain.GetWorldHeight(endpoint.X, endpoint.Z);
+                    Vector3 vertice = new Vector3(endpoint.X, height, endpoint.Z);
+                    float distance = Vector3.Distance(endpoint, vertice);
+
+                    // If the point found is in the seamless range
+                    // skip the rest of the search and return it
+                    if (distance <= SeamlessDistance)
+                    {
+                        return endpoint;
+                    }
+                }
+
+                endpoints[i] = endpoint;
             }
 
-            endpoints[endpoints.Length - 1] = BinarySearch(start, finish, ray, terrain);
+            // If no point was in intersection range with terrain during search
+            // returns furthest point in range
+            if (!found)
+            {               
+                Vector3 furthestEndpoint = BinarySearch(start, finish, ray, terrain, out found);
 
-            // Calculates the best result from all splits and master
+                return furthestEndpoint;
+            }
+
+            // Calculates the best result from all splits
+            // Only reachable if no seamless result is found during split search
             Vector3 winner = endpoints[0];
-           
+
             foreach (var endpoint in endpoints)
             {
                 float winnerHeight = terrain.GetWorldHeight(winner.X, winner.Z);
                 Vector3 winnerVertice = new Vector3(winner.X, winnerHeight, winner.Z);
                 float winnerDistance = Vector3.Distance(winner, winnerVertice);
-
-                if (winnerDistance <= SeamlessDistance)
-                {
-                    return winnerVertice;
-                }
 
                 float height = terrain.GetWorldHeight(endpoint.X, endpoint.Z);
                 Vector3 currentVertice = new Vector3(endpoint.X, height, endpoint.Z);           
@@ -207,12 +239,23 @@
         /// <param name="terrain">
         /// The terrain.
         /// </param>
+        /// <param name="intersectionFound">
+        /// Out param indicating wether any of the points 
+        /// found during search
+        /// was in intersection range
+        /// </param>
         /// <returns>
         /// The <see cref="Vector3"/>.
         /// </returns>
-        private static Vector3 BinarySearch(float start, float finish, Ray ray, HomeTerrain terrain)
+        private static Vector3 BinarySearch(
+            float start, 
+            float finish, 
+            Ray ray, 
+            HomeTerrain terrain, 
+            out bool intersectionFound)
         {
             int count = 0;
+            bool found = false;
 
             while (true)
             {
@@ -220,11 +263,15 @@
 
                 if (count >= SearchIterations)
                 {
+                    intersectionFound = found;
+
                     return GetPointOnRay(ray, half);
                 }
 
                 if (IsIntersectionInRange(start, half, ray, terrain))
                 {
+                    found = true;
+
                     count += 1;
                     finish = half;
                 }
