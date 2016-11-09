@@ -7,10 +7,10 @@ namespace SimpleWars
     using System.Diagnostics;
     using System.Linq;
 
-    using SimpleWars.Displays;
-    using SimpleWars.Displays.DisplaysHolder;
-    using SimpleWars.InputManager;
-    using SimpleWars.Res;
+    using SimpleWars.AssetsManagement;
+    using SimpleWars.DisplayManagement;
+    using SimpleWars.DisplayManagement.DisplaysHolder;
+    using SimpleWars.InputManagement;
 
     /// <summary>
     /// This is the main type for your game.

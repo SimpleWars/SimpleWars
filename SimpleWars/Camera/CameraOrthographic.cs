@@ -2,8 +2,8 @@
 {
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Displays;
-    using SimpleWars.InputManager;
+    using SimpleWars.DisplayManagement;
+    using SimpleWars.InputManagement;
 
     public class CameraOrthographic
     {

@@ -3,9 +3,10 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
 
-    using SimpleWars.Displays;
-    using SimpleWars.InputManager;
+    using SimpleWars.DisplayManagement;
+    using SimpleWars.InputManagement;
     using SimpleWars.Terrain;
+    using SimpleWars.Terrain.Terrains;
 
     /// <summary>
     /// Perspective camera in 3D space.
@@ -110,7 +111,7 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        public void Update(GameTime gameTime, HomeTerrain terrain)
+        public void Update(GameTime gameTime, Terrain terrain)
         {
             float xRatio = Input.MousePos.X / DisplayManager.Instance.Dimensions.X;
             float yRatio = Input.MousePos.Y / DisplayManager.Instance.Dimensions.Y;
@@ -196,7 +197,7 @@
         /// <param name="terrain">
         /// The terrain
         /// </param>
-        private void MoveLeft(float amount, HomeTerrain terrain)
+        private void MoveLeft(float amount, Terrain terrain)
         {
             Vector3 axis = this.AxisX;
             Vector3 delta = this.Position + axis * amount;
@@ -219,7 +220,7 @@
         /// <param name="terrain">
         /// The terrain
         /// </param>
-        private void MoveForward(float amount, HomeTerrain terrain)
+        private void MoveForward(float amount, Terrain terrain)
         {
             Vector3 axis = this.AxisZ;
             axis.Y = 0;
@@ -241,7 +242,7 @@
         /// <param name="terrain">
         /// The terrain
         /// </param>
-        private void ZoomIn(float amount, HomeTerrain terrain)
+        private void ZoomIn(float amount, Terrain terrain)
         {
             Vector3 axis = this.AxisZ;
             Vector3 delta = this.Position + axis * amount;

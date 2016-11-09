@@ -6,6 +6,7 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Terrain;
+    using SimpleWars.Terrain.Terrains;
 
     /// <summary>
     /// The entity.
@@ -113,7 +114,7 @@
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        public void Move(GameTime gameTime, Vector3 direction, HomeTerrain terrain)
+        public void Move(GameTime gameTime, Vector3 direction, Terrain terrain)
         {
             float x = this.Position.X + direction.X;
             float z = this.Position.Z + direction.Z;

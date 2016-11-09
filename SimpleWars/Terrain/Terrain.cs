@@ -5,8 +5,6 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Displays;
-
     /// <summary>
     /// The terrain.
     /// </summary>
