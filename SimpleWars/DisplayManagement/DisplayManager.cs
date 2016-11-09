@@ -18,11 +18,14 @@
         private static DisplayManager instance;
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="DisplayManager"/> class from being created. 
-        /// Initializes a new instance of the <see cref="DisplayManager"/> class.
+        /// The dimensions.
         /// </summary>
+        private Vector2 dimensions;
+
+        private GraphicsDeviceManager graphicsManager;
+
         private DisplayManager()
-        {          
+        {
             this.Dimensions = new Vector2(1280, 720);
 
             this.CurrentDisplay = new MenuDisplay();
@@ -34,14 +37,46 @@
         public static readonly DisplayManager Instance = instance ?? (instance = new DisplayManager());
 
         /// <summary>
-        /// Gets or sets the graphics device.
+        /// Gets the graphics device.
         /// </summary>
-        public GraphicsDevice GraphicsDevice { get; set; }
+        public GraphicsDevice GraphicsDevice { get; private set; }
 
         /// <summary>
-        /// Gets the dimensions.
+        /// Gets or sets the graphics manager.
         /// </summary>
-        public Vector2 Dimensions { get; private set; }
+        public GraphicsDeviceManager GraphicsManager
+        {
+            get
+            {
+                return this.graphicsManager;
+            }
+
+            set
+            {
+                this.graphicsManager = value;
+                this.GraphicsDevice = this.GraphicsManager.GraphicsDevice;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the dimensions.
+        /// </summary>
+        public Vector2 Dimensions
+        {
+            get
+            {
+                return this.dimensions;
+            }
+
+            set
+            {
+                this.dimensions = value;
+
+                this.GraphicsManager.PreferredBackBufferWidth = (int)this.Dimensions.X;
+                this.GraphicsManager.PreferredBackBufferHeight = (int)this.Dimensions.Y;
+                this.GraphicsManager.ApplyChanges();
+            }
+        }
 
         /// <summary>
         /// Gets the content.

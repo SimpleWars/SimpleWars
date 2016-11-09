@@ -48,12 +48,12 @@ namespace SimpleWars
             this.graphics.PreferredBackBufferHeight = (int)DisplayManager.Instance.Dimensions.Y;
             this.graphics.PreferMultiSampling = true;
             this.graphics.ApplyChanges();
-
+            
             this.IsMouseVisible = true;
 
             base.Initialize();
 
-            DisplayManager.Instance.GraphicsDevice = this.GraphicsDevice;
+            DisplayManager.Instance.GraphicsManager = this.graphics;
             this.Window.Position = new Point(30, 30);
         }
 
