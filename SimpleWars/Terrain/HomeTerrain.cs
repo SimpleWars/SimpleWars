@@ -299,7 +299,7 @@
             float[] vertices = new float[count * 3];
             float[] normals = new float[count * 3];
             float[] textureCoords = new float[count * 2];
-            this.indices = new int[6 * (vertexCount - 1) * (vertexCount * 1)];
+            this.indices = new int[6 * (vertexCount - 1) * (vertexCount - 1)];
 
             int vertexPointer = 0;
     
@@ -315,7 +315,7 @@
                     vertices[(vertexPointer * 3) + 2] = (float)i / ((float)vertexCount - 1) * Size;
 
                     // Normals
-                    Vector3 normal = this.CalculateNormal(j, i, generator);
+                    Vector3 normal = this.CalculateNormal(i, j, generator);
                     normals[vertexPointer * 3] = normal.X;
                     normals[(vertexPointer * 3) + 1] = normal.Y;
                     normals[(vertexPointer * 3) + 2] = normal.Z;
@@ -371,7 +371,16 @@
             this.effect = new BasicEffect(this.device);
             this.effect.TextureEnabled = true;
             this.effect.Texture = this.texture;
+
             this.effect.EnableDefaultLighting();
+            this.effect.PreferPerPixelLighting = true;
+
+            this.effect.SpecularPower = 50;
+            // Light green
+            this.effect.SpecularColor = new Vector3(0.25f, 0.5f, 0.25f);
+            // Very light green
+            this.effect.AmbientLightColor = new Vector3(0.05f, 0.1f, 0.05f);
+
             this.effect.FogEnabled = true;
             this.effect.FogStart = fogStart;
             this.effect.FogEnd = fogEnd;
@@ -418,7 +427,7 @@
             float heightL = this.GetHeight(x - 1, z, generator);
             float heightR = this.GetHeight(x + 1, z, generator);
             float heightD = this.GetHeight(x, z - 1, generator);
-            float heightU = this.GetHeight(x, z - 1, generator);
+            float heightU = this.GetHeight(x, z + 1, generator);
             Vector3 normal = new Vector3(heightL - heightR, 2f, heightD - heightU);
             normal.Normalize();
             return normal;
