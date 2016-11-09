@@ -43,7 +43,7 @@
         {
             this.device = DisplayManager.Instance.GraphicsDevice;
 
-            this.texture = Assets2Manager.Instance.GetTexture("Skybox", "skybox");
+            this.texture = TexturesManager.Instance.GetTexture("Skybox", "skybox");
 
             this.rotation = Matrix.CreateRotationX(MathHelper.ToRadians(180));
 

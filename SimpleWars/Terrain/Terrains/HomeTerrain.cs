@@ -101,7 +101,7 @@
         {
             this.device = DisplayManager.Instance.GraphicsDevice;
 
-            this.texture = Assets2Manager.Instance.GetTexture("Terrain", "grass");
+            this.texture = TexturesManager.Instance.GetTexture("Terrain", "grass");
 
             this.InitTerrain();
         }

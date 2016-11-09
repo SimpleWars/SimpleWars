@@ -53,6 +53,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AssetsManagement\AssetsManager.cs" />
     <Compile Include="Camera\CameraPerspective.cs" />
     <Compile Include="Camera\CameraOrthographic.cs" />
     <Compile Include="DisplayManagement\DisplaysHolder\Test3Display.cs" />
@@ -61,10 +62,10 @@
     <Compile Include="Entities\StaticEntities\Tree.cs" />
     <Compile Include="InputManagement\RayCaster.cs" />
     <Compile Include="AssetsManagement\Asset.cs" />
-    <Compile Include="AssetsManagement\Assets3Manager.cs" />
+    <Compile Include="AssetsManagement\ModelsManager.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAsset.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAsset2D.cs" />
-    <Compile Include="AssetsManagement\Assets2Manager.cs" />
+    <Compile Include="AssetsManagement\TexturesManager.cs" />
     <Compile Include="DisplayManagement\DisplayManager.cs" />
     <Compile Include="DisplayManagement\Display.cs" />
     <Compile Include="DisplayManagement\Interfaces\IDisplayManager.cs" />

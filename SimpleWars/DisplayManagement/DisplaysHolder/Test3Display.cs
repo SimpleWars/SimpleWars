@@ -59,7 +59,7 @@
 
         public override void UnloadContent()
         {
-            Assets3Manager.Instance.DisposeAll();
+            ModelsManager.Instance.DisposeAll();
         }
 
         public override void Update(GameTime gameTime)

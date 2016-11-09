@@ -80,8 +80,8 @@ namespace SimpleWars
         /// </summary>
         protected override void UnloadContent()
         {
-            Assets2Manager.Instance.DisposeAll();
-            Assets3Manager.Instance.DisposeAll();
+            TexturesManager.Instance.DisposeAll();
+            ModelsManager.Instance.DisposeAll();
 
             DisplayManager.Instance.UnloadContent();
 

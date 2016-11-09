@@ -105,7 +105,7 @@
         /// </param>
         protected Entity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float weight, float scale)
         {
-            this.Model = Assets3Manager.Instance.GetModel(assetDir, assetName);
+            this.Model = ModelsManager.Instance.GetModel(assetDir, assetName);
             this.Position = position;
             this.Rotation = rotation;
             this.weight = weight;

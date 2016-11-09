@@ -28,7 +28,7 @@
                 (int)DisplayManager.Instance.Dimensions.X,
                 (int)DisplayManager.Instance.Dimensions.Y);
 
-            this.background = Assets2Manager.Instance.GetTexture("Menu", "background");
+            this.background = TexturesManager.Instance.GetTexture("Menu", "background");
         }
 
         /// <summary>
@@ -36,7 +36,7 @@
         /// </summary>
         public override void UnloadContent()
         {
-            Assets2Manager.Instance.DisposeAll();
+            TexturesManager.Instance.DisposeAll();
         }
 
         /// <summary>
