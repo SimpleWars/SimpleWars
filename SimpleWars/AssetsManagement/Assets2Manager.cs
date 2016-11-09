@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Microsoft.Xna.Framework.Graphics;
+
     using SimpleWars.AssetsManagement.Interfaces;
 
     public class Assets2Manager
@@ -13,92 +15,161 @@
         /// <summary>
         /// The 2D Assets.
         /// </summary>
-        private readonly IDictionary<string, IAsset2D> assets2Dict;
+        private readonly IDictionary<string, IDictionary<string, IAsset2D>> assetsDirDict;
 
-        private readonly IDictionary<string, IList<IAsset2D>> assetsInDirs2Dict; 
-
-        private readonly ISet<IAsset2D> assets2D;
+        private readonly ISet<IAsset2D> assetsSet;
 
         private Assets2Manager()
         {
-            this.assetsInDirs2Dict = new Dictionary<string, IList<IAsset2D>>();
-            this.assets2Dict = new Dictionary<string, IAsset2D>();
-            this.assets2D = new HashSet<IAsset2D>();
-            // Sprite sheets and other assets will be declared below when needed
+            this.assetsDirDict = new Dictionary<string, IDictionary<string, IAsset2D>>();
+            this.assetsSet = new HashSet<IAsset2D>();
         }
 
         public static Assets2Manager Instance => instance ?? (instance = new Assets2Manager());
 
-        public void Load2DAsset(string dir, string name)
+        private void LoadAsset(string dir, string name)
         {
-            IAsset2D asset = new Asset2D(dir, name);
-
-            if (this.assets2D.Contains(asset) || this.assets2Dict.ContainsKey(name))
+            if (this.assetsDirDict.ContainsKey(dir) && this.assetsDirDict[dir].ContainsKey(name))
             {
-                throw new InvalidOperationException("You are trying to load the same asset 2 times!");
+                return;
             }
 
-            this.assets2D.Add(asset);
-            this.assets2Dict.Add(name, asset);
+            Activator.CreateInstance(typeof(Asset2D), dir, name);
+        }
 
-            if (!this.assetsInDirs2Dict.ContainsKey(dir))
+        public IEnumerable<Texture2D> GetAllTextures()
+        {
+            return this.assetsSet.Select(a => a.Texture);
+        }
+
+        public Texture2D GetTexture(string dir, string name)
+        {
+            this.LoadAsset(dir, name);
+
+            return this.assetsDirDict[dir][name].Texture;
+        }
+
+        private IAsset2D GetAsset(string dir, string name)
+        {
+            this.LoadAsset(dir, name);
+
+            return this.assetsDirDict[dir][name];
+        }
+
+        private bool ContainsAsset(string dir, string name)
+        {
+            return this.assetsDirDict.ContainsKey(dir) && this.assetsDirDict[dir].ContainsKey(name);
+        }
+
+        private void InsertAsset(string dir, string name, IAsset2D asset)
+        {
+            if (this.assetsDirDict.ContainsKey(dir) && this.assetsDirDict[dir].ContainsKey(name))
             {
-                this.assetsInDirs2Dict.Add(dir, new List<IAsset2D>());
+                return;
             }
 
-            this.assetsInDirs2Dict[dir].Add(asset);
-        }
-
-        public IEnumerable<IAsset2D> GetAll2DAssets()
-        {
-            return this.assets2D;
-        }
-
-        public IEnumerable<IAsset2D> GetAll2DAssetsInDir(string dir)
-        {
-            return this.assetsInDirs2Dict.ContainsKey(dir) ? this.assetsInDirs2Dict[dir] : null;
-        }
-
-        public IAsset2D Get2DAsset(string name)
-        {
-            return this.assets2Dict.ContainsKey(name) ? this.assets2Dict[name] : null;
-        }
-
-        public void Dispose2DAsset(string dir, string name)
-        {
-            IAsset2D asset = this.Get2DAsset(name);
-
-            if (!this.assets2D.Contains(asset) || !this.assets2Dict.ContainsKey(name))
+            if (asset == null)
             {
-                throw new InvalidOperationException("You are trying to dispose of asset that does not exist!");
-            }
-            if (!this.assetsInDirs2Dict.ContainsKey(dir))
-            {
-                throw new InvalidOperationException("The specified directory is invalid!");
+                throw new InvalidOperationException("Asset cannot be null!");
             }
 
-            this.assets2D.Remove(asset);
-            this.assets2Dict.Remove(name);
-            this.assetsInDirs2Dict[dir].Remove(asset);
+            this.assetsSet.Add(asset);
+
+            if (!this.assetsDirDict.ContainsKey(dir))
+            {
+                this.assetsDirDict.Add(dir, new Dictionary<string, IAsset2D>());
+            }
+
+            this.assetsDirDict[dir].Add(name, asset);
+        }
+
+        public void DisposeAsset(string dir, string name)
+        {
+            if (!this.assetsDirDict.ContainsKey(dir))
+            {
+                throw new InvalidOperationException($"Directory {dir} has not been loaded or is invalid!");
+            }
+            if (!this.assetsDirDict[dir].ContainsKey(name))
+            {
+                throw new InvalidOperationException($"File {name} in directory {dir} has not been loaded or is invalid!");
+            }
+
+            IAsset2D asset = this.GetAsset(dir, name);
+
+            this.assetsSet.Remove(asset);
+            this.assetsDirDict[dir].Remove(asset.Name);
 
             asset.UnloadContent();
         }
 
         public void DisposeAll()
         {
-            foreach (var asset in this.assets2D)
+            foreach (var asset in this.assetsSet)
             {
                 asset.UnloadContent();
             }
 
-            foreach (var name in this.assets2Dict.Keys)
+            this.assetsSet.Clear();
+            this.assetsDirDict.Clear();
+
+            GC.Collect();
+        }
+
+        private class Asset2D : Asset, IAsset2D
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Asset2D"/> class.
+            /// </summary>
+            /// <param name="dir">
+            /// The dir.
+            /// </param>
+            /// <param name="name">
+            /// The name.
+            /// </param>
+            public Asset2D(string dir, string name)
+                : base(name)
             {
-                this.assets2Dict[name].UnloadContent();
+                this.LoadAsset(dir, name);
             }
 
-            foreach (var asset in this.assetsInDirs2Dict.Keys.SelectMany(dir => this.assetsInDirs2Dict[dir]))
+            /// <summary>
+            /// Gets the texture.
+            /// </summary>
+            public Texture2D Texture { get; private set; }
+
+            /// <summary>
+            /// Loads asset if it has not been loaded yet
+            /// or sets the texture to existing one if it has
+            /// I recommend using the assets managers 
+            /// and not creating new instances of assets in the code
+            /// </summary>
+            /// <param name="dir">
+            /// The dir.
+            /// </param>
+            /// <param name="name">
+            /// The name.
+            /// </param>
+            public override void LoadAsset(string dir, string name)
             {
-                asset.UnloadContent();
+                if (!Assets2Manager.Instance.ContainsAsset(dir, name))
+                {
+                    this.Texture = this.Content.Load<Texture2D>(dir + "/" + name);
+                    Assets2Manager.Instance.InsertAsset(dir, name, this);
+                }
+                else
+                {
+                    this.Texture = Assets2Manager.Instance.GetAsset(dir, name).Texture;
+                }
+            }
+
+            /// <summary>
+            /// The unload content.
+            /// </summary>
+            public override void UnloadContent()
+            {
+                this.Texture.Dispose();
+
+                base.UnloadContent();
             }
         }
     }

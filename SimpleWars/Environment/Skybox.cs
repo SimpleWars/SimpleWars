@@ -3,31 +3,62 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.AssetsManagement;
     using SimpleWars.DisplayManagement;
 
+    /// <summary>
+    /// The skybox.
+    /// </summary>
     public class Skybox
     {
+        /// <summary>
+        /// The device.
+        /// </summary>
+        private readonly GraphicsDevice device;
+
+        /// <summary>
+        /// The texture.
+        /// </summary>
+        private readonly Texture2D texture;
+
+        /// <summary>
+        /// The cube vertices.
+        /// </summary>
         private VertexPositionNormalTexture[] cubeVertices;
 
+        /// <summary>
+        /// The effect.
+        /// </summary>
         private BasicEffect effect;
 
-        private GraphicsDevice device;
-
-        private Texture2D texture;
-
+        /// <summary>
+        /// The rotation.
+        /// </summary>
         private Matrix rotation;
 
-        public Skybox(Texture2D texture)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Skybox"/> class.
+        /// </summary>
+        public Skybox()
         {
             this.device = DisplayManager.Instance.GraphicsDevice;
 
-            this.texture = texture;
+            this.texture = Assets2Manager.Instance.GetTexture("Skybox", "skybox");
 
             this.rotation = Matrix.CreateRotationX(MathHelper.ToRadians(180));
 
             this.InitTexturedCube();
         }
 
+        /// <summary>
+        /// The draw.
+        /// </summary>
+        /// <param name="projectionMatrix">
+        /// The projection matrix.
+        /// </param>
+        /// <param name="viewMatrix">
+        /// The view matrix.
+        /// </param>
         public void Draw(Matrix projectionMatrix, Matrix viewMatrix)
         {
             this.effect.View = Matrix.CreateFromQuaternion(viewMatrix.Rotation);
@@ -46,6 +77,12 @@
             this.device.RasterizerState = RasterizerState.CullNone;
         }
 
+        /// <summary>
+        /// The update.
+        /// </summary>
+        /// <param name="gameTime">
+        /// The game time.
+        /// </param>
         public void Update(GameTime gameTime)
         {
             this.rotation *= Matrix.CreateRotationY(
@@ -53,7 +90,7 @@
         }
 
         /// <summary>
-        /// The init textured cube.
+        /// Initializes the textured cube (skybox)
         /// </summary>
         private void InitTexturedCube()
         {

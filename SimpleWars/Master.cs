@@ -8,6 +8,7 @@ namespace SimpleWars
     using System.Linq;
 
     using SimpleWars.AssetsManagement;
+    using SimpleWars.AssetsManagement.Interfaces;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.DisplaysHolder;
     using SimpleWars.InputManagement;
@@ -44,8 +45,11 @@ namespace SimpleWars
         /// </summary>
         protected override void Initialize()
         {
-            this.graphics.PreferredBackBufferWidth = (int)DisplayManager.Instance.Dimensions.X;
-            this.graphics.PreferredBackBufferHeight = (int)DisplayManager.Instance.Dimensions.Y;
+            DisplayManager.Instance.GraphicsManager = this.graphics;
+
+            //this.graphics.PreferredBackBufferWidth = (int)DisplayManager.Instance.Dimensions.X;
+            //this.graphics.PreferredBackBufferHeight = (int)DisplayManager.Instance.Dimensions.Y;
+            DisplayManager.Instance.ChangeDimensions(1280, 720);
             this.graphics.PreferMultiSampling = true;
             this.graphics.ApplyChanges();
             
@@ -53,7 +57,6 @@ namespace SimpleWars
 
             base.Initialize();
 
-            DisplayManager.Instance.GraphicsManager = this.graphics;
             this.Window.Position = new Point(30, 30);
         }
 

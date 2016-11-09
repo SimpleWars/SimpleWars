@@ -15,26 +15,24 @@
         /// <summary>
         /// The instance.
         /// </summary>
+        public static DisplayManager Instance => instance ?? (instance = new DisplayManager());
+
+        /// <summary>
+        /// The instance.
+        /// </summary>
         private static DisplayManager instance;
 
         /// <summary>
-        /// The dimensions.
+        /// The graphics manager.
         /// </summary>
-        private Vector2 dimensions;
-
         private GraphicsDeviceManager graphicsManager;
-
+    
         private DisplayManager()
         {
             this.Dimensions = new Vector2(1280, 720);
 
             this.CurrentDisplay = new MenuDisplay();
         }
-
-        /// <summary>
-        /// The instance.
-        /// </summary>
-        public static readonly DisplayManager Instance = instance ?? (instance = new DisplayManager());
 
         /// <summary>
         /// Gets the graphics device.
@@ -61,22 +59,7 @@
         /// <summary>
         /// Gets or sets the dimensions.
         /// </summary>
-        public Vector2 Dimensions
-        {
-            get
-            {
-                return this.dimensions;
-            }
-
-            set
-            {
-                this.dimensions = value;
-
-                this.GraphicsManager.PreferredBackBufferWidth = (int)this.Dimensions.X;
-                this.GraphicsManager.PreferredBackBufferHeight = (int)this.Dimensions.Y;
-                this.GraphicsManager.ApplyChanges();
-            }
-        }
+        public Vector2 Dimensions { get; private set; }
 
         /// <summary>
         /// Gets the content.
@@ -109,11 +92,34 @@
             this.CurrentDisplay.UnloadContent();
         }
 
+        /// <summary>
+        /// Changes the display
+        /// </summary>
+        /// <param name="display">
+        /// The display.
+        /// </param>
         public void ChangeDisplay(IDisplay display)
         {
             this.CurrentDisplay.UnloadContent();
             this.CurrentDisplay = display;
             this.CurrentDisplay.LoadContent();
+        }
+
+        /// <summary>
+        /// Changes the game screen dimensions
+        /// </summary>
+        /// <param name="width">
+        /// The width.
+        /// </param>
+        /// <param name="height">
+        /// The height.
+        /// </param>
+        public void ChangeDimensions(int width, int height)
+        {
+            this.Dimensions = new Vector2(width, height);
+            this.GraphicsManager.PreferredBackBufferWidth = width;
+            this.GraphicsManager.PreferredBackBufferHeight = height;
+            this.GraphicsManager.ApplyChanges();
         }
 
         /// <summary>

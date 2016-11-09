@@ -3,21 +3,32 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.AssetsManagement.DisplayAssets;
+    using SimpleWars.AssetsManagement;
 
     /// <summary>
     /// The menu display.
     /// </summary>
     public class MenuDisplay : Display
     {
-        private MenuAssets assets;
+        /// <summary>
+        /// The main frame.
+        /// </summary>
+        private Rectangle mainFrame;
+
+        private Texture2D background;
 
         /// <summary>
         /// The load content.
         /// </summary>
         public override void LoadContent()
         {
-            this.assets = new MenuAssets();
+            this.mainFrame = new Rectangle(
+                0, 
+                0, 
+                (int)DisplayManager.Instance.Dimensions.X,
+                (int)DisplayManager.Instance.Dimensions.Y);
+
+            this.background = Assets2Manager.Instance.GetTexture("Menu", "background");
         }
 
         /// <summary>
@@ -25,7 +36,7 @@
         /// </summary>
         public override void UnloadContent()
         {
-            this.assets.UnloadAssets();
+            Assets2Manager.Instance.DisposeAll();
         }
 
         /// <summary>
@@ -46,7 +57,7 @@
         /// </param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.assets.Background, null, this.assets.MainFrame);
+            spriteBatch.Draw(this.background, null, this.mainFrame);
         }
     }
 }

@@ -23,17 +23,6 @@
         /// <param name="dir">
         /// The dir.
         /// </param>
-        /// <param name="asset">
-        /// The asset.
-        /// </param>
-        void LoadContentManager();
-
-        /// <summary>
-        /// The load content.
-        /// </summary>
-        /// <param name="dir">
-        /// The dir.
-        /// </param>
         /// <param name="name">
         /// The name.
         /// </param>

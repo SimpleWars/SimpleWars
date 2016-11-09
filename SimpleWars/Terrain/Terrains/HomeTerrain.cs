@@ -5,6 +5,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.AssetsManagement;
     using SimpleWars.DisplayManagement;
     using SimpleWars.Utils;
 
@@ -75,8 +76,8 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public HomeTerrain(Texture2D terrainTexture, Vector3? position, float scale = 1)
-            : this(terrainTexture, position, null, scale)
+        public HomeTerrain(Vector3? position, float scale = 1)
+            : this(position, null, scale)
         {    
         }
 
@@ -95,12 +96,12 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public HomeTerrain(Texture2D terrainTexture, Vector3? position, Vector3? rotation, float scale = 1)
+        public HomeTerrain(Vector3? position, Vector3? rotation, float scale = 1)
             : base(position, rotation, scale)
         {
             this.device = DisplayManager.Instance.GraphicsDevice;
 
-            this.texture = terrainTexture;
+            this.texture = Assets2Manager.Instance.GetTexture("Terrain", "grass");
 
             this.InitTerrain();
         }

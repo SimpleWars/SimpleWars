@@ -34,16 +34,15 @@
         /// </summary>
         public string Name { get; }
 
-        public void LoadContentManager()
-        {
-            if (this.Content != null)
-            {
-                throw new InvalidOperationException("You are trying to load over existing content manager!");
-            }
-
-            this.Content = new ContentManager(DisplayManager.Instance.Content.ServiceProvider, DisplayManager.Instance.Content.RootDirectory);
-        }
-
+        /// <summary>
+        /// Loads the asset
+        /// </summary>
+        /// <param name="dir">
+        /// The dir.
+        /// </param>
+        /// <param name="name">
+        /// The name.
+        /// </param>
         public abstract void LoadAsset(string dir, string name);
 
         /// <summary>
@@ -93,6 +92,22 @@
         public override string ToString()
         {
             return this.Name;
+        }
+
+        /// <summary>
+        /// Loads the content manager.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// Throws error if the content manager has already been loaded
+        /// </exception>
+        private void LoadContentManager()
+        {
+            if (this.Content != null)
+            {
+                throw new InvalidOperationException("You are trying to load over existing content manager!");
+            }
+
+            this.Content = new ContentManager(DisplayManager.Instance.Content.ServiceProvider, DisplayManager.Instance.Content.RootDirectory);
         }
     }
 }

@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Microsoft.Xna.Framework.Graphics;
+
     using SimpleWars.AssetsManagement.Interfaces;
 
     public class Assets3Manager
@@ -11,94 +13,151 @@
         private static Assets3Manager instance;
 
         /// <summary>
-        /// The 2D Assets.
+        /// The 3D Assets.
         /// </summary>
-        private readonly IDictionary<string, IAsset3D> assets3Dict;
+        private readonly IDictionary<string, IDictionary<string, IAsset3D>> assetsDirDict;
 
-        private readonly IDictionary<string, IList<IAsset3D>> assetsInDirs3Dict;
-
-        private readonly ISet<IAsset3D> assets3D;
+        private readonly ISet<IAsset3D> assetsSet;
 
         private Assets3Manager()
         {
-            this.assetsInDirs3Dict = new Dictionary<string, IList<IAsset3D>>();
-            this.assets3Dict = new Dictionary<string, IAsset3D>();
-            this.assets3D = new HashSet<IAsset3D>();
-            // Sprite sheets and other assets will be declared below when needed
+            this.assetsDirDict = new Dictionary<string, IDictionary<string, IAsset3D>>();
+            this.assetsSet = new HashSet<IAsset3D>();
         }
 
         public static Assets3Manager Instance => instance ?? (instance = new Assets3Manager());
 
-        public void Load3DAsset(string dir, string name)
+        private void LoadAsset(string dir, string name)
         {
-            IAsset3D asset = new Asset3D(dir, name);
-
-            if (this.assets3D.Contains(asset) || this.assets3Dict.ContainsKey(name))
+            if (this.assetsDirDict.ContainsKey(dir) && this.assetsDirDict[dir].ContainsKey(name))
             {
-                throw new InvalidOperationException("You are trying to load the same asset 2 times!");
+                return;
             }
 
-            this.assets3D.Add(asset);
-            this.assets3Dict.Add(name, asset);
+            Activator.CreateInstance(typeof(Asset3D), dir, name);
+        }
 
-            if (!this.assetsInDirs3Dict.ContainsKey(dir))
+        public IEnumerable<Model> GetAllModels()
+        {
+            return this.assetsSet.Select(a => a.Model);
+        }
+
+        private IAsset3D GetAsset(string dir, string name)
+        {
+            this.LoadAsset(dir, name);
+
+            return this.assetsDirDict[dir][name];
+        }
+
+        public Model GetModel(string dir, string name)
+        {
+            this.LoadAsset(dir, name);
+
+            return this.assetsDirDict[dir][name].Model;
+        }
+
+        private bool ContainsAsset(string dir, string name)
+        {
+            return this.assetsDirDict.ContainsKey(dir) && this.assetsDirDict[dir].ContainsKey(name);
+        }
+
+        private void InsertAsset(string dir, string name, IAsset3D asset)
+        {
+            if (this.assetsDirDict.ContainsKey(dir) && this.assetsDirDict[dir].ContainsKey(name))
             {
-                this.assetsInDirs3Dict.Add(dir, new List<IAsset3D>());
+                return;
             }
 
-            this.assetsInDirs3Dict[dir].Add(asset);
-        }
-
-        public IEnumerable<IAsset3D> GetAll3DAssets()
-        {
-            return this.assets3D;
-        }
-
-        public IEnumerable<IAsset3D> GetAll3DAssetsInDir(string dir)
-        {
-            return this.assetsInDirs3Dict.ContainsKey(dir) ? this.assetsInDirs3Dict[dir] : null;
-        }
-
-        public IAsset3D Get3DAsset(string name)
-        {
-            return this.assets3Dict.ContainsKey(name) ? this.assets3Dict[name] : null;
-        }
-
-        public void Dispose3DAsset(string dir, string name)
-        {
-            IAsset3D asset = this.Get3DAsset(name);
-
-            if (!this.assets3D.Contains(asset) || !this.assets3Dict.ContainsKey(name))
+            if (asset == null)
             {
-                throw new InvalidOperationException("You are trying to dispose of asset that does not exist!");
-            }
-            if (!this.assetsInDirs3Dict.ContainsKey(dir))
-            {
-                throw new InvalidOperationException("The specified directory is invalid!");
+                throw new InvalidOperationException("Asset cannot be null!");
             }
 
-            this.assets3D.Remove(asset);
-            this.assets3Dict.Remove(name);
-            this.assetsInDirs3Dict[dir].Remove(asset);
+            this.assetsSet.Add(asset);
+
+            if (!this.assetsDirDict.ContainsKey(dir))
+            {
+                this.assetsDirDict.Add(dir, new Dictionary<string, IAsset3D>());
+            }
+
+            this.assetsDirDict[dir].Add(name, asset);
+        }
+
+        public void DisposeAsset(string dir, string name)
+        {
+            if (!this.assetsDirDict.ContainsKey(dir))
+            {
+                throw new InvalidOperationException($"Directory {dir} has not been loaded or is invalid!");
+            }
+            if (!this.assetsDirDict[dir].ContainsKey(name))
+            {
+                throw new InvalidOperationException($"File {name} in directory {dir} has not been loaded or is invalid!");
+            }
+
+            IAsset3D asset = this.GetAsset(dir, name);
+
+            this.assetsSet.Remove(asset);
+            this.assetsDirDict[dir].Remove(asset.Name);
 
             asset.UnloadContent();
         }
 
         public void DisposeAll()
         {
-            foreach (var asset in this.assets3D)
+            foreach (var asset in this.assetsSet)
             {
                 asset.UnloadContent();
             }
 
-            foreach (var name in this.assets3Dict.Keys)
-            {
-                this.assets3Dict[name].UnloadContent();
+            this.assetsSet.Clear();
+            this.assetsDirDict.Clear();
+
+            GC.Collect();
+        }
+
+        private class Asset3D : Asset, IAsset3D
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Asset3D"/> class.
+            /// </summary>
+            /// <param name="dir">
+            /// The dir.
+            /// </param>
+            /// <param name="name">
+            /// The name.
+            /// </param>
+            public Asset3D(string dir, string name)
+            : base(name)
+        {
+                this.LoadAsset(dir, name);
             }
 
-            foreach (var asset in this.assetsInDirs3Dict.Keys.SelectMany(dir => this.assetsInDirs3Dict[dir]))
+            /// <summary>
+            /// Gets the model.
+            /// </summary>
+            public Model Model { get; private set; }
+
+            /// <summary>
+            /// Loads asset if it has not been loaded yet
+            /// or sets the model to existing one if it has
+            /// </summary>
+            /// <param name="dir">
+            /// The dir.
+            /// </param>
+            /// <param name="name">
+            /// The name.
+            /// </param>
+            public override void LoadAsset(string dir, string name)
             {
-                asset.UnloadContent();
+                if (!Assets3Manager.Instance.ContainsAsset(dir, name))
+                {
+                    this.Model = this.Content.Load<Model>(dir + "/" + name);
+                    Assets3Manager.Instance.InsertAsset(dir, name, this);
+                }
+                else
+                {
+                    this.Model = Assets3Manager.Instance.GetAsset(dir, name).Model;
+                }
             }
         }
     }

@@ -5,6 +5,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.AssetsManagement;
     using SimpleWars.Terrain;
     using SimpleWars.Terrain.Terrains;
 
@@ -41,8 +42,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
-        /// <param name="model">
-        /// The model.
+        /// <param name="assetDir">
+        /// The asset dir.
+        /// </param>
+        /// <param name="assetName">
+        /// The asset name.
         /// </param>
         /// <param name="position">
         /// The position.
@@ -50,16 +54,19 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(Model model, Vector3 position, float scale = 1)
-        : this(model, position, Vector3.Zero, scale)
+        protected Entity(string assetDir, string assetName, Vector3 position, float scale = 1)
+        : this(assetDir, assetName, position, Vector3.Zero, scale)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
-        /// <param name="model">
-        /// The model.
+        /// <param name="assetDir">
+        /// The asset dir.
+        /// </param>
+        /// <param name="assetName">
+        /// The asset name.
         /// </param>
         /// <param name="position">
         /// The position.
@@ -70,16 +77,19 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(Model model, Vector3 position, Vector3 rotation, float scale)
-            : this(model, position, rotation, 1f, scale)
+        protected Entity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float scale = 1)
+            : this(assetDir, assetName, position, rotation, 1f, scale)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
-        /// <param name="model">
-        /// The model.
+        /// <param name="assetDir">
+        /// The asset dir.
+        /// </param>
+        /// <param name="assetName">
+        /// The asset name.
         /// </param>
         /// <param name="position">
         /// The position.
@@ -93,9 +103,9 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(Model model, Vector3 position, Vector3 rotation, float weight, float scale)
+        protected Entity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float weight, float scale)
         {
-            this.Model = model;
+            this.Model = Assets3Manager.Instance.GetModel(assetDir, assetName);
             this.Position = position;
             this.Rotation = rotation;
             this.weight = weight;

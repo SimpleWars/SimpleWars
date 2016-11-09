@@ -61,12 +61,9 @@
     <Compile Include="Entities\StaticEntities\Tree.cs" />
     <Compile Include="InputManagement\RayCaster.cs" />
     <Compile Include="AssetsManagement\Asset.cs" />
-    <Compile Include="AssetsManagement\Asset3D.cs" />
     <Compile Include="AssetsManagement\Assets3Manager.cs" />
-    <Compile Include="AssetsManagement\DisplayAssets\Test3Assets.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAsset.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAsset2D.cs" />
-    <Compile Include="AssetsManagement\Asset2D.cs" />
     <Compile Include="AssetsManagement\Assets2Manager.cs" />
     <Compile Include="DisplayManagement\DisplayManager.cs" />
     <Compile Include="DisplayManagement\Display.cs" />
@@ -78,8 +75,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAsset3D.cs" />
-    <Compile Include="AssetsManagement\Interfaces\IAssetLoader.cs" />
-    <Compile Include="AssetsManagement\DisplayAssets\MenuAssets.cs" />
     <Compile Include="Utils\NoiseGenerator.cs" />
     <Compile Include="Terrain\Terrains\HomeTerrain.cs" />
     <Compile Include="Utils\MersenneTwister.cs" />
