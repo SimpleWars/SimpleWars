@@ -8,6 +8,9 @@
     using SimpleWars.Displays;
     using SimpleWars.Terrain;
 
+    /// <summary>
+    /// The ray caster.
+    /// </summary>
     public static class RayCaster
     {
         /// <summary>
@@ -164,9 +167,11 @@
             float sectionSize = binarySplits > 0 ? (finish - start) / binarySplits : finish - start;
 
             bool found = false;
+            int iterations = 0;
 
             for (uint i = 0; i < binarySplits; i++)
             {
+                iterations++;
                 float s = i * sectionSize;
                 float f = (i + 1) * sectionSize;
 
@@ -185,6 +190,7 @@
                     // skip the rest of the search and return it
                     if (distance <= SeamlessDistance)
                     {
+                        Debug.WriteLine(iterations);
                         return endpoint;
                     }
                 }
@@ -192,6 +198,7 @@
                 endpoints[i] = endpoint;
             }
 
+            Debug.WriteLine("Max iterations");
             // If no point was in intersection range with terrain during search
             // returns furthest point in range
             if (!found)
@@ -299,8 +306,8 @@
         {
             GraphicsDevice device = DisplayManager.Instance.GraphicsDevice;
            
-            float mouseX = Input.Instance.MousePos.X;
-            float mouseY = Input.Instance.MousePos.Y;
+            float mouseX = Input.MousePos.X;
+            float mouseY = Input.MousePos.Y;
 
             Vector3 nearPoint = device.Viewport.Unproject(
                 new Vector3(mouseX, mouseY, 0),

@@ -112,9 +112,9 @@
         /// </param>
         public void Update(GameTime gameTime, HomeTerrain terrain)
         {
-            float xRatio = Input.Instance.MousePos.X / DisplayManager.Instance.Dimensions.X;
-            float yRatio = Input.Instance.MousePos.Y / DisplayManager.Instance.Dimensions.Y;
-            int scroll = Input.Instance.MouseScroll;
+            float xRatio = Input.MousePos.X / DisplayManager.Instance.Dimensions.X;
+            float yRatio = Input.MousePos.Y / DisplayManager.Instance.Dimensions.Y;
+            int scroll = Input.MouseScroll;
             float timeFraction = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             float movement = timeFraction * CameraSpeed;
@@ -155,22 +155,22 @@
             //    this.MoveLeft(movement);
             //}
 
-            if (Input.Instance.KeyPressed(Keys.Q))
+            if (Input.KeyPressed(Keys.Q))
             {
                 this.SnapView();
             }
 
-            float deltaX = Input.Instance.PrevMountPos.X - Input.Instance.MousePos.X;
-            float deltaY = Input.Instance.PrevMountPos.Y - Input.Instance.MousePos.Y;
+            float deltaX = Input.PrevMountPos.X - Input.MousePos.X;
+            float deltaY = Input.PrevMountPos.Y - Input.MousePos.Y;
 
-            if (Input.Instance.MiddleButtonHold())
+            if (Input.MiddleButtonHold())
             {
                 this.TurnRight(deltaX * timeFraction * 2);
 
                 this.TurnUp(-deltaY * timeFraction * 2);
             }
 
-            if (Input.Instance.RightMouseHold())
+            if (Input.RightMouseHold())
             {
                 this.MoveLeft(movement * deltaX * 0.1f, terrain);
 

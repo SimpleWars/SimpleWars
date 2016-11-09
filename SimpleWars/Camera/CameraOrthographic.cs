@@ -38,8 +38,8 @@
 
         public void Update(GameTime gameTime)
         {
-            float xRatio = Input.Instance.MousePos.X / this.width;
-            float yRatio = Input.Instance.MousePos.Y / this.height;
+            float xRatio = Input.MousePos.X / this.width;
+            float yRatio = Input.MousePos.Y / this.height;
 
             Vector3 movement = Vector3.Zero;
 

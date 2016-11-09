@@ -98,14 +98,14 @@ namespace SimpleWars
                 this.Exit();
             }
 
-            Input.Instance.Update();
+            Input.Update();
 
-            if (Input.Instance.KeyPressed(Keys.R))
+            if (Input.KeyPressed(Keys.R))
             {
                 DisplayManager.Instance.ChangeDisplay(new Test3Display());
             }
 
-            if (Input.Instance.KeyPressed(Keys.T))
+            if (Input.KeyPressed(Keys.T))
             {
                 DisplayManager.Instance.ChangeDisplay(new MenuDisplay());
             }

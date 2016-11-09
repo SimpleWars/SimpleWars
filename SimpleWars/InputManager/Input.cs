@@ -8,123 +8,102 @@
     /// <summary>
     /// The input.
     /// </summary>
-    public class Input
+    public static class Input
     {
-        /// <summary>
-        /// The instance.
-        /// </summary>
-        private static Input instance;
-
         /// <summary>
         /// The key state.
         /// </summary>
-        private KeyboardState keyState;
+        private static KeyboardState keyState = Keyboard.GetState();
 
         /// <summary>
         /// The previous key state.
         /// </summary>
-        private KeyboardState previousKeyState;
+        private static KeyboardState previousKeyState;
 
         /// <summary>
         /// The mouse state.
         /// </summary>
-        private MouseState mouseState;
+        private static MouseState mouseState = Mouse.GetState();
 
         /// <summary>
         /// The previous mouse state.
         /// </summary>
-        private MouseState previousMouseState;
+        private static MouseState previousMouseState;
 
-        /// <summary>
-        /// Prevents a default instance of the <see cref="Input"/> class from being created.
-        /// </summary>
-        private Input()
+        public static void Update()
         {
-            this.keyState = Keyboard.GetState();
-            this.mouseState = Mouse.GetState();
+            previousKeyState = keyState;
+            previousMouseState = mouseState;
+
+            keyState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
         }
 
-        /// <summary>
-        /// The instance.
-        /// </summary>
-        public static Input Instance = instance ?? (instance = new Input());
-
-
-
-        public void Update()
+        public static bool KeyPressed(params Keys[] keys)
         {
-            this.previousKeyState = this.keyState;
-            this.previousMouseState = this.mouseState;
-
-            this.keyState = Keyboard.GetState();
-            this.mouseState = Mouse.GetState();
+            return keys.Any(key => keyState.IsKeyDown(key) && previousKeyState.IsKeyUp(key));
         }
 
-        public bool KeyPressed(params Keys[] keys)
+        public static bool KeyReleased(params Keys[] keys)
         {
-            return keys.Any(key => this.keyState.IsKeyDown(key) && this.previousKeyState.IsKeyUp(key));
+            return keys.Any(key => keyState.IsKeyUp(key) && previousKeyState.IsKeyDown(key));
         }
 
-        public bool KeyReleased(params Keys[] keys)
+        public static bool KeyDown(params Keys[] keys)
         {
-            return keys.Any(key => this.keyState.IsKeyUp(key) && this.previousKeyState.IsKeyDown(key));
+            return keys.Any(key => keyState.IsKeyDown(key));
         }
 
-        public bool KeyDown(params Keys[] keys)
+        public static bool RightMouseClick()
         {
-            return keys.Any(key => this.keyState.IsKeyDown(key));
+            return mouseState.RightButton == ButtonState.Pressed
+                   && previousMouseState.RightButton == ButtonState.Released;
         }
 
-        public bool RightMouseClick()
+        public static bool RightMouseHold()
         {
-            return this.mouseState.RightButton == ButtonState.Pressed
-                   && this.previousMouseState.RightButton == ButtonState.Released;
+            return mouseState.RightButton == ButtonState.Pressed;
         }
 
-        public bool RightMouseHold()
+        public static bool RightMouseRelease()
         {
-            return this.mouseState.RightButton == ButtonState.Pressed;
+            return mouseState.RightButton == ButtonState.Released;
         }
 
-        public bool RightMouseRelease()
+        public static bool LeftMouseClick()
         {
-            return this.mouseState.RightButton == ButtonState.Released;
+            return mouseState.LeftButton == ButtonState.Pressed
+                   && previousMouseState.LeftButton == ButtonState.Released;
         }
 
-        public bool LeftMouseClick()
+        public static bool LeftMouseHold()
         {
-            return this.mouseState.LeftButton == ButtonState.Pressed
-                   && this.previousMouseState.LeftButton == ButtonState.Released;
+            return mouseState.LeftButton == ButtonState.Pressed;
         }
 
-        public bool LeftMouseHold()
+        public static bool LeftMouseRelease()
         {
-            return this.mouseState.LeftButton == ButtonState.Pressed;
+            return mouseState.LeftButton == ButtonState.Released;
         }
 
-        public bool LeftMouseRelease()
+        public static bool MiddleButtonHold()
         {
-            return this.mouseState.LeftButton == ButtonState.Released;
+            return mouseState.MiddleButton == ButtonState.Pressed;
         }
 
-        public bool MiddleButtonHold()
-        {
-            return this.mouseState.MiddleButton == ButtonState.Pressed;
-        }
+        public static Vector2 MousePos => mouseState.Position.ToVector2();
 
-        public Vector2 MousePos => this.mouseState.Position.ToVector2();
+        public static Vector2 PrevMountPos => previousMouseState.Position.ToVector2();
 
-        public Vector2 PrevMountPos => this.previousMouseState.Position.ToVector2();
-
-        public int MouseScroll
+        public static int MouseScroll
         {
             get
             {
-                if (this.mouseState.ScrollWheelValue < this.previousMouseState.ScrollWheelValue)
+                if (mouseState.ScrollWheelValue < previousMouseState.ScrollWheelValue)
                 {
                     return -1;
                 }
-                else if (this.mouseState.ScrollWheelValue > this.previousMouseState.ScrollWheelValue)
+                else if (mouseState.ScrollWheelValue > previousMouseState.ScrollWheelValue)
                 {
                     return 1;
                 }
