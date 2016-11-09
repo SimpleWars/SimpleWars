@@ -5,6 +5,8 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Displays;
+
     public class Skybox
     {
         private VertexPositionNormalTexture[] cubeVertices;
@@ -17,9 +19,10 @@
 
         private Matrix rotation;
 
-        public Skybox(GraphicsDevice device, Texture2D texture)
+        public Skybox(Texture2D texture)
         {
-            this.device = device;
+            this.device = DisplayManager.Instance.GraphicsDevice;
+
             this.texture = texture;
 
             this.rotation = Matrix.CreateRotationX(MathHelper.ToRadians(180));
@@ -34,6 +37,7 @@
             this.effect.World = this.rotation;
             
             this.device.RasterizerState = RasterizerState.CullClockwise;
+
             foreach (var pass in this.effect.CurrentTechnique.Passes)
             {
                 pass.Apply();

@@ -7,6 +7,9 @@
 
     using SimpleWars.Terrain;
 
+    /// <summary>
+    /// The entity.
+    /// </summary>
     public abstract class Entity
     {
         /// <summary>
@@ -248,8 +251,19 @@
             }
         }
 
+        /// <summary>
+        /// Gets the scale matrix.
+        /// </summary>
         protected Matrix ScaleMatrix { get; private set; }
+
+        /// <summary>
+        /// Gets the rotation matrix.
+        /// </summary>
         protected Matrix RotationMatrix { get; private set; }
+
+        /// <summary>
+        /// Gets the world matrix.
+        /// </summary>
         protected Matrix WorldMatrix { get; private set; }
 
         // Cornflowerblue color code

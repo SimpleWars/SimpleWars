@@ -12,8 +12,28 @@
     /// <summary>
     /// The home terrain.
     /// </summary>
-    public class HomeTerrain : Entity
+    public class HomeTerrain : Terrain
     {
+        /// <summary>
+        /// The size of the terrain. Square shape.
+        /// </summary>
+        private const int Size = 800;
+
+        /// <summary>
+        /// The fog start.
+        /// </summary>
+        private const float FogStart = 300;
+
+        /// <summary>
+        /// The fog end.
+        /// </summary>
+        private const float FogEnd = 600;
+
+        /// <summary>
+        /// The fog color.
+        /// </summary>
+        private static readonly Vector3 FogColor = new Vector3(0.392157f, 0.584314f, 0.929412f);
+
         /// <summary>
         /// The device that draws the flat 2d terrain.
         /// </summary>
@@ -42,18 +62,13 @@
         /// <summary>
         /// Gets the height at the specific point of the terrain.
         /// </summary>
-        private float[,] heights { get; set; }
-
-        /// <summary>
-        /// The size of the terrain. Square shape.
-        /// </summary>
-        private const int Size = 800;
+        private float[,] heights;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeTerrain"/> class.
         /// </summary>
-        /// <param name="model">
-        /// The model.
+        /// <param name="terrainTexture">
+        /// The terrain texture.
         /// </param>
         /// <param name="position">
         /// The position.
@@ -61,28 +76,16 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public HomeTerrain(Model model, Vector3 position, float scale = 1) 
-            : base(model, position, scale)
-        {
-            this.device = DisplayManager.Instance.GraphicsDevice;
-
-            this.InitTerrain();
-        }
-
-        public HomeTerrain(Model model, Texture2D terrainTexture, Vector3 position)
-            : base(model, position)
-        {
-            this.device = DisplayManager.Instance.GraphicsDevice;
-            this.texture = terrainTexture;
-
-            this.InitTerrain();
+        public HomeTerrain(Texture2D terrainTexture, Vector3? position, float scale = 1)
+            : this(terrainTexture, position, null, scale)
+        {    
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeTerrain"/> class.
         /// </summary>
-        /// <param name="model">
-        /// The model.
+        /// <param name="terrainTexture">
+        /// The terrain Texture.
         /// </param>
         /// <param name="position">
         /// The position.
@@ -93,36 +96,11 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public HomeTerrain(Model model, Vector3 position, Vector3 rotation, float scale = 1)
-            : base(model, position, rotation, scale)
+        public HomeTerrain(Texture2D terrainTexture, Vector3? position, Vector3? rotation, float scale = 1)
+            : base(position, rotation, scale)
         {
             this.device = DisplayManager.Instance.GraphicsDevice;
 
-            this.InitTerrain();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HomeTerrain"/> class.
-        /// </summary>
-        /// <param name="model">
-        /// The model.
-        /// </param>
-        /// <param name="texture">
-        /// The texture.
-        /// </param>
-        /// <param name="position">
-        /// The position.
-        /// </param>
-        /// <param name="rotation">
-        /// The rotation.
-        /// </param>
-        /// <param name="scale">
-        /// The scale.
-        /// </param>
-        public HomeTerrain(Model model, Texture2D terrainTexture, Vector3 position, Vector3 rotation, float scale = 1)
-            : base(model, position, rotation, scale)
-        {
-            this.device = DisplayManager.Instance.GraphicsDevice;
             this.texture = terrainTexture;
 
             this.InitTerrain();
@@ -132,15 +110,15 @@
         /// Calculates the height of the terrain in world space for the specified x and z
         /// </summary>
         /// <param name="x">
-        /// The x coord
+        /// The x coordinate
         /// </param>
         /// <param name="z">
-        /// The z coord
+        /// The z coordinate
         /// </param>
         /// <returns>
         /// The <see cref="float"/>.
         /// </returns>
-        public float GetWorldHeight(float x, float z)
+        public override float GetWorldHeight(float x, float z)
         {
             float terrainX = x - this.Position.X;
             float terrainZ = z - this.Position.Z;
@@ -191,13 +169,14 @@
         /// <param name="projectionMatrix">
         /// The projection Matrix.
         /// </param>
-        public void DrawProceduralTerrain(Matrix viewMatrix, Matrix projectionMatrix)
+        public override void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
             this.effect.View = viewMatrix;
             this.effect.Projection = projectionMatrix;
-            this.effect.World = this.WorldMatrix;
+            this.effect.World = this.TransformationMatrix;
 
             this.device.RasterizerState = RasterizerState.CullClockwise;
+
             foreach (var pass in this.effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
@@ -209,64 +188,19 @@
         }
 
         /// <summary>
-        /// The custom terrain draw using 3D terrain model.
-        /// </summary>
-        /// <param name="viewMatrix">
-        /// The view matrix.
-        /// </param>
-        /// <param name="projectionMatrix">
-        /// The projection matrix.
-        /// </param>
-        public override void Draw(Matrix viewMatrix, Matrix projectionMatrix)
-        {
-            // This will be used for custom terrains that have many meshes on them
-            // and that need to be relative to their root which is the only part of the model 
-            // that has to be transformed to world space
-            //Matrix[] transforms = new Matrix[this.Model.Bones.Count];
-            //this.Model.CopyAbsoluteBoneTransformsTo(transforms);
-
-            foreach (var mesh in this.Model.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.FogEnabled = true;
-                    effect.FogStart = fogStart;
-                    effect.FogEnd = fogEnd;
-                    effect.FogColor = fogColor;
-
-                    effect.PreferPerPixelLighting = true;
-                    effect.TextureEnabled = true;
-
-                    // the transform would still have to be properly rotated and scaled
-                    // this is done by multiplying the scale matrix to the the rotation matrix
-                    // and then to the transform matrix
-                    //effect.World = transforms[mesh.ParentBone.Index];
-
-                    // my current terrain has only 1 mesh and I'm good with default entity world transformation  
-                    effect.World = this.TransformationMatrix;
-                    effect.View = viewMatrix;
-                    effect.Projection = projectionMatrix;
-                }
-
-                mesh.Draw();
-            }
-        }
-
-        /// <summary>
-        /// The barycentric interpolation.
+        /// Barycentric interpolation
         /// </summary>
         /// <param name="p1">
-        /// The p 1.
+        /// The first vector
         /// </param>
         /// <param name="p2">
-        /// The p 2.
+        /// The second vector
         /// </param>
         /// <param name="p3">
-        /// The p 3.
+        /// The third vector
         /// </param>
         /// <param name="pos">
-        /// The pos.
+        /// The position between the vectors that will be interpolated
         /// </param>
         /// <returns>
         /// The <see cref="float"/>.
@@ -287,7 +221,6 @@
         /// </summary>
         private void InitTerrain()
         {
-            // I will seed it once the game gets playable. Maybe.
             HeightGenerator generator = new HeightGenerator();
 
             int vertexCount = 128;
@@ -340,6 +273,7 @@
                     int topRight = topLeft + 1;
                     int bottomLeft = ((gz + 1) * vertexCount) + gx;
                     int bottomRight = bottomLeft + 1;
+
                     this.indices[pointer++] = topLeft;
                     this.indices[pointer++] = bottomLeft;
                     this.indices[pointer++] = topRight;
@@ -382,9 +316,9 @@
             this.effect.AmbientLightColor = new Vector3(0.05f, 0.1f, 0.05f);
 
             this.effect.FogEnabled = true;
-            this.effect.FogStart = fogStart;
-            this.effect.FogEnd = fogEnd;
-            this.effect.FogColor = fogColor;
+            this.effect.FogStart = FogStart;
+            this.effect.FogEnd = FogEnd;
+            this.effect.FogColor = FogColor;
         }
 
         /// <summary>
@@ -428,8 +362,10 @@
             float heightR = this.GetHeight(x + 1, z, generator);
             float heightD = this.GetHeight(x, z - 1, generator);
             float heightU = this.GetHeight(x, z + 1, generator);
+
             Vector3 normal = new Vector3(heightL - heightR, 2f, heightD - heightU);
             normal.Normalize();
+
             return normal;
         }
     }

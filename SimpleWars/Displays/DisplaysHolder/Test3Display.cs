@@ -20,10 +20,7 @@
 
         private IList<Entity> entities;
 
-        //private CameraOrthographic camera;
-
         private CameraPerspective camera;
-
 
         private HomeTerrain terrain;
 
@@ -38,17 +35,16 @@
             this.camera = new CameraPerspective(
                 aspectRatio,
                 new Vector3(50, 30, 0));
-            //this.camera = new CameraOrthographic();
+
             this.assets = new Test3Assets();
             this.entities = new List<Entity>();
 
-            this.terrain = new HomeTerrain(
-                                this.assets.Terra, 
+            this.terrain = new HomeTerrain( 
                                 this.assets.TerrainTexture, 
                                 new Vector3(-400, 0, -400));
 
-            this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice, this.assets.SkyboxTexture);
-            
+            this.skybox = new Skybox(this.assets.SkyboxTexture);
+           
             var random = new Random();
             var numberOfTrees = random.Next(300, 400);
 
@@ -91,7 +87,7 @@
         public override void Draw(SpriteBatch spriteBatch)
         {
             //this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
-            this.terrain.DrawProceduralTerrain(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+            this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
 
             foreach (var entity in this.entities)

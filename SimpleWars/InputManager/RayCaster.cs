@@ -53,8 +53,8 @@
         /// </returns>
         public static Vector3 GetTerrainPoint(
             Matrix projectionMatrix, 
-            Matrix viewMatrix, 
-            HomeTerrain terrain)
+            Matrix viewMatrix,
+            Terrain terrain)
         {
             Ray ray = CastRay(projectionMatrix, viewMatrix);
 
@@ -82,7 +82,7 @@
         /// </returns>
         private static Vector3 GetPointOnRay(Ray ray, float distance)
         {
-            return ray.Position + ray.Direction * distance;
+            return ray.Position + (ray.Direction * distance);
         }
 
         /// <summary>
@@ -106,8 +106,8 @@
         private static bool IsIntersectionInRange(
             float start, 
             float finish, 
-            Ray ray, 
-            HomeTerrain terrain)
+            Ray ray,
+            Terrain terrain)
         {
             Vector3 startPoint = GetPointOnRay(ray, start);
             Vector3 endPoint = GetPointOnRay(ray, finish);
@@ -127,7 +127,7 @@
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        private static bool IsUnderGround(Vector3 testPoint, HomeTerrain terrain)
+        private static bool IsUnderGround(Vector3 testPoint, Terrain terrain)
         {
             float height = terrain.GetWorldHeight(testPoint.X, testPoint.Z);
 
@@ -157,7 +157,12 @@
         /// <returns>
         /// The <see cref="Vector3"/>.
         /// </returns>
-        private static Vector3 BinarySplitSearch(float start, float finish, Ray ray, HomeTerrain terrain, uint binarySplits = 1)
+        private static Vector3 BinarySplitSearch(
+            float start, 
+            float finish, 
+            Ray ray, 
+            Terrain terrain, 
+            uint binarySplits = 1)
         {
             binarySplits = binarySplits == 0 ? 1 : binarySplits;
 
@@ -190,7 +195,6 @@
                     // skip the rest of the search and return it
                     if (distance <= SeamlessDistance)
                     {
-                        Debug.WriteLine(iterations);
                         return endpoint;
                     }
                 }
@@ -198,7 +202,6 @@
                 endpoints[i] = endpoint;
             }
 
-            Debug.WriteLine("Max iterations");
             // If no point was in intersection range with terrain during search
             // returns furthest point in range
             if (!found)
@@ -247,7 +250,7 @@
         /// The terrain.
         /// </param>
         /// <param name="intersectionFound">
-        /// Out param indicating wether any of the points 
+        /// Out parameter indicating whether any of the points 
         /// found during search
         /// was in intersection range
         /// </param>
@@ -258,7 +261,7 @@
             float start, 
             float finish, 
             Ray ray, 
-            HomeTerrain terrain, 
+            Terrain terrain, 
             out bool intersectionFound)
         {
             int count = 0;
