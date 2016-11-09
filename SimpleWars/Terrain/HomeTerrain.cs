@@ -315,7 +315,7 @@
                     vertices[(vertexPointer * 3) + 2] = (float)i / ((float)vertexCount - 1) * Size;
 
                     // Normals
-                    Vector3 normal = this.CalculateNormal(i, j, generator);
+                    Vector3 normal = this.CalculateNormal(j, i, generator);
                     normals[vertexPointer * 3] = normal.X;
                     normals[(vertexPointer * 3) + 1] = normal.Y;
                     normals[(vertexPointer * 3) + 2] = normal.Z;
