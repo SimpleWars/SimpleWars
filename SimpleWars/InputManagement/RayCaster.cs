@@ -70,6 +70,7 @@
                 {
                     float? distance = ray.Intersects(mesh.BoundingSphere.Transform(entity.TransformationMatrix));
                     if (distance != null && 
+                        distance <= Range &&
                         (bestDistance == null || 
                         distance < bestDistance))
                     {
