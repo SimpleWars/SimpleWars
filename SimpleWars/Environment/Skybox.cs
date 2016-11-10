@@ -5,6 +5,7 @@
 
     using SimpleWars.AssetsManagement;
     using SimpleWars.DisplayManagement;
+    using SimpleWars.Utils;
 
     /// <summary>
     /// The skybox.

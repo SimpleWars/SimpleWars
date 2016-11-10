@@ -82,8 +82,8 @@
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
+            this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
 
             foreach (var entity in this.entities)
             {

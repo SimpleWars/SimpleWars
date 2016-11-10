@@ -8,6 +8,7 @@
     using SimpleWars.AssetsManagement;
     using SimpleWars.Terrain;
     using SimpleWars.Terrain.Terrains;
+    using SimpleWars.Utils;
 
     /// <summary>
     /// The entity.
@@ -35,9 +36,14 @@
         private float scale;
 
         /// <summary>
-        /// The weight of the entity.
+        /// Indicates if the transformation matrix should be recalculated.
         /// </summary>
-        private float weight;
+        private bool transformationMatrixDirty = true;
+
+        /// <summary>
+        /// The transformation matrix.
+        /// </summary>
+        private Matrix transformationMatrix;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
@@ -109,65 +115,13 @@
             this.Position = position;
             this.Rotation = rotation;
             this.Scale = scale;
-            this.weight = weight;
-        }
+            this.Weight = weight;
 
-        /// <summary>
-        /// Snaps the entity Y position to the terrain Y at the specified point
-        /// </summary>
-        /// <param name="terrain">
-        /// The terrain.
-        /// </param>
-        public void SnapToTerrainHeight(HomeTerrain terrain)
-        {
-            float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
-            this.Position = new Vector3(this.Position.X, height, this.Position.Z);
-        }
+            this.FogStart = 100;
+            this.FogEnd = 600;
 
-        /// <summary>
-        /// Affects entities with gravity
-        /// </summary>
-        /// <param name="gameTime">
-        /// The game time.
-        /// </param>
-        /// <param name="terrain">
-        /// The terrain.
-        /// </param>
-        public void GravityAffect(GameTime gameTime, Terrain terrain)
-        {
-            float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
-
-            if (this.Position.Y < height)
-            {
-                this.Position = new Vector3(this.Position.X, height, this.Position.Z);
-            }
-            else if (this.Position.Y > height || this.weight < 0)
-            {
-                float y = 
-                    this.Position.Y - 
-                    (this.weight * 
-                    (float)gameTime.ElapsedGameTime.TotalSeconds);
-
-                y = y < height ? height : y;
-
-                this.Position = new Vector3(this.Position.X, y, this.Position.Z);
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the model of the entity.
-        /// </summary>
-        public Model Model
-        {
-            get
-            {
-                return model;
-            }
-
-            set
-            {
-                model = value;
-            }
+            // Cornflower blue
+            this.FogColor = new Vector3(0.392157f, 0.584314f, 0.929412f);
         }
 
         /// <summary>
@@ -224,9 +178,10 @@
             }
         }
 
-        private bool transformationMatrixDirty = true;
-
-        private Matrix transformationMatrix;
+        /// <summary>
+        /// Gets or sets the weight of the entity.
+        /// </summary>
+        public float Weight { get; protected set; }
 
         /// <summary>
         /// Gets the transformation matrix (entity position with rotation and scale applied).
@@ -243,11 +198,36 @@
 
                 return this.transformationMatrix;
             }
+        }
 
-            private set
+        /// <summary>
+        /// Gets or sets the fog color. Cornflower blue by default
+        /// </summary>
+        protected Vector3 FogColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the fog start. 100 by default.
+        /// </summary>
+        protected float FogStart { get; set; }
+
+        /// <summary>
+        /// Gets or sets the fog end. 600 by default.
+        /// </summary>
+        protected float FogEnd { get; set; }
+
+        /// <summary>
+        /// Gets or sets the model of the entity.
+        /// </summary>
+        protected Model Model
+        {
+            get
             {
-                this.transformationMatrix = value;
-                this.transformationMatrixDirty = true;
+                return model;
+            }
+
+            set
+            {
+                this.model = value;
             }
         }
 
@@ -266,14 +246,47 @@
         /// </summary>
         protected Matrix WorldMatrix { get; private set; }
 
-        // Cornflowerblue color code
-        protected static Vector3 fogColor = new Vector3(0.392157f, 0.584314f, 0.929412f);
+        /// <summary>
+        /// Snaps the entity Y position to the terrain Y at the specified point
+        /// </summary>
+        /// <param name="terrain">
+        /// The terrain.
+        /// </param>
+        public void SnapToTerrainHeight(HomeTerrain terrain)
+        {
+            float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
+            this.Position = new Vector3(this.Position.X, height, this.Position.Z);
+        }
 
-        // the unit distance at which fog starts being calculated
-        protected static float fogStart = 100f;
+        /// <summary>
+        /// Affects entities with gravity
+        /// </summary>
+        /// <param name="gameTime">
+        /// The game time.
+        /// </param>
+        /// <param name="terrain">
+        /// The terrain.
+        /// </param>
+        public void GravityAffect(GameTime gameTime, Terrain terrain)
+        {
+            float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
 
-        // the unit distance at which fog ends and models behind it are hidden
-        protected static float fogEnd = 600f;
+            if (this.Position.Y < height)
+            {
+                this.Position = new Vector3(this.Position.X, height, this.Position.Z);
+            }
+            else if (this.Position.Y > height || this.Weight < 0)
+            {
+                float y =
+                    this.Position.Y -
+                    (this.Weight *
+                    (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                y = y < height ? height : y;
+
+                this.Position = new Vector3(this.Position.X, y, this.Position.Z);
+            }
+        }
 
         /// <summary>
         /// The draw. Static objects with no animation and bones would use the default draw
@@ -286,19 +299,20 @@
         /// </param>
         public virtual void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
-            //Matrix[] transforms = new Matrix[this.model.Bones.Count];
-            //this.model.CopyAbsoluteBoneTransformsTo(transforms);
-
+            // Matrix[] transforms = new Matrix[this.model.Bones.Count];
+            // this.model.CopyAbsoluteBoneTransformsTo(transforms);
             foreach (ModelMesh mesh in this.Model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.EnableDefaultLighting();
+                    Light.Sunlight(effect, effect.SpecularColor);
+
                     effect.PreferPerPixelLighting = true;
+
                     effect.FogEnabled = true;
-                    effect.FogColor = fogColor;
-                    effect.FogStart = fogStart;
-                    effect.FogEnd = fogEnd;
+                    effect.FogColor = this.FogColor;
+                    effect.FogStart = this.FogStart;
+                    effect.FogEnd = this.FogEnd;
 
                     effect.World = this.TransformationMatrix;        
                     effect.View = viewMatrix;

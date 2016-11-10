@@ -78,6 +78,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAsset3D.cs" />
+    <Compile Include="Utils\Light.cs" />
     <Compile Include="Utils\NoiseGenerator.cs" />
     <Compile Include="Terrain\Terrains\HomeTerrain.cs" />
     <Compile Include="Utils\MersenneTwister.cs" />

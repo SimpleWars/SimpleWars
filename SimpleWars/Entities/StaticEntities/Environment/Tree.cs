@@ -1,6 +1,9 @@
 ﻿namespace SimpleWars.Entities.StaticEntities.Environment
 {
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
+    using SimpleWars.DisplayManagement;
 
     /// <summary>
     /// The tree.

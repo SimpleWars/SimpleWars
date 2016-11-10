@@ -22,7 +22,7 @@
         /// <summary>
         /// The fog start.
         /// </summary>
-        private const float FogStart = 300;
+        private const float FogStart = 200;
 
         /// <summary>
         /// The fog end.
@@ -32,7 +32,7 @@
         /// <summary>
         /// The fog color.
         /// </summary>
-        private static readonly Vector3 FogColor = new Vector3(0.392157f, 0.584314f, 0.929412f);
+        private static readonly Vector3 FogColor = Color.CornflowerBlue.ToVector3();
 
         /// <summary>
         /// The device that draws the flat 2d terrain.
@@ -306,14 +306,16 @@
             this.effect.TextureEnabled = true;
             this.effect.Texture = this.texture;
 
-            this.effect.EnableDefaultLighting();
-            this.effect.PreferPerPixelLighting = true;
-
-            this.effect.SpecularPower = 50;
             // Light green
-            this.effect.SpecularColor = new Vector3(0.25f, 0.5f, 0.25f);
+            this.effect.SpecularColor = Color.LightGreen.ToVector3() / 5f;
+            this.effect.SpecularPower = 30;
+
+            Light.Sunlight(this.effect, this.effect.SpecularColor);
+
             // Very light green
-            this.effect.AmbientLightColor = new Vector3(0.05f, 0.1f, 0.05f);
+            this.effect.AmbientLightColor = Color.LightGreen.ToVector3() / 15f;
+
+            this.effect.PreferPerPixelLighting = true;
 
             this.effect.FogEnabled = true;
             this.effect.FogStart = FogStart;
