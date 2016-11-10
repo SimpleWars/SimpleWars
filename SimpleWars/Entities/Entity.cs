@@ -1,6 +1,8 @@
 ﻿namespace SimpleWars.Entities
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -217,6 +219,12 @@
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether 
+        /// the entity is highlighted by the mouse cursor
+        /// </summary>
+        public bool IsHighlighted { get; set; }
+
+        /// <summary>
         /// Gets or sets the fog color. Cornflower blue by default
         /// </summary>
         protected Vector3 FogColor { get; set; }
@@ -303,11 +311,18 @@
             // this.model.CopyAbsoluteBoneTransformsTo(transforms);
             foreach (ModelMesh mesh in this.Model.Meshes)
             {
+                List<Vector3> originalColors = new List<Vector3>();
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     Light.Sunlight(effect, effect.SpecularColor);
 
                     effect.PreferPerPixelLighting = true;
+
+                    if (this.IsHighlighted)
+                    {
+                        originalColors.Add(effect.DiffuseColor);
+                        effect.DiffuseColor = Color.LightGreen.ToVector3();
+                    }
 
                     effect.FogEnabled = true;
                     effect.FogColor = this.FogColor;
@@ -320,6 +335,18 @@
                 }
 
                 mesh.Draw();
+
+                if (this.IsHighlighted)
+                {
+                    for (int i = 0; i < originalColors.Count; i++)
+                    {
+                        BasicEffect effect = mesh.Effects[i] as BasicEffect;
+                        if (effect != null)
+                        {
+                            effect.DiffuseColor = originalColors[i];
+                        }
+                    }
+                }
             }
         }
 

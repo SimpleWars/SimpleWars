@@ -8,6 +8,9 @@
     using SimpleWars.Entities;
     using SimpleWars.Terrain;
 
+    /// <summary>
+    /// The entity picker.
+    /// </summary>
     public static class EntityPicker
     {
         /// <summary>
@@ -44,6 +47,10 @@
             IEnumerable<Entity> entities)
         {
             EntityPicked = RayCaster.CastToEntities(projectionMatrix, viewMatrix, entities);
+            if (HasPicked())
+            {
+                EntityPicked.IsHighlighted = true;
+            }
         }
 
         /// <summary>
@@ -56,6 +63,7 @@
                 return;
             }
 
+            EntityPicked.IsHighlighted = false;
             EntityPicked = null;
         }
 

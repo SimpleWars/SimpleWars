@@ -62,19 +62,18 @@
 
             Entity pickedEntity = null;
 
-            float? bestDistance = null;
+            float bestDistance = float.MaxValue;
 
             foreach (var entity in entities)
             {
                 foreach (var mesh in entity.Model.Meshes)
                 {
                     float? distance = ray.Intersects(mesh.BoundingSphere.Transform(entity.TransformationMatrix));
-                    if (distance != null && 
-                        distance <= Range &&
-                        (bestDistance == null || 
-                        distance < bestDistance))
+                    if (distance != null
+                        && distance <= Range
+                        && distance < bestDistance)
                     {
-                        bestDistance = distance;
+                        bestDistance = distance.Value;
                         pickedEntity = entity;
                     }
                 }
