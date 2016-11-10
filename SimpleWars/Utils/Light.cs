@@ -41,5 +41,24 @@
             effect.DirectionalLight0.DiffuseColor = SunColor;
             effect.DirectionalLight0.SpecularColor = specularColor;
         }
+
+        /// <summary>
+        /// The sunlight.
+        /// </summary>
+        /// <param name="effect">
+        /// The effect.
+        /// </param>
+        /// <param name="specularColor">
+        /// The specular color.
+        /// </param>
+        public static void Sunlight(SkinnedEffect effect, Vector3 specularColor)
+        {
+            effect.EnableDefaultLighting();
+
+            effect.DirectionalLight0.Enabled = true;
+            effect.DirectionalLight0.Direction = SunDirection;
+            effect.DirectionalLight0.DiffuseColor = SunColor;
+            effect.DirectionalLight0.SpecularColor = specularColor;
+        }
     }
 }

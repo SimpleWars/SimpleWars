@@ -54,10 +54,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssetsManagement\AssetsManager.cs" />
+    <Compile Include="AssetsManagement\Interfaces\IAssetAnimation3D.cs" />
+    <Compile Include="AssetsManagement\SkinnedModelsManager.cs" />
     <Compile Include="Camera\CameraPerspective.cs" />
     <Compile Include="Camera\CameraOrthographic.cs" />
     <Compile Include="DisplayManagement\DisplaysHolder\Test3Display.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
+    <Compile Include="Entities\DynamicEntities\AnimatedEntity.cs" />
     <Compile Include="Entities\DynamicEntities\DynamicEntity.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\StaticEntities\StaticEntity.cs" />

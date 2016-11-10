@@ -49,13 +49,15 @@ namespace SkinnedModel
         public AnimationPlayer(SkinningData skinningData)
         {
             if (skinningData == null)
-                throw new ArgumentNullException("skinningData");
+            {
+                throw new ArgumentNullException(nameof(skinningData));
+            }
 
-            skinningDataValue = skinningData;
+            this.skinningDataValue = skinningData;
 
-            boneTransforms = new Matrix[skinningData.BindPose.Count];
-            worldTransforms = new Matrix[skinningData.BindPose.Count];
-            skinTransforms = new Matrix[skinningData.BindPose.Count];
+            this.boneTransforms = new Matrix[skinningData.BindPose.Count];
+            this.worldTransforms = new Matrix[skinningData.BindPose.Count];
+            this.skinTransforms = new Matrix[skinningData.BindPose.Count];
         }
 
 
@@ -65,16 +67,29 @@ namespace SkinnedModel
         public void StartClip(AnimationClip clip)
         {
             if (clip == null)
-                throw new ArgumentNullException("clip");
+            {
+                throw new ArgumentNullException(nameof(clip));
+            }
 
-            currentClipValue = clip;
-            currentTimeValue = TimeSpan.Zero;
-            currentKeyframe = 0;
+            this.currentClipValue = clip;
+            this.currentTimeValue = TimeSpan.Zero;
+            this.currentKeyframe = 0;
 
             // Initialize bone transforms to the bind pose.
-            skinningDataValue.BindPose.CopyTo(boneTransforms, 0);
+            this.skinningDataValue.BindPose.CopyTo(this.boneTransforms, 0);
         }
 
+        public void ChangeClip(string clipName)
+        {
+            AnimationClip clip = this.skinningDataValue.AnimationClips[clipName];
+
+            if (clip == null)
+            {
+                throw new ArgumentNullException($"Animation has no clip named {clipName}");
+            }
+
+            this.StartClip(clip);
+        }
 
         /// <summary>
         /// Advances the current animation position.
@@ -82,9 +97,9 @@ namespace SkinnedModel
         public void Update(TimeSpan time, bool relativeToCurrentTime,
                            Matrix rootTransform)
         {
-            UpdateBoneTransforms(time, relativeToCurrentTime);
-            UpdateWorldTransforms(rootTransform);
-            UpdateSkinTransforms();
+            this.UpdateBoneTransforms(time, relativeToCurrentTime);
+            this.UpdateWorldTransforms(rootTransform);
+            this.UpdateSkinTransforms();
         }
 
 
@@ -93,47 +108,55 @@ namespace SkinnedModel
         /// </summary>
         public void UpdateBoneTransforms(TimeSpan time, bool relativeToCurrentTime)
         {
-            if (currentClipValue == null)
+            if (this.currentClipValue == null)
+            {
                 throw new InvalidOperationException(
                             "AnimationPlayer.Update was called before StartClip");
-
+            }
+            
             // Update the animation position.
             if (relativeToCurrentTime)
             {
-                time += currentTimeValue;
+                time += this.currentTimeValue;
 
                 // If we reached the end, loop back to the start.
-                while (time >= currentClipValue.Duration)
-                    time -= currentClipValue.Duration;
+                while (time >= this.currentClipValue.Duration)
+                {
+                    time -= this.currentClipValue.Duration;
+                }
             }
 
-            if ((time < TimeSpan.Zero) || (time >= currentClipValue.Duration))
-                throw new ArgumentOutOfRangeException("time");
+            if ((time < TimeSpan.Zero) || (time >= this.currentClipValue.Duration))
+            {
+                throw new ArgumentOutOfRangeException(nameof(time));
+            }
 
             // If the position moved backwards, reset the keyframe index.
-            if (time < currentTimeValue)
+            if (time < this.currentTimeValue)
             {
-                currentKeyframe = 0;
-                skinningDataValue.BindPose.CopyTo(boneTransforms, 0);
+                this.currentKeyframe = 0;
+                this.skinningDataValue.BindPose.CopyTo(this.boneTransforms, 0);
             }
 
-            currentTimeValue = time;
+            this.currentTimeValue = time;
 
             // Read keyframe matrices.
-            IList<Keyframe> keyframes = currentClipValue.Keyframes;
+            IList<Keyframe> keyframes = this.currentClipValue.Keyframes;
 
-            while (currentKeyframe < keyframes.Count)
+            while (this.currentKeyframe < keyframes.Count)
             {
-                Keyframe keyframe = keyframes[currentKeyframe];
+                Keyframe keyframe = keyframes[this.currentKeyframe];
 
                 // Stop when we've read up to the current time position.
-                if (keyframe.Time > currentTimeValue)
+                if (keyframe.Time > this.currentTimeValue)
+                {
                     break;
+                }
 
                 // Use this keyframe.
-                boneTransforms[keyframe.Bone] = keyframe.Transform;
+                this.boneTransforms[keyframe.Bone] = keyframe.Transform;
 
-                currentKeyframe++;
+                this.currentKeyframe++;
             }
         }
 
@@ -144,15 +167,14 @@ namespace SkinnedModel
         public void UpdateWorldTransforms(Matrix rootTransform)
         {
             // Root bone.
-            worldTransforms[0] = boneTransforms[0] * rootTransform;
+            this.worldTransforms[0] = this.boneTransforms[0] * rootTransform;
 
             // Child bones.
-            for (int bone = 1; bone < worldTransforms.Length; bone++)
+            for (int bone = 1; bone < this.worldTransforms.Length; bone++)
             {
-                int parentBone = skinningDataValue.SkeletonHierarchy[bone];
+                int parentBone = this.skinningDataValue.SkeletonHierarchy[bone];
 
-                worldTransforms[bone] = boneTransforms[bone] *
-                                             worldTransforms[parentBone];
+                this.worldTransforms[bone] = this.boneTransforms[bone] * this.worldTransforms[parentBone];
             }
         }
 
@@ -162,10 +184,9 @@ namespace SkinnedModel
         /// </summary>
         public void UpdateSkinTransforms()
         {
-            for (int bone = 0; bone < skinTransforms.Length; bone++)
+            for (int bone = 0; bone < this.skinTransforms.Length; bone++)
             {
-                skinTransforms[bone] = skinningDataValue.InverseBindPose[bone] *
-                                            worldTransforms[bone];
+                this.skinTransforms[bone] = this.skinningDataValue.InverseBindPose[bone] * this.worldTransforms[bone];
             }
         }
 
@@ -175,7 +196,7 @@ namespace SkinnedModel
         /// </summary>
         public Matrix[] GetBoneTransforms()
         {
-            return boneTransforms;
+            return this.boneTransforms;
         }
 
 
@@ -184,7 +205,7 @@ namespace SkinnedModel
         /// </summary>
         public Matrix[] GetWorldTransforms()
         {
-            return worldTransforms;
+            return this.worldTransforms;
         }
 
 
@@ -194,7 +215,7 @@ namespace SkinnedModel
         /// </summary>
         public Matrix[] GetSkinTransforms()
         {
-            return skinTransforms;
+            return this.skinTransforms;
         }
 
 
@@ -203,7 +224,7 @@ namespace SkinnedModel
         /// </summary>
         public AnimationClip CurrentClip
         {
-            get { return currentClipValue; }
+            get { return this.currentClipValue; }
         }
 
 

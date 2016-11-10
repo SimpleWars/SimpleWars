@@ -123,7 +123,7 @@
             this.FogEnd = 600;
 
             // Cornflower blue
-            this.FogColor = new Vector3(0.392157f, 0.584314f, 0.929412f);
+            this.FogColor = Color.CornflowerBlue.ToVector3();
         }
 
         /// <summary>
