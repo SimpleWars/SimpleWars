@@ -9,7 +9,9 @@
     using SimpleWars.AssetsManagement;
     using SimpleWars.Camera;
     using SimpleWars.Entities;
+    using SimpleWars.Entities.DynamicEntities;
     using SimpleWars.Entities.StaticEntities;
+    using SimpleWars.Entities.StaticEntities.Environment;
     using SimpleWars.Environment;
     using SimpleWars.InputManagement;
     using SimpleWars.Terrain;
@@ -66,8 +68,7 @@
         {
             foreach (var entity in this.entities)
             {
-                entity.Rotate(new Vector3(0, 2, 0));
-                entity.Move(gameTime, Vector3.Zero, this.terrain);
+                entity.GravityAffect(gameTime, this.terrain);
             }
 
             this.skybox.Update(gameTime);

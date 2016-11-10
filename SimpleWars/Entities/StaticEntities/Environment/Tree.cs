@@ -1,12 +1,11 @@
-﻿namespace SimpleWars.Entities.StaticEntities
+﻿namespace SimpleWars.Entities.StaticEntities.Environment
 {
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
 
     /// <summary>
     /// The tree.
     /// </summary>
-    public class Tree : Entity
+    public class Tree : StaticEntity
     {
         private const string Dir = "Models3D";
 
@@ -58,7 +57,7 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public Tree(Vector3 position, Vector3 rotation, float weight, float scale = 1) 
+        public Tree(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) 
             : base(Dir, FileName, position, rotation, weight, scale)
         {
         }

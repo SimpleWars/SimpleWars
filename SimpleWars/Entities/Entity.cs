@@ -108,38 +108,8 @@
             this.Model = ModelsManager.Instance.GetModel(assetDir, assetName);
             this.Position = position;
             this.Rotation = rotation;
-            this.weight = weight;
             this.Scale = scale;
-        }
-
-        /// <summary>
-        /// Moves entity in world space.
-        /// </summary>
-        /// <param name="gameTime">
-        /// The game time.
-        /// </param>
-        /// <param name="direction">
-        /// The direction represented as world units in x, y, z axes.
-        /// </param>
-        /// <param name="terrain">
-        /// The terrain.
-        /// </param>
-        public void Move(GameTime gameTime, Vector3 direction, Terrain terrain)
-        {
-            float x = this.Position.X + direction.X;
-            float z = this.Position.Z + direction.Z;
-            float height = terrain.GetWorldHeight(x, z);
-
-            if (this.Position.Y <= height)
-            {
-                this.Position = new Vector3(x, height, z);
-            }
-            else
-            {
-                float y = this.Position.Y - this.weight * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                y = y < height ? height : y;
-                this.Position = new Vector3(x, y, z);
-            }
+            this.weight = weight;
         }
 
         /// <summary>
@@ -155,14 +125,33 @@
         }
 
         /// <summary>
-        /// Rotates entities around their own axes.
+        /// Affects entities with gravity
         /// </summary>
-        /// <param name="angle">
-        /// The rotation in degrees around x, y, z represented as vector.
+        /// <param name="gameTime">
+        /// The game time.
         /// </param>
-        public void Rotate(Vector3 angle)
+        /// <param name="terrain">
+        /// The terrain.
+        /// </param>
+        public void GravityAffect(GameTime gameTime, Terrain terrain)
         {
-            this.Rotation += angle;
+            float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
+
+            if (this.Position.Y < height)
+            {
+                this.Position = new Vector3(this.Position.X, height, this.Position.Z);
+            }
+            else if (this.Position.Y > height || this.weight < 0)
+            {
+                float y = 
+                    this.Position.Y - 
+                    (this.weight * 
+                    (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+                y = y < height ? height : y;
+
+                this.Position = new Vector3(this.Position.X, y, this.Position.Z);
+            }
         }
 
         /// <summary>

@@ -58,8 +58,10 @@
     <Compile Include="Camera\CameraOrthographic.cs" />
     <Compile Include="DisplayManagement\DisplaysHolder\Test3Display.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
+    <Compile Include="Entities\DynamicEntities\DynamicEntity.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\StaticEntities\Tree.cs" />
+    <Compile Include="Entities\StaticEntities\StaticEntity.cs" />
+    <Compile Include="Entities\StaticEntities\Environment\Tree.cs" />
     <Compile Include="InputManagement\RayCaster.cs" />
     <Compile Include="AssetsManagement\Asset.cs" />
     <Compile Include="AssetsManagement\ModelsManager.cs" />

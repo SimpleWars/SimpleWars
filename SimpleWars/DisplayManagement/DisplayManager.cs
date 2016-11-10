@@ -120,6 +120,7 @@
             this.GraphicsManager.PreferredBackBufferWidth = width;
             this.GraphicsManager.PreferredBackBufferHeight = height;
             this.GraphicsManager.PreferMultiSampling = true;
+            
             this.GraphicsManager.ApplyChanges();
         }
 
