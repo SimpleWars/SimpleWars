@@ -47,11 +47,9 @@ namespace SimpleWars
         {
             DisplayManager.Instance.GraphicsManager = this.graphics;
 
-            //this.graphics.PreferredBackBufferWidth = (int)DisplayManager.Instance.Dimensions.X;
-            //this.graphics.PreferredBackBufferHeight = (int)DisplayManager.Instance.Dimensions.Y;
-            DisplayManager.Instance.ChangeDimensions(1280, 720);
-            this.graphics.PreferMultiSampling = true;
-            this.graphics.ApplyChanges();
+            DisplayManager.Instance.ChangeDimensions(
+                (int)DisplayManager.Instance.Dimensions.X, 
+                (int)DisplayManager.Instance.Dimensions.Y);
             
             this.IsMouseVisible = true;
 
