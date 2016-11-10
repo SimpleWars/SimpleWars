@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\SkinnedModelPipeline\obj\Debug\SkinnedModelPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 

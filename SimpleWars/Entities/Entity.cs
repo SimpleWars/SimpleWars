@@ -307,8 +307,9 @@
         /// </param>
         public virtual void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
-            // Matrix[] transforms = new Matrix[this.model.Bones.Count];
-            // this.model.CopyAbsoluteBoneTransformsTo(transforms);
+            //Matrix[] transforms = new Matrix[this.model.Bones.Count];
+            //this.model.CopyAbsoluteBoneTransformsTo(transforms);
+
             foreach (ModelMesh mesh in this.Model.Meshes)
             {
                 List<Vector3> originalColors = new List<Vector3>();
@@ -328,7 +329,7 @@
                     effect.FogColor = this.FogColor;
                     effect.FogStart = this.FogStart;
                     effect.FogEnd = this.FogEnd;
-
+                    
                     effect.World = this.TransformationMatrix;        
                     effect.View = viewMatrix;
                     effect.Projection = projectionMatrix;
