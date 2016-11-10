@@ -201,6 +201,22 @@
         }
 
         /// <summary>
+        /// Gets or sets the model of the entity.
+        /// </summary>
+        public Model Model
+        {
+            get
+            {
+                return model;
+            }
+
+            protected set
+            {
+                this.model = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the fog color. Cornflower blue by default
         /// </summary>
         protected Vector3 FogColor { get; set; }
@@ -214,22 +230,6 @@
         /// Gets or sets the fog end. 600 by default.
         /// </summary>
         protected float FogEnd { get; set; }
-
-        /// <summary>
-        /// Gets or sets the model of the entity.
-        /// </summary>
-        protected Model Model
-        {
-            get
-            {
-                return model;
-            }
-
-            set
-            {
-                this.model = value;
-            }
-        }
 
         /// <summary>
         /// Gets the scale matrix.

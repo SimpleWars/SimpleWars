@@ -1,9 +1,14 @@
 ﻿namespace SimpleWars.InputManagement
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.DisplayManagement;
+    using SimpleWars.Entities;
     using SimpleWars.Terrain;
 
     /// <summary>
@@ -32,6 +37,50 @@
         /// so its set to pretty high value.
         /// </summary>
         private const float SeamlessDistance = 0.0001f;
+
+        /// <summary>
+        /// Finds intersection with entities bounding spheres
+        /// </summary>
+        /// <param name="projectionMatrix">
+        /// The projection matrix.
+        /// </param>
+        /// <param name="viewMatrix">
+        /// The view matrix.
+        /// </param>
+        /// <param name="entities">
+        /// The entities.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Entity"/>.
+        /// </returns>
+        public static Entity CastToEntities(
+            Matrix projectionMatrix, 
+            Matrix viewMatrix, 
+            IEnumerable<Entity> entities)
+        {
+            Ray ray = CastRay(projectionMatrix, viewMatrix);
+
+            Entity pickedEntity = null;
+
+            float? bestDistance = null;
+
+            foreach (var entity in entities)
+            {
+                foreach (var mesh in entity.Model.Meshes)
+                {
+                    float? distance = ray.Intersects(mesh.BoundingSphere.Transform(entity.TransformationMatrix));
+                    if (distance != null && 
+                        (bestDistance == null || 
+                        distance < bestDistance))
+                    {
+                        bestDistance = distance;
+                        pickedEntity = entity;
+                    }
+                }
+            }
+
+            return pickedEntity;
+        }
 
         /// <summary>
         /// Gets the point of the terrain that the mouse cursor is currently casting a ray to.

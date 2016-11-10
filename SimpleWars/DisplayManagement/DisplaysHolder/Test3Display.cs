@@ -71,13 +71,22 @@
                 entity.GravityAffect(gameTime, this.terrain);
             }
 
+            if (Input.LeftMouseClick())
+            {
+                if (EntityPicker.HasPicked())
+                {
+                    EntityPicker.PlaceEntity();
+                }
+                else
+                {
+                    EntityPicker.PickEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.entities);
+                }              
+            }
+
+            EntityPicker.DragEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.terrain);
+
             this.skybox.Update(gameTime);
             this.camera.Update(gameTime, this.terrain);
-
-            this.testtree.Position = RayCaster.GetTerrainPoint(
-                    this.camera.ProjectionMatrix,
-                    this.camera.ViewMatrix,
-                    this.terrain);
         }
 
         public override void Draw(SpriteBatch spriteBatch)

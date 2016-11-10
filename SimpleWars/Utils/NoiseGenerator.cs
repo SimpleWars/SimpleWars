@@ -93,6 +93,7 @@
                 float amplitude = (float)Math.Pow(this.roughness, i) * this.amplitude;
                 total += this.GetInterpolatedNoise(x * frequency, z * frequency) * amplitude;
             }
+
             return total;
         }
 

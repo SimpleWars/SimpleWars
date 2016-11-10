@@ -62,6 +62,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\StaticEntities\StaticEntity.cs" />
     <Compile Include="Entities\StaticEntities\Environment\Tree.cs" />
+    <Compile Include="InputManagement\EntityPicker.cs" />
     <Compile Include="InputManagement\RayCaster.cs" />
     <Compile Include="AssetsManagement\Asset.cs" />
     <Compile Include="AssetsManagement\ModelsManager.cs" />
