@@ -9,24 +9,9 @@
     public class NoiseGenerator
     {
         /// <summary>
-        /// The positive and negative amplitude limit for the height
+        /// The seed. Same seed = same world
         /// </summary>
-        private const float Amplitude = 70;
-
-        /// <summary>
-        /// The octaves (cycles) that the height function will apply
-        /// </summary>
-        private const int Octaves = 4;
-
-        /// <summary>
-        /// The roughness of the produced terrain.
-        /// </summary>
-        private const float Roughness = 0.2f;
-
-        /// <summary>
-        /// Used to initialize random seed if there was none in the constructor
-        /// </summary>
-        private readonly Random seedRandom;
+        private readonly uint seed;
 
         /// <summary>
         /// Mersenne twister random generator.
@@ -40,34 +25,50 @@
         private readonly MersenneTwister random;
 
         /// <summary>
-        /// The seed. Same seed = same world
+        /// The positive and negative amplitude limit for the height
         /// </summary>
-        private readonly uint seed;
+        private readonly float amplitude;
+
+        /// <summary>
+        /// The octaves (cycles) that the height function will apply
+        /// </summary>
+        private readonly uint octaves;
+
+        /// <summary>
+        /// The roughness of the produced terrain.
+        /// </summary>
+        private readonly float roughness;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NoiseGenerator"/> class.
         /// </summary>
-        public NoiseGenerator()
-        {
-            this.seedRandom = new Random();
-
-            this.seed = (uint)this.seedRandom.Next(0, 1000000000);
-
-            this.random = new MersenneTwister(this.seed);
-           
-            Debug.WriteLine("World seed: " + this.seed);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NoiseGenerator"/> class.
-        /// </summary>
-        /// <param name="seed">
-        /// The seed for the noise function. Same seed always produces same results.
+        /// <param name="amplitude">
+        /// The amplitude.
         /// </param>
-        public NoiseGenerator(uint seed)
+        /// <param name="octaves">
+        /// The octaves.
+        /// </param>
+        /// <param name="roughness">
+        /// The roughness.
+        /// </param>
+        /// <param name="seed">
+        /// The seed.
+        /// </param>
+        public NoiseGenerator(
+            float amplitude, 
+            uint octaves, 
+            float roughness, 
+            uint? seed)
         {
-            this.seed = seed;
+            this.seed = seed ?? (uint)new Random().Next(0, 1000000000);
+
+            this.amplitude = amplitude;
+            this.octaves = octaves;
+            this.roughness = roughness;
+
             this.random = new MersenneTwister(this.seed);
+
+            Debug.WriteLine("World seed: " + this.seed);
         }
 
         /// <summary>
@@ -82,14 +83,14 @@
         /// <returns>
         /// The <see cref="float"/>.
         /// </returns>
-        public float GenerateHeight(int x, int z)
+        public float GenerateNoise(int x, int z)
         {
             float total = 0;
-            float d = (float)Math.Pow(2, Octaves - 1);
-            for (int i = 0; i < Octaves; i++)
+            float d = (float)Math.Pow(2, this.octaves - 1);
+            for (int i = 0; i < this.octaves; i++)
             {
                 float frequency = (float)Math.Pow(2, i) / d;
-                float amplitude = (float)Math.Pow(Roughness, i) * Amplitude;
+                float amplitude = (float)Math.Pow(this.roughness, i) * this.amplitude;
                 total += this.GetInterpolatedNoise(x * frequency, z * frequency) * amplitude;
             }
             return total;

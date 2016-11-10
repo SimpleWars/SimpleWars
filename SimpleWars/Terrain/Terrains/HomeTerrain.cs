@@ -221,7 +221,7 @@
         /// </summary>
         private void InitTerrain()
         {
-            NoiseGenerator generator = new NoiseGenerator();
+            NoiseGenerator generator = new NoiseGenerator(70, 4, 0.2f, null);
 
             int vertexCount = 128;
 
@@ -340,7 +340,7 @@
         /// </returns>
         private float GetHeight(int x, int z, NoiseGenerator generator)
         {
-            return generator.GenerateHeight(x, z);
+            return generator.GenerateNoise(x, z);
         }
 
         /// <summary>
