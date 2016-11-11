@@ -8,32 +8,89 @@
 
     using SkinnedModel;
 
+    /// <summary>
+    /// The animated entity.
+    /// </summary>
     public abstract class AnimatedEntity : DynamicEntity
     {
+        /// <summary>
+        /// The dir.
+        /// </summary>
         protected string dir;
 
+        /// <summary>
+        /// The filename.
+        /// </summary>
         protected string filename;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
+        /// </summary>
+        /// <param name="assetDir">
+        /// The asset dir.
+        /// </param>
+        /// <param name="assetName">
+        /// The asset name.
+        /// </param>
+        /// <param name="position">
+        /// The position.
+        /// </param>
+        /// <param name="scale">
+        /// The scale.
+        /// </param>
         protected AnimatedEntity(string assetDir, string assetName, Vector3 position, float scale = 1)
             : this(assetDir, assetName, position, Vector3.Zero, scale)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
+        /// </summary>
+        /// <param name="assetDir">
+        /// The asset dir.
+        /// </param>
+        /// <param name="assetName">
+        /// The asset name.
+        /// </param>
+        /// <param name="position">
+        /// The position.
+        /// </param>
+        /// <param name="rotation">
+        /// The rotation.
+        /// </param>
+        /// <param name="scale">
+        /// The scale.
+        /// </param>
         protected AnimatedEntity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float scale = 1)
             : this(assetDir, assetName, position, rotation, 1f, scale)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
+        /// </summary>
+        /// <param name="assetDir">
+        /// The asset dir.
+        /// </param>
+        /// <param name="assetName">
+        /// The asset name.
+        /// </param>
+        /// <param name="position">
+        /// The position.
+        /// </param>
+        /// <param name="rotation">
+        /// The rotation.
+        /// </param>
+        /// <param name="weight">
+        /// The weight.
+        /// </param>
+        /// <param name="scale">
+        /// The scale.
+        /// </param>
         protected AnimatedEntity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float weight = 1, float scale = 1)
             : base(assetDir, assetName, position, rotation, weight, scale)
         {
-            this.Model = ModelsManager.Instance.GetModel(assetDir, assetName);
             this.Animation = SkinnedModelsManager.Instance.CreateAnimation(assetDir, assetName);
-
-            this.Position = position;
-            this.Rotation = rotation;
-            this.Scale = scale;
-            this.Weight = weight;
         }
 
         /// <summary>
@@ -41,16 +98,37 @@
         /// </summary>
         public AnimationPlayer Animation { get; private set; }
 
+        /// <summary>
+        /// The update animation.
+        /// </summary>
+        /// <param name="gameTime">
+        /// The game time.
+        /// </param>
         public virtual void UpdateAnimation(GameTime gameTime)
         {
             this.Animation.Update(gameTime.ElapsedGameTime, true, this.TransformationMatrix);
         }
 
+        /// <summary>
+        /// The change clip.
+        /// </summary>
+        /// <param name="clipName">
+        /// The clip name.
+        /// </param>
         public virtual void ChangeClip(string clipName)
         {
             this.Animation.ChangeClip(clipName);
         }
 
+        /// <summary>
+        /// The draw.
+        /// </summary>
+        /// <param name="viewMatrix">
+        /// The view matrix.
+        /// </param>
+        /// <param name="projectionMatrix">
+        /// The projection matrix.
+        /// </param>
         public new virtual void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
             Matrix[] bones = this.Animation.GetSkinTransforms();

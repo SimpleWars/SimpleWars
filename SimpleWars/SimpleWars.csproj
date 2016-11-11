@@ -61,6 +61,7 @@
     <Compile Include="DisplayManagement\DisplaysHolder\Test3Display.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
     <Compile Include="Entities\DynamicEntities\AnimatedEntity.cs" />
+    <Compile Include="Entities\DynamicEntities\AnimatedEnvironment\AnimatedTree.cs" />
     <Compile Include="Entities\DynamicEntities\DynamicEntity.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\StaticEntities\StaticEntity.cs" />

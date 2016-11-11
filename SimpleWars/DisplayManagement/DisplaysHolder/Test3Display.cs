@@ -10,6 +10,7 @@
     using SimpleWars.Camera;
     using SimpleWars.Entities;
     using SimpleWars.Entities.DynamicEntities;
+    using SimpleWars.Entities.DynamicEntities.AnimatedEnvironment;
     using SimpleWars.Entities.StaticEntities;
     using SimpleWars.Entities.StaticEntities.Environment;
     using SimpleWars.Environment;
@@ -27,8 +28,6 @@
 
         private Skybox skybox;
 
-        private Tree testtree;
-
         public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
@@ -44,6 +43,7 @@
            
             var random = new Random();
             var numberOfTrees = random.Next(300, 400);
+            
 
             for (int i = 0; i < numberOfTrees; i++)
             {
@@ -52,11 +52,20 @@
                 //var y = this.terrain.GetWorldHeight(x, z);
                 var weight = random.Next(5, 10);
                 var y = 100;
+                var treeType = random.Next(0, 2);
+                Entity tree;
+                if (treeType == 1)
+                {
+                    tree = new AnimatedTree(new Vector3(x, y, z), new Vector3(90, 0, 0), weight, 0.0001f);
+                    (tree as AnimatedEntity).ChangeClip("Armature|ArmatureAction");
+                }
+                else
+                {
+                    tree = new Tree(new Vector3(x, y, z), new Vector3(-90, 0, 0), weight, 1);
+                }
 
-                this.entities.Add(new Tree(new Vector3(x, y, z), new Vector3(-90, 0, 0), weight, 1));
+                this.entities.Add(tree);
             }
-
-            this.testtree = new Tree(new Vector3(0, 50, 0), new Vector3(-90, 0, 0), 0, 1);
         }
 
         public override void UnloadContent()
@@ -69,6 +78,8 @@
             foreach (var entity in this.entities)
             {
                 entity.GravityAffect(gameTime, this.terrain);
+
+                (entity as AnimatedEntity)?.UpdateAnimation(gameTime);
             }
 
             if (Input.LeftMouseClick())
@@ -96,10 +107,15 @@
 
             foreach (var entity in this.entities)
             {
-                entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+                if ((entity as AnimatedEntity) == null)
+                {
+                    entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+                }
+                else
+                {
+                    (entity as AnimatedEntity).Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+                }                
             }
-
-            this.testtree.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
         }
     }
 }

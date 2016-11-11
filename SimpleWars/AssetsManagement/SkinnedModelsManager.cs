@@ -44,14 +44,19 @@
 
             public override void LoadAsset(string dir, string name)
             {
-                Model model = ModelsManager.Instance.GetModel(dir, name);
-
-                this.SkinningData = model.Tag as SkinningData;
-
-                if (this.SkinningData == null)
+                if (!SkinnedModelsManager.Instance.ContainsAsset(dir, name))
                 {
-                    throw new InvalidOperationException($"Model {name} in dir {dir} does not contain SkinningData tag.");
-                }
+                    Model model = ModelsManager.Instance.GetModel(dir, name);
+
+                    this.SkinningData = model.Tag as SkinningData;
+
+                    if (this.SkinningData == null)
+                    {
+                        throw new InvalidOperationException($"Model {name} in dir {dir} does not contain SkinningData tag.");
+                    }
+
+                    SkinnedModelsManager.Instance.InsertAsset(dir, name, this);
+                }                
             }
 
             public SkinningData SkinningData { get; private set; }
