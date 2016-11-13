@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Entities.DynamicEntities
 {
+    using System.ComponentModel.DataAnnotations.Schema;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -13,16 +15,6 @@
     /// </summary>
     public abstract class AnimatedEntity : DynamicEntity
     {
-        /// <summary>
-        /// The dir.
-        /// </summary>
-        protected string dir;
-
-        /// <summary>
-        /// The filename.
-        /// </summary>
-        protected string filename;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
         /// </summary>
@@ -96,6 +88,7 @@
         /// <summary>
         /// Gets the animation.
         /// </summary>
+        [NotMapped]
         public AnimationPlayer Animation { get; private set; }
 
         /// <summary>

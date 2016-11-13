@@ -1,6 +1,7 @@
 ﻿namespace SimpleWars.Entities
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Diagnostics;
     using System.Linq;
 
@@ -188,6 +189,7 @@
         /// <summary>
         /// Gets the transformation matrix (entity position with rotation and scale applied).
         /// </summary>
+        [NotMapped]
         public Matrix TransformationMatrix
         {
             get
@@ -202,9 +204,11 @@
             }
         }
 
+
         /// <summary>
         /// Gets or sets the model of the entity.
         /// </summary>
+        [NotMapped]
         public Model Model
         {
             get
@@ -222,6 +226,7 @@
         /// Gets or sets a value indicating whether 
         /// the entity is highlighted by the mouse cursor
         /// </summary>
+        [NotMapped]
         public bool IsHighlighted { get; set; }
 
         /// <summary>
