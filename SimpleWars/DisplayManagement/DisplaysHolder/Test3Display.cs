@@ -52,19 +52,9 @@
                 //var y = this.terrain.GetWorldHeight(x, z);
                 var weight = random.Next(5, 10);
                 var y = 100;
-                var treeType = random.Next(0, 2);
-                Entity tree;
-                if (treeType == 1)
-                {
-                    tree = new AnimatedTree(new Vector3(x, y, z), new Vector3(90, 0, 0), weight, 0.0001f);
-                    (tree as AnimatedEntity).ChangeClip("Armature|ArmatureAction");
-                }
-                else
-                {
-                    tree = new Tree(new Vector3(x, y, z), new Vector3(-90, 0, 0), weight, 1);
-                }
+                
 
-                this.entities.Add(tree);
+                this.entities.Add(new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1));
             }
         }
 
@@ -107,7 +97,7 @@
 
             foreach (var entity in this.entities)
             {
-                if ((entity as AnimatedEntity) == null)
+                if (!(entity is AnimatedEntity))
                 {
                     entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
                 }

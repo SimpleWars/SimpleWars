@@ -37,7 +37,7 @@
 /processorParam:PremultiplyTextureAlpha=True
 /processorParam:PremultiplyVertexColors=True
 /processorParam:ResizeTexturesToPowerOfTwo=True
-/processorParam:RotationX=0
+/processorParam:RotationX=-90
 /processorParam:RotationY=0
 /processorParam:RotationZ=0
 /processorParam:Scale=1
@@ -115,11 +115,11 @@
 /processorParam:GenerateTangentFrames=False
 /processorParam:PremultiplyTextureAlpha=True
 /processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
+/processorParam:ResizeTexturesToPowerOfTwo=True
+/processorParam:RotationX=90
 /processorParam:RotationY=0
 /processorParam:RotationZ=0
-/processorParam:Scale=1
+/processorParam:Scale=0.0001
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=DxtCompressed
 /build:Models3D/treeanimated.fbx

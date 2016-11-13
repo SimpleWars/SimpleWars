@@ -307,9 +307,6 @@
         /// </param>
         public virtual void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
-            //Matrix[] transforms = new Matrix[this.model.Bones.Count];
-            //this.model.CopyAbsoluteBoneTransformsTo(transforms);
-
             foreach (ModelMesh mesh in this.Model.Meshes)
             {
                 List<Vector3> originalColors = new List<Vector3>();

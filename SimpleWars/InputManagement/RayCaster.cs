@@ -9,6 +9,7 @@
 
     using SimpleWars.DisplayManagement;
     using SimpleWars.Entities;
+    using SimpleWars.Entities.DynamicEntities;
     using SimpleWars.Terrain;
 
     /// <summary>
@@ -69,6 +70,7 @@
                 foreach (var mesh in entity.Model.Meshes)
                 {
                     float? distance = ray.Intersects(mesh.BoundingSphere.Transform(entity.TransformationMatrix));
+
                     if (distance != null
                         && distance <= Range
                         && distance < bestDistance)
