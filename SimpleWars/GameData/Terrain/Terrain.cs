@@ -1,9 +1,6 @@
-﻿namespace SimpleWars.Terrain
+﻿namespace SimpleWars.GameData.Terrain
 {
-    using System;
-
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
 
     /// <summary>
     /// The terrain.

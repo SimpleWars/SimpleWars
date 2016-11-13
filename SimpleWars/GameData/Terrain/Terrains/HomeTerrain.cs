@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.Terrain.Terrains
+﻿namespace SimpleWars.GameData.Terrain.Terrains
 {
     using System;
 

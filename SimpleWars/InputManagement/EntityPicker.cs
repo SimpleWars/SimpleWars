@@ -5,8 +5,8 @@
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Entities;
-    using SimpleWars.Terrain;
+    using SimpleWars.GameData.Entities;
+    using SimpleWars.GameData.Terrain;
 
     /// <summary>
     /// The entity picker.

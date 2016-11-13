@@ -1,16 +1,14 @@
-﻿namespace SimpleWars.Entities
+﻿namespace SimpleWars.GameData.Entities
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Diagnostics;
-    using System.Linq;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.AssetsManagement;
-    using SimpleWars.Terrain;
-    using SimpleWars.Terrain.Terrains;
+    using SimpleWars.GameData.Terrain;
+    using SimpleWars.GameData.Terrain.Terrains;
     using SimpleWars.Utils;
 
     /// <summary>
@@ -213,7 +211,7 @@
         {
             get
             {
-                return model;
+                return this.model;
             }
 
             protected set

@@ -1,11 +1,10 @@
-﻿namespace SimpleWars.Environment
+﻿namespace SimpleWars.GameData.Environment
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.AssetsManagement;
     using SimpleWars.DisplayManagement;
-    using SimpleWars.Utils;
 
     /// <summary>
     /// The skybox.

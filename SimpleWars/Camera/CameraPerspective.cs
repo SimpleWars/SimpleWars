@@ -4,9 +4,8 @@
     using Microsoft.Xna.Framework.Input;
 
     using SimpleWars.DisplayManagement;
+    using SimpleWars.GameData.Terrain;
     using SimpleWars.InputManagement;
-    using SimpleWars.Terrain;
-    using SimpleWars.Terrain.Terrains;
 
     /// <summary>
     /// Perspective camera in 3D space.

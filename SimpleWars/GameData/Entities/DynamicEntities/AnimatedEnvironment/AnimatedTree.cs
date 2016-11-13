@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.Entities.DynamicEntities.AnimatedEnvironment
+﻿namespace SimpleWars.GameData.Entities.DynamicEntities.AnimatedEnvironment
 {
     using Microsoft.Xna.Framework;
 

@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.Entities.StaticEntities
+﻿namespace SimpleWars.GameData.Entities.StaticEntities
 {
     using Microsoft.Xna.Framework;
 

@@ -1,8 +1,8 @@
-﻿namespace SimpleWars.Entities.DynamicEntities
+﻿namespace SimpleWars.GameData.Entities.DynamicEntities
 {
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Terrain;
+    using SimpleWars.GameData.Terrain;
 
     /// <summary>
     /// The dynamic entity.

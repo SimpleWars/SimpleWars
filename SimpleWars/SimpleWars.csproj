@@ -60,12 +60,14 @@
     <Compile Include="Camera\CameraOrthographic.cs" />
     <Compile Include="DisplayManagement\DisplaysHolder\Test3Display.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
-    <Compile Include="Entities\DynamicEntities\AnimatedEntity.cs" />
-    <Compile Include="Entities\DynamicEntities\AnimatedEnvironment\AnimatedTree.cs" />
-    <Compile Include="Entities\DynamicEntities\DynamicEntity.cs" />
-    <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\StaticEntities\StaticEntity.cs" />
-    <Compile Include="Entities\StaticEntities\Environment\Tree.cs" />
+    <Compile Include="GameData\Entities\DynamicEntities\AnimatedEntity.cs" />
+    <Compile Include="GameData\Entities\DynamicEntities\AnimatedEnvironment\AnimatedTree.cs" />
+    <Compile Include="GameData\Entities\DynamicEntities\DynamicEntity.cs" />
+    <Compile Include="GameData\Entities\Entity.cs" />
+    <Compile Include="GameData\Entities\StaticEntities\StaticEntity.cs" />
+    <Compile Include="GameData\Entities\StaticEntities\Environment\Tree.cs" />
+    <Compile Include="GameData\Resources\Resource.cs" />
+    <Compile Include="GameData\Resources\ResourceType.cs" />
     <Compile Include="InputManagement\EntityPicker.cs" />
     <Compile Include="InputManagement\RayCaster.cs" />
     <Compile Include="AssetsManagement\Asset.cs" />
@@ -83,12 +85,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAsset3D.cs" />
+    <Compile Include="User\Player.cs" />
     <Compile Include="Utils\Light.cs" />
     <Compile Include="Utils\NoiseGenerator.cs" />
-    <Compile Include="Terrain\Terrains\HomeTerrain.cs" />
+    <Compile Include="GameData\Terrain\Terrains\HomeTerrain.cs" />
     <Compile Include="Utils\MersenneTwister.cs" />
-    <Compile Include="Environment\Skybox.cs" />
-    <Compile Include="Terrain\Terrain.cs" />
+    <Compile Include="GameData\Environment\Skybox.cs" />
+    <Compile Include="GameData\Terrain\Terrain.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">

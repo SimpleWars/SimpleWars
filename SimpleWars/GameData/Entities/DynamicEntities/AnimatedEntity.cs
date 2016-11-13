@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.Entities.DynamicEntities
+﻿namespace SimpleWars.GameData.Entities.DynamicEntities
 {
     using System.ComponentModel.DataAnnotations.Schema;
 

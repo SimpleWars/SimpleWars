@@ -8,15 +8,13 @@
 
     using SimpleWars.AssetsManagement;
     using SimpleWars.Camera;
-    using SimpleWars.Entities;
-    using SimpleWars.Entities.DynamicEntities;
-    using SimpleWars.Entities.DynamicEntities.AnimatedEnvironment;
-    using SimpleWars.Entities.StaticEntities;
-    using SimpleWars.Entities.StaticEntities.Environment;
-    using SimpleWars.Environment;
+    using SimpleWars.GameData.Entities;
+    using SimpleWars.GameData.Entities.DynamicEntities;
+    using SimpleWars.GameData.Entities.StaticEntities.Environment;
+    using SimpleWars.GameData.Environment;
+    using SimpleWars.GameData.Terrain;
+    using SimpleWars.GameData.Terrain.Terrains;
     using SimpleWars.InputManagement;
-    using SimpleWars.Terrain;
-    using SimpleWars.Terrain.Terrains;
 
     public class Test3Display : Display
     {
