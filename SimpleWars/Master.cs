@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SimpleWars
 {
+    using System.Data.Entity;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace SimpleWars
     using SimpleWars.DBContexts;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.DisplaysHolder;
+    using SimpleWars.GameData.Entities;
+    using SimpleWars.GameData.Resources;
     using SimpleWars.InputManagement;
     using SimpleWars.User;
 
@@ -41,9 +44,6 @@ namespace SimpleWars
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
             this.context = new GameContext();
-
-            // I'm making async db connection to avoid the "first connection wait" problem
-            Task.Factory.StartNew(() => { this.context.Players.Find(0); });
         }
 
         /// <summary>
@@ -79,6 +79,8 @@ namespace SimpleWars
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             DisplayManager.Instance.LoadContent(this.Content, this.context);
+
+            PlayerManager.CurrentPlayer = this.context.Players.Where(p => p.Id == 1).Include(p => p.ResourceSet).Include(p => p.Entities).FirstOrDefault();
         }
 
         /// <summary>
@@ -87,6 +89,8 @@ namespace SimpleWars
         /// </summary>
         protected override void UnloadContent()
         {
+            this.context.SaveChanges();
+
             TexturesManager.Instance.DisposeAll();
             ModelsManager.Instance.DisposeAll();
 

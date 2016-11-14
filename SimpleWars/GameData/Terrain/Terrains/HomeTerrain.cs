@@ -7,6 +7,7 @@
 
     using SimpleWars.AssetsManagement;
     using SimpleWars.DisplayManagement;
+    using SimpleWars.User;
     using SimpleWars.Utils;
 
     /// <summary>
@@ -221,7 +222,7 @@
         /// </summary>
         private void InitTerrain()
         {
-            NoiseGenerator generator = new NoiseGenerator(70, 4, 0.2f, null);
+            NoiseGenerator generator = new NoiseGenerator(70, 4, 0.2f, (uint)PlayerManager.CurrentPlayer.HomeSeed);
 
             int vertexCount = 128;
 

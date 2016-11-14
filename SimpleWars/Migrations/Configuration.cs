@@ -23,7 +23,11 @@ namespace SimpleWars.Migrations
         protected override void Seed(SimpleWars.DBContexts.GameContext context)
         {
             // This method will be called after migrating to the latest version.
-            context.Players.Add(new Player("Gosho", "123", 190231, Vector2.Zero, new List<Entity>(), new ResourceSet()));
+            if (context.Players.Find(1) == null)
+            {
+                var player = new Player("Gosho", "123", 190231, Vector2.Zero);
+                context.Players.AddOrUpdate(p => p.Username, player);
+            }         
         }
     }
 }

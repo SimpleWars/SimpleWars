@@ -2,6 +2,8 @@
 {
     using Microsoft.Xna.Framework;
 
+    using SimpleWars.AssetsManagement;
+
     /// <summary>
     /// The tree.
     /// </summary>
@@ -60,6 +62,16 @@
         public Tree(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) 
             : base(Dir, FileName, position, rotation, weight, scale)
         {
+        }
+
+        protected Tree()
+            :base()
+        {
+        }
+
+        public override void LoadModel()
+        {
+            this.Model = ModelsManager.Instance.GetModel(Dir, FileName);
         }
     }
 }

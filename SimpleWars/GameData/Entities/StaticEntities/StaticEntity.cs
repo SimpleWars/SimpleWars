@@ -7,6 +7,11 @@
     /// </summary>
     public abstract class StaticEntity : Entity
     {
+        protected StaticEntity()
+            :base()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="StaticEntity"/> class.
         /// </summary>

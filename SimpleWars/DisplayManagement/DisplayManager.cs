@@ -101,6 +101,7 @@
         /// </param>
         public void ChangeDisplay(IDisplay display, GameContext context)
         {
+            context.SaveChanges();
             this.CurrentDisplay.UnloadContent();
             this.CurrentDisplay = display;
             this.CurrentDisplay.LoadContent(context);

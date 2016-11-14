@@ -9,6 +9,11 @@
     /// </summary>
     public abstract class DynamicEntity : Entity
     {
+        protected DynamicEntity()
+            :base()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicEntity"/> class.
         /// </summary>

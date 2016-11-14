@@ -1,5 +1,6 @@
 ﻿namespace SimpleWars.GameData.Entities
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -53,6 +54,11 @@
         /// </summary>
         protected Entity()
         {
+            this.FogStart = 100;
+            this.FogEnd = 600;
+
+            // Cornflower blue
+            this.FogColor = Color.CornflowerBlue.ToVector3();
         }
 
         /// <summary>
@@ -406,6 +412,11 @@
         }
 
         /// <summary>
+        /// The load model.
+        /// </summary>
+        public abstract void LoadModel();
+
+        /// <summary>
         /// The draw. Static objects with no animation and bones would use the default draw
         /// </summary>
         /// <param name="viewMatrix">
@@ -472,6 +483,21 @@
             Matrix rotZ = Matrix.CreateRotationZ(radians.Z);
 
             this.RotationMatrix = rotX * rotY * rotZ;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Entity))
+            {
+                throw new InvalidOperationException("You are trying to equality compare entity with non entity");
+            }
+
+            return this.Id == ((Entity)obj).Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id;
         }
     }
 }

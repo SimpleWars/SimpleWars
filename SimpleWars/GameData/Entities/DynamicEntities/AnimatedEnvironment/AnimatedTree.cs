@@ -2,6 +2,8 @@
 {
     using Microsoft.Xna.Framework;
 
+    using SimpleWars.AssetsManagement;
+
     /// <summary>
     /// The animated tree.
     /// </summary>
@@ -66,6 +68,17 @@
         public AnimatedTree(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1)
             : base(AssetDir, AssetName, position, rotation, weight, scale)
         {
+        }
+
+        protected AnimatedTree()
+            :base()
+        {
+        }
+
+        public override void LoadModel()
+        {
+            this.Model = ModelsManager.Instance.GetModel(AssetDir, AssetName);
+            this.Animation = SkinnedModelsManager.Instance.CreateAnimation(AssetDir, AssetName);
         }
     }
 }

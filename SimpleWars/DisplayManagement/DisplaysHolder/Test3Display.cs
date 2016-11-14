@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -21,8 +22,6 @@
 
     public class Test3Display : Display
     {
-        private IList<Entity> entities;
-
         private CameraPerspective camera;
 
         private Terrain terrain;
@@ -36,33 +35,38 @@
                 aspectRatio,
                 new Vector3(50, 30, 0));
 
-            this.entities = new List<Entity>();
-
             this.terrain = new HomeTerrain(new Vector3(-400, 0, -400));
 
             this.skybox = new Skybox();
-           
-            var random = new Random();
-            var numberOfTrees = random.Next(300, 400);
-            var player = new Player("Pesho", "mamkamo", 244123, Vector2.One, new List<Entity>(), new ResourceSet());
-            player.ResourceSet.Gold.Quantity = 5000;
-            player.ResourceSet.Wood.Quantity = 2000;
-
-            for (int i = 0; i < numberOfTrees; i++)
+            Debug.WriteLine(PlayerManager.CurrentPlayer.ResourceSet);
+            if (PlayerManager.CurrentPlayer.Entities.Count == 0)
             {
-                var x = random.Next(-200, 200);
-                var z = random.Next(-200, 200);
-                //var y = this.terrain.GetWorldHeight(x, z);
-                var weight = random.Next(5, 10);
-                var y = 100;
+                PlayerManager.CurrentPlayer.ResourceSet.Gold.Quantity = 5000;
+                PlayerManager.CurrentPlayer.ResourceSet.Wood.Quantity = 2000;
+                var random = new Random();
+                var numberOfTrees = random.Next(300, 400);
 
-                var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
-                player.Entities.Add(tree);
-                this.entities.Add(tree);
+                for (int i = 0; i < numberOfTrees; i++)
+                {
+                    var x = random.Next(-200, 200);
+                    var z = random.Next(-200, 200);
+                    //var y = this.terrain.GetWorldHeight(x, z);
+                    var weight = random.Next(5, 10);
+                    var y = 100;
+
+                    var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
+                    PlayerManager.CurrentPlayer.Entities.Add(tree);
+                }
+
+                context.SaveChanges();
             }
-
-            context.Players.Add(player);
-            context.SaveChanges();
+            else
+            {
+                foreach (var entity in PlayerManager.CurrentPlayer.Entities)
+                {
+                    entity.LoadModel();
+                }
+            }
         }
 
         public override void UnloadContent()
@@ -72,7 +76,7 @@
 
         public override void Update(GameTime gameTime, GameContext context)
         {
-            foreach (var entity in this.entities)
+            foreach (var entity in PlayerManager.CurrentPlayer.Entities)
             {
                 entity.GravityAffect(gameTime, this.terrain);
 
@@ -87,7 +91,7 @@
                 }
                 else
                 {
-                    EntityPicker.PickEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.entities);
+                    EntityPicker.PickEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, PlayerManager.CurrentPlayer.Entities);
                 }              
             }
 
@@ -102,7 +106,7 @@
             this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
             this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
 
-            foreach (var entity in this.entities)
+            foreach (var entity in PlayerManager.CurrentPlayer.Entities)
             {
                 if (!(entity is AnimatedEntity))
                 {

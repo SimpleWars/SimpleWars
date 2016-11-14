@@ -21,21 +21,44 @@
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="hashedPassword">
+        /// The hashed password.
+        /// </param>
+        /// <param name="homeSeed">
+        /// The home seed.
+        /// </param>
+        /// <param name="worldMapPos">
+        /// The world map pos.
+        /// </param>
+        /// <param name="entities">
+        /// The entities.
+        /// </param>
+        /// <param name="resourceSet">
+        /// The resource set.
+        /// </param>
+        /// <param name="id">
+        /// The id. It is set-able only for testing purposes
+        /// </param>
         public Player(
             string name,
             string hashedPassword,
             int homeSeed,
-            Vector2 worldMapPos,
-            ICollection<Entity> entities,
-            ResourceSet resourceSet)
+            Vector2 worldMapPos)
         {
             this.Username = name;
             this.HashedPassword = hashedPassword;
-            this.HomeSeed = homeSeed;
-            this.Entities = entities;
-            this.ResourceSet = resourceSet;
-            this.ResourceSetId = this.ResourceSet.Id;
+
+            this.HomeSeed = homeSeed;         
             this.WorldMapPos = worldMapPos;
+
+            this.Entities = new HashSet<Entity>();
+            this.ResourceSet = new ResourceSet();
         }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -63,9 +86,6 @@
                 this.homeSeed = value;
             }
         }
-
-        [ForeignKey("ResourceSet")]
-        public int ResourceSetId { get; private set; }
 
         public ResourceSet ResourceSet { get; private set; }
 

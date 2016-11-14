@@ -15,6 +15,11 @@
     /// </summary>
     public abstract class AnimatedEntity : DynamicEntity
     {
+        protected AnimatedEntity()
+            :base()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
         /// </summary>
@@ -89,7 +94,7 @@
         /// Gets the animation.
         /// </summary>
         [NotMapped]
-        public AnimationPlayer Animation { get; private set; }
+        public AnimationPlayer Animation { get; protected set; }
 
         /// <summary>
         /// The update animation.
