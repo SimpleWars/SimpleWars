@@ -8,13 +8,16 @@
 
     using SimpleWars.AssetsManagement;
     using SimpleWars.Camera;
+    using SimpleWars.DBContexts;
     using SimpleWars.GameData.Entities;
     using SimpleWars.GameData.Entities.DynamicEntities;
     using SimpleWars.GameData.Entities.StaticEntities.Environment;
     using SimpleWars.GameData.Environment;
+    using SimpleWars.GameData.Resources;
     using SimpleWars.GameData.Terrain;
     using SimpleWars.GameData.Terrain.Terrains;
     using SimpleWars.InputManagement;
+    using SimpleWars.User;
 
     public class Test3Display : Display
     {
@@ -26,7 +29,7 @@
 
         private Skybox skybox;
 
-        public override void LoadContent()
+        public override void LoadContent(GameContext context)
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
             this.camera = new CameraPerspective(
@@ -53,6 +56,7 @@
                 
 
                 this.entities.Add(new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1));
+                
             }
         }
 
@@ -61,7 +65,7 @@
             ModelsManager.Instance.DisposeAll();
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, GameContext context)
         {
             foreach (var entity in this.entities)
             {

@@ -4,6 +4,7 @@
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.DBContexts;
     using SimpleWars.DisplayManagement.DisplaysHolder;
     using SimpleWars.DisplayManagement.Interfaces;
 
@@ -77,10 +78,10 @@
         /// <param name="content">
         /// The content.
         /// </param>
-        public void LoadContent(ContentManager content)
+        public void LoadContent(ContentManager content, GameContext context)
         {
             this.Content = new ContentManager(content.ServiceProvider, content.RootDirectory);
-            this.CurrentDisplay.LoadContent();
+            this.CurrentDisplay.LoadContent(context);
         }
 
         /// <summary>
@@ -98,11 +99,11 @@
         /// <param name="display">
         /// The display.
         /// </param>
-        public void ChangeDisplay(IDisplay display)
+        public void ChangeDisplay(IDisplay display, GameContext context)
         {
             this.CurrentDisplay.UnloadContent();
             this.CurrentDisplay = display;
-            this.CurrentDisplay.LoadContent();
+            this.CurrentDisplay.LoadContent(context);
         }
 
         /// <summary>
@@ -130,9 +131,9 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, GameContext context)
         {
-            this.CurrentDisplay.Update(gameTime);
+            this.CurrentDisplay.Update(gameTime, context);
         }
 
         /// <summary>

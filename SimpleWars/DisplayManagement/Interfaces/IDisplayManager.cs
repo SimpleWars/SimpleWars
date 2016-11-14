@@ -4,6 +4,8 @@
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.DBContexts;
+
     /// <summary>
     /// The DisplayManager interface.
     /// </summary>
@@ -30,7 +32,7 @@
         /// <param name="content">
         /// The content.
         /// </param>
-        void LoadContent(ContentManager content);
+        void LoadContent(ContentManager content, GameContext context);
 
         /// <summary>
         /// The unload content.
@@ -43,7 +45,7 @@
         /// <param name="display">
         /// The display.
         /// </param>
-        void ChangeDisplay(IDisplay display);
+        void ChangeDisplay(IDisplay display, GameContext context);
 
         /// <summary>
         /// The update.
@@ -51,7 +53,7 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        void Update(GameTime gameTime);
+        void Update(GameTime gameTime, GameContext context);
 
         /// <summary>
         /// The draw.

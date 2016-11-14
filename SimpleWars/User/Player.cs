@@ -1,5 +1,6 @@
 ﻿namespace SimpleWars.User
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -13,30 +14,87 @@
     {
         private ICollection<Entity> entities;
 
-        private ICollection<Resource> resources;
+        private int homeSeed;
 
-        public Player(int id, string name, uint homeSeed, ICollection<Entity> entities, ICollection<Resource> resources, Vector2 worldMapPosition)
+        /// <summary>
+        /// Empty constructor for stupid ORM
+        /// </summary>
+        private Player()
         {
-            this.Id = id;
-            this.Name = name;
+        }
+
+        public Player(string name, string hashedPassword, int homeSeed, Vector2 worldMapPos, ICollection<Entity> entities, ResourceSet resourceSet)
+        {
+            this.Username = name;
+            this.HashedPassword = hashedPassword;
             this.HomeSeed = homeSeed;
             this.entities = entities;
-            this.resources = resources;
-            this.WorldMapPosition = worldMapPosition;
+            this.ResourceSet = resourceSet;
+            this.ResourceSetId = this.ResourceSet.Id;
+            this.WorldMapPos = worldMapPos;
         }
 
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        public int Id { get; private set; }
 
-        public string Name { get; }
-        public uint HomeSeed { get; }
+        [Required]
+        public string Username { get; private set; }
 
-        public Vector2 WorldMapPosition { get; }
-        
+        [Required]
+        public string HashedPassword { get; private set; }
+
+        public int HomeSeed
+        {
+            get
+            {
+                return this.homeSeed;
+            }
+            private set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Home seed cannot be negative");
+                }
+
+                this.homeSeed = value;
+            }
+        }
+
+        [ForeignKey("ResourceSet")]
+        public int ResourceSetId { get; private set; }
+
+        public ResourceSet ResourceSet { get; private set; }
+
+        public float WorldX
+        {
+            get
+            {
+                return this.WorldMapPos.X;
+            }
+
+            private set
+            {
+                this.WorldMapPos = new Vector2(value, this.WorldMapPos.Y);
+            }
+        }
+
+        public float WorldY
+        {
+            get
+            {
+                return this.WorldMapPos.Y;
+            }
+
+            private set
+            {
+                this.WorldMapPos = new Vector2(this.WorldMapPos.X, value);
+            }
+        }
+
+        [NotMapped]
+        public Vector2 WorldMapPos { get; private set; }
+
         [NotMapped]
         public IEnumerable<Entity> Entities => this.entities;
-
-        [NotMapped]
-        public IEnumerable<Resource> Resource => this.resources;
     }
 }

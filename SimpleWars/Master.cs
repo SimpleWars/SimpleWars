@@ -6,12 +6,15 @@ namespace SimpleWars
 {
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using SimpleWars.AssetsManagement;
     using SimpleWars.AssetsManagement.Interfaces;
+    using SimpleWars.DBContexts;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.DisplaysHolder;
     using SimpleWars.InputManagement;
+    using SimpleWars.User;
 
     /// <summary>
     /// This is the main type for your game.
@@ -28,6 +31,8 @@ namespace SimpleWars
         /// </summary>
         private SpriteBatch spriteBatch;
 
+        private GameContext context;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Master"/> class.
         /// </summary>
@@ -35,6 +40,10 @@ namespace SimpleWars
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
+            this.context = new GameContext();
+
+            // I'm making async db connection to avoid the "first connection wait" problem
+            Task.Factory.StartNew(() => { this.context.Players.Find(0); });
         }
 
         /// <summary>
@@ -69,7 +78,7 @@ namespace SimpleWars
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            DisplayManager.Instance.LoadContent(this.Content);
+            DisplayManager.Instance.LoadContent(this.Content, this.context);
         }
 
         /// <summary>
@@ -103,15 +112,15 @@ namespace SimpleWars
 
             if (Input.KeyPressed(Keys.R))
             {
-                DisplayManager.Instance.ChangeDisplay(new Test3Display());
+                DisplayManager.Instance.ChangeDisplay(new Test3Display(), this.context);
             }
 
             if (Input.KeyPressed(Keys.T))
             {
-                DisplayManager.Instance.ChangeDisplay(new MenuDisplay());
+                DisplayManager.Instance.ChangeDisplay(new MenuDisplay(), this.context);
             }
 
-            DisplayManager.Instance.Update(gameTime);
+            DisplayManager.Instance.Update(gameTime, this.context);
 
             base.Update(gameTime);
         }

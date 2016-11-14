@@ -1,6 +1,7 @@
 ﻿namespace SimpleWars.GameData.Entities
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Microsoft.Xna.Framework;
@@ -9,6 +10,7 @@
     using SimpleWars.AssetsManagement;
     using SimpleWars.GameData.Terrain;
     using SimpleWars.GameData.Terrain.Terrains;
+    using SimpleWars.User;
     using SimpleWars.Utils;
 
     /// <summary>
@@ -45,6 +47,13 @@
         /// The transformation matrix.
         /// </summary>
         private Matrix transformationMatrix;
+
+        /// <summary>
+        /// Empty constructor for stupid ORM
+        /// </summary>
+        protected Entity()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
@@ -126,8 +135,93 @@
         }
 
         /// <summary>
+        /// Gets or sets the id.
+        /// </summary>
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; protected set; }
+
+        public float PosX
+        {
+            get
+            {
+                return this.Position.X;
+            }
+
+            private set
+            {
+                this.Position = new Vector3(value, this.Position.Y, this.Position.Z);
+            }
+        }
+
+        public float PosY
+        {
+            get
+            {
+                return this.Position.Y;
+            }
+
+            private set
+            {
+                this.Position = new Vector3(this.Position.X, value, this.Position.Z);
+            }
+        }
+
+        public float PosZ
+        {
+            get
+            {
+                return this.Position.Z;
+            }
+
+            private set
+            {
+                this.Position = new Vector3(this.Position.X, this.Position.Y, value);
+            }
+        }
+
+        public float RotX
+        {
+            get
+            {
+                return this.Rotation.X;
+            }
+
+            private set
+            {
+                this.Rotation = new Vector3(value, this.Rotation.Y, this.Rotation.Z);
+            }
+        }
+
+        public float RotY
+        {
+            get
+            {
+                return this.Rotation.Y;
+            }
+
+            private set
+            {
+                this.Rotation = new Vector3(this.Rotation.X, value, this.Rotation.Z);
+            }
+        }
+
+        public float RotZ
+        {
+            get
+            {
+                return this.Rotation.Y;
+            }
+
+            private set
+            {
+                this.Rotation = new Vector3(this.Rotation.X, this.Rotation.Y, value);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the position of the entity.
         /// </summary>
+        [NotMapped]
         public Vector3 Position
         {
             get
@@ -146,6 +240,7 @@
         /// <summary>
         /// Gets or sets the rotation for the entity.
         /// </summary>
+        [NotMapped]
         public Vector3 Rotation
         {
             get
@@ -219,6 +314,17 @@
                 this.model = value;
             }
         }
+
+        /// <summary>
+        /// Gets the owner id.
+        /// </summary>
+        [ForeignKey("Owner")]
+        public int OwnerId { get; private set; }
+
+        /// <summary>
+        /// Gets the owner.
+        /// </summary>
+        public Player Owner { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether 

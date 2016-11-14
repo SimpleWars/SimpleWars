@@ -3,6 +3,8 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.DBContexts;
+
     /// <summary>
     /// The Display interface.
     /// </summary>
@@ -11,7 +13,7 @@
         /// <summary>
         /// The load content.
         /// </summary>
-        void LoadContent();
+        void LoadContent(GameContext context);
 
         /// <summary>
         /// The unload content.
@@ -24,7 +26,7 @@
         /// <param name="gameTime">
         /// The game Time.
         /// </param>
-        void Update(GameTime gameTime);
+        void Update(GameTime gameTime, GameContext context);
 
         /// <summary>
         /// The draw.

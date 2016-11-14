@@ -4,6 +4,7 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.AssetsManagement;
+    using SimpleWars.DBContexts;
 
     /// <summary>
     /// The menu display.
@@ -20,7 +21,7 @@
         /// <summary>
         /// The load content.
         /// </summary>
-        public override void LoadContent()
+        public override void LoadContent(GameContext context)
         {
             this.mainFrame = new Rectangle(
                 0, 
@@ -45,7 +46,7 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, GameContext context)
         {
         }
 
