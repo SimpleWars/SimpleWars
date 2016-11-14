@@ -12,8 +12,6 @@
 
     public class Player
     {
-        private ICollection<Entity> entities;
-
         private int homeSeed;
 
         /// <summary>
@@ -23,12 +21,18 @@
         {
         }
 
-        public Player(string name, string hashedPassword, int homeSeed, Vector2 worldMapPos, ICollection<Entity> entities, ResourceSet resourceSet)
+        public Player(
+            string name,
+            string hashedPassword,
+            int homeSeed,
+            Vector2 worldMapPos,
+            ICollection<Entity> entities,
+            ResourceSet resourceSet)
         {
             this.Username = name;
             this.HashedPassword = hashedPassword;
             this.HomeSeed = homeSeed;
-            this.entities = entities;
+            this.Entities = entities;
             this.ResourceSet = resourceSet;
             this.ResourceSetId = this.ResourceSet.Id;
             this.WorldMapPos = worldMapPos;
@@ -91,10 +95,9 @@
             }
         }
 
-        [NotMapped]
-        public Vector2 WorldMapPos { get; private set; }
+        public ICollection<Entity> Entities { get; private set; }
 
         [NotMapped]
-        public IEnumerable<Entity> Entities => this.entities;
+        public Vector2 WorldMapPos { get; private set; }
     }
 }

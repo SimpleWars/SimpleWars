@@ -44,7 +44,9 @@
            
             var random = new Random();
             var numberOfTrees = random.Next(300, 400);
-            
+            var player = new Player("Pesho", "mamkamo", 244123, Vector2.One, new List<Entity>(), new ResourceSet());
+            player.ResourceSet.Gold.Quantity = 5000;
+            player.ResourceSet.Wood.Quantity = 2000;
 
             for (int i = 0; i < numberOfTrees; i++)
             {
@@ -53,11 +55,14 @@
                 //var y = this.terrain.GetWorldHeight(x, z);
                 var weight = random.Next(5, 10);
                 var y = 100;
-                
 
-                this.entities.Add(new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1));
-                
+                var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
+                player.Entities.Add(tree);
+                this.entities.Add(tree);
             }
+
+            context.Players.Add(player);
+            context.SaveChanges();
         }
 
         public override void UnloadContent()

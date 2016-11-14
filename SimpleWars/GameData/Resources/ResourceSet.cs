@@ -10,6 +10,16 @@
 
     public class ResourceSet
     {
+        public ResourceSet()
+        {
+            this.Gold = new Gold(0);
+            this.Wood = new Wood(0);
+            this.Food = new Food(0);
+            this.Metal = new Metal(0);
+            this.Rock = new Rock(0);
+            this.Population = new Population(0);
+        }
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
