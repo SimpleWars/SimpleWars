@@ -90,6 +90,10 @@
     <Compile Include="DisplayManagement\DisplaysHolder\MenuDisplay.cs" />
     <Compile Include="InputManagement\Input.cs" />
     <Compile Include="Master.cs" />
+    <Compile Include="Migrations\201611142302498_BasicLayout.cs" />
+    <Compile Include="Migrations\201611142302498_BasicLayout.Designer.cs">
+      <DependentUpon>201611142302498_BasicLayout.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +157,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201611142302498_BasicLayout.resx">
+      <DependentUpon>201611142302498_BasicLayout.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
