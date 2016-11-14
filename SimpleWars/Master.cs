@@ -80,7 +80,7 @@ namespace SimpleWars
 
             DisplayManager.Instance.LoadContent(this.Content, this.context);
 
-            PlayerManager.CurrentPlayer = this.context.Players.Where(p => p.Id == 1).Include(p => p.ResourceSet).Include(p => p.Entities).FirstOrDefault();
+            PlayerManager.CurrentPlayer = this.context.Players.Include(p => p.ResourceSet).Include(p => p.Entities).SingleOrDefault(p => p.Id == 1);
         }
 
         /// <summary>
