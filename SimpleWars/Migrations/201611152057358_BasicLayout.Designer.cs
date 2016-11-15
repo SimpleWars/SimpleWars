@@ -13,12 +13,12 @@ namespace SimpleWars.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201611142302498_BasicLayout"; }
+            get { return "201611152057358_BasicLayout"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target

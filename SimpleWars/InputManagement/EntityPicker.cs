@@ -6,7 +6,9 @@
     using Microsoft.Xna.Framework;
 
     using SimpleWars.GameData.Entities;
+    using SimpleWars.GameData.Entities.Interfaces;
     using SimpleWars.GameData.Terrain;
+    using SimpleWars.GameData.Terrain.Interfaces;
 
     /// <summary>
     /// The entity picker.
@@ -16,7 +18,7 @@
         /// <summary>
         /// Gets the entity picked.
         /// </summary>
-        public static Entity EntityPicked { get; private set; }
+        public static IEntity EntityPicked { get; private set; }
 
         /// <summary>
         /// The has picked.
@@ -44,7 +46,7 @@
         public static void PickEntity(
             Matrix projectionMatrix, 
             Matrix viewMatrix, 
-            IEnumerable<Entity> entities)
+            IEnumerable<IEntity> entities)
         {
             EntityPicked = RayCaster.CastToEntities(projectionMatrix, viewMatrix, entities);
             if (HasPicked())
@@ -79,7 +81,7 @@
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        public static void DragEntity(Matrix projectionMatrix, Matrix viewMatrix, Terrain terrain)
+        public static void DragEntity(Matrix projectionMatrix, Matrix viewMatrix, ITerrain terrain)
         {
             if (!HasPicked())
             {

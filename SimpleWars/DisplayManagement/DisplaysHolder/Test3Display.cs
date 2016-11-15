@@ -14,7 +14,6 @@
     using SimpleWars.GameData.Entities.DynamicEntities;
     using SimpleWars.GameData.Entities.StaticEntities.Environment;
     using SimpleWars.GameData.Environment;
-    using SimpleWars.GameData.Resources;
     using SimpleWars.GameData.Terrain;
     using SimpleWars.GameData.Terrain.Terrains;
     using SimpleWars.InputManagement;
@@ -38,8 +37,8 @@
             this.terrain = new HomeTerrain(new Vector3(-400, 0, -400));
 
             this.skybox = new Skybox();
-            Debug.WriteLine(PlayerManager.CurrentPlayer.ResourceSet);
-            if (PlayerManager.CurrentPlayer.Entities.Count == 0)
+
+            if (PlayerManager.CurrentPlayer.ResourceProviders.Count == 0)
             {
                 PlayerManager.CurrentPlayer.ResourceSet.Gold.Quantity = 5000;
                 PlayerManager.CurrentPlayer.ResourceSet.Wood.Quantity = 2000;
@@ -55,14 +54,14 @@
                     var y = 100;
 
                     var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
-                    PlayerManager.CurrentPlayer.Entities.Add(tree);
+                    PlayerManager.CurrentPlayer.ResourceProviders.Add(tree);
                 }
 
                 context.SaveChanges();
             }
             else
             {
-                foreach (var entity in PlayerManager.CurrentPlayer.Entities)
+                foreach (var entity in PlayerManager.CurrentPlayer.ResourceProviders)
                 {
                     entity.LoadModel();
                 }
@@ -76,11 +75,9 @@
 
         public override void Update(GameTime gameTime, GameContext context)
         {
-            foreach (var entity in PlayerManager.CurrentPlayer.Entities)
+            foreach (var entity in PlayerManager.CurrentPlayer.ResourceProviders)
             {
                 entity.GravityAffect(gameTime, this.terrain);
-
-                (entity as AnimatedEntity)?.UpdateAnimation(gameTime);
             }
 
             if (Input.LeftMouseClick())
@@ -91,7 +88,7 @@
                 }
                 else
                 {
-                    EntityPicker.PickEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, PlayerManager.CurrentPlayer.Entities);
+                    EntityPicker.PickEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, PlayerManager.CurrentPlayer.ResourceProviders);
                 }              
             }
 
@@ -106,16 +103,17 @@
             this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
             this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
 
-            foreach (var entity in PlayerManager.CurrentPlayer.Entities)
+            foreach (var entity in PlayerManager.CurrentPlayer.ResourceProviders)
             {
-                if (!(entity is AnimatedEntity))
-                {
-                    entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
-                }
-                else
-                {
-                    (entity as AnimatedEntity).Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
-                }                
+                entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+
+                //if (!(entity is AnimatedEntity))
+                //{
+                //}
+                //else
+                //{
+                //    (entity as AnimatedEntity).Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
+                //}                
             }
         }
     }

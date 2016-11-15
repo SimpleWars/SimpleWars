@@ -7,10 +7,14 @@
 
     using Microsoft.Xna.Framework;
 
+    using SimpleWars.GameData.EconomyData;
     using SimpleWars.GameData.Entities;
-    using SimpleWars.GameData.Resources;
+    using SimpleWars.GameData.Entities.DynamicEntities;
+    using SimpleWars.GameData.Entities.Interfaces;
+    using SimpleWars.GameData.Entities.StaticEntities;
+    using SimpleWars.User.Interfaces;
 
-    public class Player
+    public class Player : IPlayer
     {
         private int homeSeed;
 
@@ -57,7 +61,8 @@
             this.HomeSeed = homeSeed;         
             this.WorldMapPos = worldMapPos;
 
-            this.Entities = new HashSet<Entity>();
+            this.ResourceProviders = new HashSet<ResourceProvider>();
+            this.Units = new HashSet<Unit>();
             this.ResourceSet = new ResourceSet();
         }
 
@@ -76,6 +81,7 @@
             {
                 return this.homeSeed;
             }
+
             private set
             {
                 if (value < 0)
@@ -86,6 +92,9 @@
                 this.homeSeed = value;
             }
         }
+
+        [ForeignKey("ResourceSet")]
+        public int ResourceSetId { get; private set; }
 
         public ResourceSet ResourceSet { get; private set; }
 
@@ -115,7 +124,9 @@
             }
         }
 
-        public ICollection<Entity> Entities { get; private set; }
+        public ICollection<ResourceProvider> ResourceProviders { get; private set; }
+
+        public ICollection<Unit> Units { get; private set; }
 
         [NotMapped]
         public Vector2 WorldMapPos { get; private set; }

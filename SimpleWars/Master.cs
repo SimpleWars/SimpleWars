@@ -15,7 +15,6 @@ namespace SimpleWars
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.DisplaysHolder;
     using SimpleWars.GameData.Entities;
-    using SimpleWars.GameData.Resources;
     using SimpleWars.InputManagement;
     using SimpleWars.User;
 
@@ -30,11 +29,14 @@ namespace SimpleWars
         private readonly GraphicsDeviceManager graphics;
 
         /// <summary>
+        /// The context.
+        /// </summary>
+        private readonly GameContext context;
+
+        /// <summary>
         /// The sprite batch.
         /// </summary>
         private SpriteBatch spriteBatch;
-
-        private GameContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Master"/> class.
@@ -80,7 +82,7 @@ namespace SimpleWars
 
             DisplayManager.Instance.LoadContent(this.Content, this.context);
 
-            PlayerManager.CurrentPlayer = this.context.Players.Include(p => p.ResourceSet).Include(p => p.Entities).SingleOrDefault(p => p.Id == 1);
+            PlayerManager.CurrentPlayer = this.context.Players.Include(p => p.ResourceSet).Include(p => p.ResourceProviders).Include(p => p.Units).SingleOrDefault(p => p.Id == 1);
         }
 
         /// <summary>

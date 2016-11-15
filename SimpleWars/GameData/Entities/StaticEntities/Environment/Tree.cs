@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.GameData.Entities.StaticEntities.Environment
 {
+    using System;
+
     using Microsoft.Xna.Framework;
 
     using SimpleWars.AssetsManagement;
@@ -7,11 +9,15 @@
     /// <summary>
     /// The tree.
     /// </summary>
-    public class Tree : StaticEntity
+    public class Tree : ResourceProvider
     {
         private const string Dir = "Models3D";
 
         private const string FileName = "tree";
+
+        private const int BaseResourceQuantity = 50;
+
+        private const string BaseResourceType = "Wood";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Tree"/> class.
@@ -23,7 +29,7 @@
         /// The scale.
         /// </param>
         public Tree(Vector3 position, float scale = 1)
-            : base(Dir, FileName, position, scale)
+            : base(BaseResourceQuantity, BaseResourceType, position, scale)
         {
         }
 
@@ -40,7 +46,7 @@
         /// The scale.
         /// </param>
         public Tree(Vector3 position, Vector3 rotation, float scale = 1)
-            : base(Dir, FileName, position, rotation, scale)
+            : base(BaseResourceQuantity, BaseResourceType, position, rotation, scale)
         {
         }
 
@@ -60,7 +66,7 @@
         /// The scale.
         /// </param>
         public Tree(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) 
-            : base(Dir, FileName, position, rotation, weight, scale)
+            : base(BaseResourceQuantity, BaseResourceType, position, rotation, weight, scale)
         {
         }
 

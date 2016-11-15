@@ -1,11 +1,11 @@
-﻿namespace SimpleWars.GameData.Entities.DynamicEntities
+﻿namespace SimpleWars.GameData.Entities.AnimatedEntities
 {
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.AssetsManagement;
+    using SimpleWars.GameData.Entities.Interfaces;
     using SimpleWars.Utils;
 
     using SkinnedModel;
@@ -13,8 +13,12 @@
     /// <summary>
     /// The animated entity.
     /// </summary>
-    public abstract class AnimatedEntity : DynamicEntity
+    public abstract class AnimatedEntity : Entity, IAnimatedEntity
     {
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
+        /// </summary>
         protected AnimatedEntity()
             :base()
         {
@@ -23,32 +27,20 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
         /// </summary>
-        /// <param name="assetDir">
-        /// The asset dir.
-        /// </param>
-        /// <param name="assetName">
-        /// The asset name.
-        /// </param>
         /// <param name="position">
         /// The position.
         /// </param>
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected AnimatedEntity(string assetDir, string assetName, Vector3 position, float scale = 1)
-            : this(assetDir, assetName, position, Vector3.Zero, scale)
+        protected AnimatedEntity(Vector3 position, float scale = 1)
+            : this(position, Vector3.Zero, scale)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
         /// </summary>
-        /// <param name="assetDir">
-        /// The asset dir.
-        /// </param>
-        /// <param name="assetName">
-        /// The asset name.
-        /// </param>
         /// <param name="position">
         /// The position.
         /// </param>
@@ -58,20 +50,14 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected AnimatedEntity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float scale = 1)
-            : this(assetDir, assetName, position, rotation, 1f, scale)
+        protected AnimatedEntity(Vector3 position, Vector3 rotation, float scale = 1)
+            : this(position, rotation, 1f, scale)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimatedEntity"/> class.
         /// </summary>
-        /// <param name="assetDir">
-        /// The asset dir.
-        /// </param>
-        /// <param name="assetName">
-        /// The asset name.
-        /// </param>
         /// <param name="position">
         /// The position.
         /// </param>
@@ -84,14 +70,15 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected AnimatedEntity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float weight = 1, float scale = 1)
-            : base(assetDir, assetName, position, rotation, weight, scale)
+        protected AnimatedEntity(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1)
+            : base(position, rotation, weight, scale)
         {
-            this.Animation = SkinnedModelsManager.Instance.CreateAnimation(assetDir, assetName);
         }
+        #endregion
 
+        #region Animation Related
         /// <summary>
-        /// Gets the animation.
+        /// Gets or sets the animation.
         /// </summary>
         [NotMapped]
         public AnimationPlayer Animation { get; protected set; }
@@ -117,7 +104,9 @@
         {
             this.Animation.ChangeClip(clipName);
         }
+        #endregion
 
+        #region Animation Draw
         /// <summary>
         /// The draw.
         /// </summary>
@@ -127,7 +116,7 @@
         /// <param name="projectionMatrix">
         /// The projection matrix.
         /// </param>
-        public new virtual void Draw(Matrix viewMatrix, Matrix projectionMatrix)
+        public override void Draw(Matrix viewMatrix, Matrix projectionMatrix)
         {
             Matrix[] bones = this.Animation.GetSkinTransforms();
 
@@ -153,5 +142,6 @@
                 mesh.Draw();
             }
         }
+        #endregion
     }
 }

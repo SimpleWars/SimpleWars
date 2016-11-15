@@ -9,7 +9,9 @@
 
     using SimpleWars.DisplayManagement;
     using SimpleWars.GameData.Entities;
+    using SimpleWars.GameData.Entities.Interfaces;
     using SimpleWars.GameData.Terrain;
+    using SimpleWars.GameData.Terrain.Interfaces;
 
     /// <summary>
     /// The ray caster.
@@ -53,14 +55,14 @@
         /// <returns>
         /// The <see cref="Entity"/>.
         /// </returns>
-        public static Entity CastToEntities(
+        public static IEntity CastToEntities(
             Matrix projectionMatrix, 
             Matrix viewMatrix, 
-            IEnumerable<Entity> entities)
+            IEnumerable<IEntity> entities)
         {
             Ray ray = CastRay(projectionMatrix, viewMatrix);
 
-            Entity pickedEntity = null;
+            IEntity pickedEntity = null;
 
             float bestDistance = float.MaxValue;
 
@@ -102,7 +104,7 @@
         public static Vector3 GetTerrainPoint(
             Matrix projectionMatrix, 
             Matrix viewMatrix,
-            Terrain terrain)
+            ITerrain terrain)
         {
             Ray ray = CastRay(projectionMatrix, viewMatrix);
 
@@ -155,7 +157,7 @@
             float start, 
             float finish, 
             Ray ray,
-            Terrain terrain)
+            ITerrain terrain)
         {
             Vector3 startPoint = GetPointOnRay(ray, start);
             Vector3 endPoint = GetPointOnRay(ray, finish);
@@ -175,7 +177,7 @@
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        private static bool IsUnderGround(Vector3 testPoint, Terrain terrain)
+        private static bool IsUnderGround(Vector3 testPoint, ITerrain terrain)
         {
             float height = terrain.GetWorldHeight(testPoint.X, testPoint.Z);
 
@@ -209,7 +211,7 @@
             float start, 
             float finish, 
             Ray ray, 
-            Terrain terrain, 
+            ITerrain terrain, 
             uint binarySplits = 1)
         {
             binarySplits = binarySplits == 0 ? 1 : binarySplits;
@@ -309,7 +311,7 @@
             float start, 
             float finish, 
             Ray ray, 
-            Terrain terrain, 
+            ITerrain terrain, 
             out bool intersectionFound)
         {
             int count = 0;

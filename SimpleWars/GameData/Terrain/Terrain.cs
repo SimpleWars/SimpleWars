@@ -2,10 +2,12 @@
 {
     using Microsoft.Xna.Framework;
 
+    using SimpleWars.GameData.Terrain.Interfaces;
+
     /// <summary>
     /// The terrain.
     /// </summary>
-    public abstract class Terrain
+    public abstract class Terrain : ITerrain
     {
         /// <summary>
         /// The transformation matrix.

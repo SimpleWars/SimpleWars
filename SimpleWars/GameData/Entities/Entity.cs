@@ -9,7 +9,9 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.AssetsManagement;
+    using SimpleWars.GameData.Entities.Interfaces;
     using SimpleWars.GameData.Terrain;
+    using SimpleWars.GameData.Terrain.Interfaces;
     using SimpleWars.GameData.Terrain.Terrains;
     using SimpleWars.User;
     using SimpleWars.Utils;
@@ -17,8 +19,9 @@
     /// <summary>
     /// The entity.
     /// </summary>
-    public abstract class Entity
+    public abstract class Entity : IEntity
     {
+        #region Private Fields
         /// <summary>
         /// The model.
         /// </summary>
@@ -48,12 +51,16 @@
         /// The transformation matrix.
         /// </summary>
         private Matrix transformationMatrix;
+        #endregion
 
+        #region Constructors
         /// <summary>
+        /// Initializes a new instance of the <see cref="Entity"/> class. 
         /// Empty constructor for stupid ORM
         /// </summary>
         protected Entity()
         {
+            this.LoadModel();
             this.FogStart = 100;
             this.FogEnd = 600;
 
@@ -64,32 +71,20 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
-        /// <param name="assetDir">
-        /// The asset dir.
-        /// </param>
-        /// <param name="assetName">
-        /// The asset name.
-        /// </param>
         /// <param name="position">
         /// The position.
         /// </param>
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(string assetDir, string assetName, Vector3 position, float scale = 1)
-        : this(assetDir, assetName, position, Vector3.Zero, scale)
+        protected Entity(Vector3 position, float scale = 1)
+        : this(position, Vector3.Zero, scale)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
-        /// <param name="assetDir">
-        /// The asset dir.
-        /// </param>
-        /// <param name="assetName">
-        /// The asset name.
-        /// </param>
         /// <param name="position">
         /// The position.
         /// </param>
@@ -99,20 +94,14 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float scale = 1)
-            : this(assetDir, assetName, position, rotation, 1f, scale)
+        protected Entity(Vector3 position, Vector3 rotation, float scale = 1)
+            : this(position, rotation, 1f, scale)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
-        /// <param name="assetDir">
-        /// The asset dir.
-        /// </param>
-        /// <param name="assetName">
-        /// The asset name.
-        /// </param>
         /// <param name="position">
         /// The position.
         /// </param>
@@ -125,9 +114,9 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(string assetDir, string assetName, Vector3 position, Vector3 rotation, float weight, float scale)
+        protected Entity(Vector3 position, Vector3 rotation, float weight, float scale)
         {
-            this.Model = ModelsManager.Instance.GetModel(assetDir, assetName);
+            this.LoadModel();
             this.Position = position;
             this.Rotation = rotation;
             this.Scale = scale;
@@ -139,13 +128,15 @@
             // Cornflower blue
             this.FogColor = Color.CornflowerBlue.ToVector3();
         }
+        #endregion
 
         /// <summary>
-        /// Gets or sets the id.
+        /// Gets the id.
         /// </summary>
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; protected set; }
+        public int Id { get; private set; }
 
+        #region Idiotic ORM Transforms
         public float PosX
         {
             get
@@ -223,7 +214,9 @@
                 this.Rotation = new Vector3(this.Rotation.X, this.Rotation.Y, value);
             }
         }
+        #endregion
 
+        #region Public World Transformations
         /// <summary>
         /// Gets or sets the position of the entity.
         /// </summary>
@@ -283,7 +276,7 @@
         /// <summary>
         /// Gets or sets the weight of the entity.
         /// </summary>
-        public float Weight { get; protected set; }
+        public float Weight { get; set; }
 
         /// <summary>
         /// Gets the transformation matrix (entity position with rotation and scale applied).
@@ -302,8 +295,9 @@
                 return this.transformationMatrix;
             }
         }
+        #endregion
 
-
+        #region Model Data
         /// <summary>
         /// Gets or sets the model of the entity.
         /// </summary>
@@ -320,18 +314,20 @@
                 this.model = value;
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Gets the owner id.
-        /// </summary>
-        [ForeignKey("Owner")]
-        public int OwnerId { get; private set; }
+        #region Owner Data
+
+        [ForeignKey("Player")]
+        public int PlayerId { get; private set; }
 
         /// <summary>
         /// Gets the owner.
         /// </summary>
-        public Player Owner { get; private set; }
+        public Player Player { get; private set; }
+        #endregion
 
+        #region Shader Options
         /// <summary>
         /// Gets or sets a value indicating whether 
         /// the entity is highlighted by the mouse cursor
@@ -349,11 +345,14 @@
         /// </summary>
         protected float FogStart { get; set; }
 
+
         /// <summary>
         /// Gets or sets the fog end. 600 by default.
         /// </summary>
         protected float FogEnd { get; set; }
+        #endregion
 
+        #region Private World Transforms
         /// <summary>
         /// Gets the scale matrix.
         /// </summary>
@@ -368,14 +367,16 @@
         /// Gets the world matrix.
         /// </summary>
         protected Matrix WorldMatrix { get; private set; }
+        #endregion
 
+        #region Gravity Methods
         /// <summary>
         /// Snaps the entity Y position to the terrain Y at the specified point
         /// </summary>
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        public void SnapToTerrainHeight(HomeTerrain terrain)
+        public void SnapToTerrainHeight(ITerrain terrain)
         {
             float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
             this.Position = new Vector3(this.Position.X, height, this.Position.Z);
@@ -390,7 +391,7 @@
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        public void GravityAffect(GameTime gameTime, Terrain terrain)
+        public void GravityAffect(GameTime gameTime, ITerrain terrain)
         {
             float height = terrain.GetWorldHeight(this.Position.X, this.Position.Z);
 
@@ -410,12 +411,16 @@
                 this.Position = new Vector3(this.Position.X, y, this.Position.Z);
             }
         }
+        #endregion
 
+        #region Model Loaders
         /// <summary>
         /// The load model.
         /// </summary>
         public abstract void LoadModel();
+        #endregion
 
+        #region Draw
         /// <summary>
         /// The draw. Static objects with no animation and bones would use the default draw
         /// </summary>
@@ -467,7 +472,9 @@
                 }
             }
         }
+        #endregion
 
+        #region Utility Methods
         /// <summary>
         /// The calculate rotation matrix.
         /// </summary>
@@ -487,17 +494,18 @@
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Entity))
+            if (!(obj is IEntity))
             {
                 throw new InvalidOperationException("You are trying to equality compare entity with non entity");
             }
 
-            return this.Id == ((Entity)obj).Id;
+            return this.Id == ((IEntity)obj).Id;
         }
 
         public override int GetHashCode()
         {
             return this.Id;
         }
+        #endregion
     }
 }

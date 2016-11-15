@@ -61,21 +61,29 @@
     <Compile Include="DBContexts\GameContext.cs" />
     <Compile Include="DisplayManagement\DisplaysHolder\Test3Display.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
-    <Compile Include="GameData\Entities\DynamicEntities\AnimatedEntity.cs" />
-    <Compile Include="GameData\Entities\DynamicEntities\AnimatedEnvironment\AnimatedTree.cs" />
-    <Compile Include="GameData\Entities\DynamicEntities\DynamicEntity.cs" />
+    <Compile Include="GameData\EconomyData\Interfaces\IResourceSet.cs" />
+    <Compile Include="GameData\Entities\AnimatedEntities\AnimatedEntity.cs" />
+    <Compile Include="GameData\Entities\AnimatedEntities\AnimatedEnvironment\AnimatedTree.cs" />
+    <Compile Include="GameData\Entities\DynamicEntities\BasicUnits\Swordsman.cs" />
+    <Compile Include="GameData\Entities\DynamicEntities\Unit.cs" />
     <Compile Include="GameData\Entities\Entity.cs" />
-    <Compile Include="GameData\Entities\StaticEntities\StaticEntity.cs" />
+    <Compile Include="GameData\Entities\Interfaces\IAnimatedEntity.cs" />
+    <Compile Include="GameData\Entities\Interfaces\IEntity.cs" />
+    <Compile Include="GameData\Entities\Interfaces\IMoveable.cs" />
+    <Compile Include="GameData\Entities\Interfaces\IResourceProvider.cs" />
+    <Compile Include="GameData\Entities\Interfaces\IUnit.cs" />
     <Compile Include="GameData\Entities\StaticEntities\Environment\Tree.cs" />
-    <Compile Include="GameData\Resources\ConcreteResources\Food.cs" />
-    <Compile Include="GameData\Resources\ConcreteResources\Gold.cs" />
-    <Compile Include="GameData\Resources\ConcreteResources\Metal.cs" />
-    <Compile Include="GameData\Resources\ConcreteResources\Population.cs" />
-    <Compile Include="GameData\Resources\ConcreteResources\Rock.cs" />
-    <Compile Include="GameData\Resources\ConcreteResources\Wood.cs" />
-    <Compile Include="GameData\Resources\Resource.cs" />
-    <Compile Include="GameData\Resources\ResourceSet.cs" />
-    <Compile Include="GameData\Resources\ResourceType.cs" />
+    <Compile Include="GameData\EconomyData\ConcreteResources\Food.cs" />
+    <Compile Include="GameData\EconomyData\ConcreteResources\Gold.cs" />
+    <Compile Include="GameData\EconomyData\ConcreteResources\Metal.cs" />
+    <Compile Include="GameData\EconomyData\ConcreteResources\Population.cs" />
+    <Compile Include="GameData\EconomyData\ConcreteResources\Rock.cs" />
+    <Compile Include="GameData\EconomyData\ConcreteResources\Wood.cs" />
+    <Compile Include="GameData\EconomyData\Interfaces\IResource.cs" />
+    <Compile Include="GameData\EconomyData\Resource.cs" />
+    <Compile Include="GameData\EconomyData\ResourceSet.cs" />
+    <Compile Include="GameData\Entities\StaticEntities\ResourceProvider.cs" />
+    <Compile Include="GameData\Terrain\Interfaces\ITerrain.cs" />
     <Compile Include="InputManagement\EntityPicker.cs" />
     <Compile Include="InputManagement\RayCaster.cs" />
     <Compile Include="AssetsManagement\Asset.cs" />
@@ -90,14 +98,15 @@
     <Compile Include="DisplayManagement\DisplaysHolder\MenuDisplay.cs" />
     <Compile Include="InputManagement\Input.cs" />
     <Compile Include="Master.cs" />
-    <Compile Include="Migrations\201611142302498_BasicLayout.cs" />
-    <Compile Include="Migrations\201611142302498_BasicLayout.Designer.cs">
-      <DependentUpon>201611142302498_BasicLayout.cs</DependentUpon>
+    <Compile Include="Migrations\201611152057358_BasicLayout.cs" />
+    <Compile Include="Migrations\201611152057358_BasicLayout.Designer.cs">
+      <DependentUpon>201611152057358_BasicLayout.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAsset3D.cs" />
+    <Compile Include="User\Interfaces\IPlayer.cs" />
     <Compile Include="User\Player.cs" />
     <Compile Include="User\PlayerManager.cs" />
     <Compile Include="Utils\Light.cs" />
@@ -159,8 +168,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611142302498_BasicLayout.resx">
-      <DependentUpon>201611142302498_BasicLayout.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611152057358_BasicLayout.resx">
+      <DependentUpon>201611152057358_BasicLayout.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

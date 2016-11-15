@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.GameData.Entities.DynamicEntities.AnimatedEnvironment
+﻿namespace SimpleWars.GameData.Entities.AnimatedEntities.AnimatedEnvironment
 {
     using Microsoft.Xna.Framework;
 
@@ -29,7 +29,7 @@
         /// The scale.
         /// </param>
         public AnimatedTree(Vector3 position, float scale = 1)
-            : base(AssetDir, AssetName, position, scale)
+            : base(position, scale)
         {
         }
 
@@ -46,7 +46,7 @@
         /// The scale.
         /// </param>
         public AnimatedTree(Vector3 position, Vector3 rotation, float scale = 1)
-            : base(AssetDir, AssetName, position, rotation, scale)
+            : base(position, rotation, scale)
         {
         }
 
@@ -66,15 +66,21 @@
         /// The scale.
         /// </param>
         public AnimatedTree(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1)
-            : base(AssetDir, AssetName, position, rotation, weight, scale)
+            : base(position, rotation, weight, scale)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnimatedTree"/> class.
+        /// </summary>
         protected AnimatedTree()
             :base()
         {
         }
 
+        /// <summary>
+        /// The load model.
+        /// </summary>
         public override void LoadModel()
         {
             this.Model = ModelsManager.Instance.GetModel(AssetDir, AssetName);
