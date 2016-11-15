@@ -1,19 +1,23 @@
 ﻿namespace SimpleWars.GUI
 {
+    using System;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.AssetsManagement;
+    using SimpleWars.GUI.Interfaces;
 
-    public class Button
+    public class Button : IButton
     {
-        public Button(Vector2 position, Texture2D background, string textContent, Vector2 scale, Vector2 textOffset)
+        public Button(Vector2 position, Texture2D background, string textContent, Vector2 scale, Vector2 textOffset, Action clickLogic)
         {
             this.Position = position;
             this.Background = background;
             this.TextContent = textContent;
             this.Scale = scale;
             this.TextOffset = textOffset;
+            this.ClickLogic = clickLogic;
         }
 
         public Vector2 Position { get; set; }
@@ -26,11 +30,22 @@
 
         public Vector2 TextOffset { get; set; }
 
+        public Action ClickLogic { get; set; }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.Background, this.Position, null, Color.White, 0f, Vector2.Zero, this.Scale, SpriteEffects.None, 0f);
 
             spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), this.TextContent, this.Position + this.TextOffset, Color.Black);
+        }
+
+        public void DetectClick(float mouseX, float mouseY)
+        {
+            if (mouseX >= this.Position.X && mouseX <= this.Position.X + this.Background.Width * this.Scale.X
+                && mouseY >= this.Position.Y && mouseY <= this.Position.Y + this.Background.Height * this.Scale.Y)
+            {
+                this.ClickLogic.Invoke();
+            }
         }
     }
 }
