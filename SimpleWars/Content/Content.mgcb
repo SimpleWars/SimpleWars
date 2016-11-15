@@ -155,3 +155,9 @@
 /processorParam:TextureFormat=DxtCompressed
 /build:Models3D/tree.fbx
 
+#begin Spritefonts/Basic.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Spritefonts/Basic.spritefont
+

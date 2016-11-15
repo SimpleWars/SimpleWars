@@ -55,7 +55,9 @@
   <ItemGroup>
     <Compile Include="AssetsManagement\AssetsManager.cs" />
     <Compile Include="AssetsManagement\Interfaces\IAssetAnimation3D.cs" />
+    <Compile Include="AssetsManagement\Interfaces\ISpritefont.cs" />
     <Compile Include="AssetsManagement\SkinnedModelsManager.cs" />
+    <Compile Include="AssetsManagement\SpriteFontManager.cs" />
     <Compile Include="Camera\CameraPerspective.cs" />
     <Compile Include="Camera\CameraOrthographic.cs" />
     <Compile Include="DBContexts\GameContext.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="GameData\EconomyData\ResourceSet.cs" />
     <Compile Include="GameData\Entities\StaticEntities\ResourceProvider.cs" />
     <Compile Include="GameData\Terrain\Interfaces\ITerrain.cs" />
+    <Compile Include="GUI\Button.cs" />
     <Compile Include="InputManagement\EntityPicker.cs" />
     <Compile Include="InputManagement\RayCaster.cs" />
     <Compile Include="AssetsManagement\Asset.cs" />
