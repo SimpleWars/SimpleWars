@@ -68,7 +68,8 @@
             {
                 if (value < 0)
                 {
-                    this.Quantity = 0;
+                    this.quantity = 0;
+                    return;
                 }
 
                 this.quantity = value > this.Limit ? this.Limit : value;
