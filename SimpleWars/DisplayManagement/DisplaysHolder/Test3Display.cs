@@ -6,12 +6,14 @@
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
 
     using SimpleWars.AssetsManagement;
     using SimpleWars.Camera;
     using SimpleWars.DBContexts;
     using SimpleWars.GameData.Entities;
     using SimpleWars.GameData.Entities.DynamicEntities;
+    using SimpleWars.GameData.Entities.DynamicEntities.BasicUnits;
     using SimpleWars.GameData.Entities.StaticEntities.Environment;
     using SimpleWars.GameData.Environment;
     using SimpleWars.GameData.Terrain;
@@ -66,6 +68,11 @@
                     entity.LoadModel();
                 }
             }
+
+            foreach (var unit in PlayerManager.CurrentPlayer.Units)
+            {
+                unit.LoadModel();
+            }
         }
 
         public override void UnloadContent()
@@ -78,6 +85,20 @@
             foreach (var entity in PlayerManager.CurrentPlayer.ResourceProviders)
             {
                 entity.GravityAffect(gameTime, this.terrain);
+            }
+
+            if (Input.KeyPressed(Keys.D1))
+            {
+                if (EntityPicker.HasPicked())
+                {
+                    EntityPicker.PlaceEntity();
+                }
+                else
+                {
+                    var unit = new Swordsman(Vector3.Zero, 1);
+                    PlayerManager.CurrentPlayer.Units.Add(unit);
+                    EntityPicker.EntityPicked = unit;
+                }
             }
 
             if (Input.LeftMouseClick())
@@ -114,6 +135,11 @@
                 //{
                 //    (entity as AnimatedEntity).Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
                 //}                
+            }
+
+            foreach (var unit in PlayerManager.CurrentPlayer.Units)
+            {
+                unit.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             }
         }
     }

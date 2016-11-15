@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets the entity picked.
         /// </summary>
-        public static IEntity EntityPicked { get; private set; }
+        public static IEntity EntityPicked { get; set; }
 
         /// <summary>
         /// The has picked.
