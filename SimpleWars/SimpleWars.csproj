@@ -57,21 +57,11 @@
     <Compile Include="Camera\CameraOrthographic.cs" />
     <Compile Include="DisplayManagement\Displays\Test3Display.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
-    <Compile Include="GUI\Button.cs" />
-    <Compile Include="GUI\Interfaces\IButton.cs" />
-    <Compile Include="GUI\Interfaces\IClickable.cs" />
-    <Compile Include="GUI\Interfaces\IGui.cs" />
-    <Compile Include="GUI\Interfaces\IInputReader.cs" />
-    <Compile Include="GUI\Interfaces\ITextBox.cs" />
-    <Compile Include="GUI\TextBox.cs" />
-    <Compile Include="InputManagement\EntityPicker.cs" />
-    <Compile Include="InputManagement\RayCaster.cs" />
     <Compile Include="DisplayManagement\DisplayManager.cs" />
     <Compile Include="DisplayManagement\Display.cs" />
     <Compile Include="DisplayManagement\Interfaces\IDisplayManager.cs" />
     <Compile Include="DisplayManagement\Interfaces\IDisplay.cs" />
     <Compile Include="DisplayManagement\Displays\MenuDisplay.cs" />
-    <Compile Include="InputManagement\Input.cs" />
     <Compile Include="Master.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -123,6 +113,14 @@
     <ProjectReference Include="..\SimpleWars.Environment\SimpleWars.Environment.csproj">
       <Project>{bd533a57-22bd-4fbd-8937-110156009a69}</Project>
       <Name>SimpleWars.Environment</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.GUI\SimpleWars.GUI.csproj">
+      <Project>{a9d76521-f2b8-4070-8493-09a76e61ab4d}</Project>
+      <Name>SimpleWars.GUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Input\SimpleWars.Input.csproj">
+      <Project>{4e449526-c79f-4b2b-9e2e-36f93c7d2ca2}</Project>
+      <Name>SimpleWars.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Models\SimpleWars.Models.csproj">
       <Project>{9744dc53-f59f-4998-8438-f44d5688e368}</Project>

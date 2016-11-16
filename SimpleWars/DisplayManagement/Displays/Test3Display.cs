@@ -100,13 +100,18 @@
                 else
                 {
                     EntityPicker.PickEntity(
+                        DisplayManager.Instance.GraphicsDevice,
                         this.camera.ProjectionMatrix,
                         this.camera.ViewMatrix,
                         PlayerManager.CurrentPlayer.ResourceProviders);
                 }
             }
 
-            EntityPicker.DragEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.terrain);
+            EntityPicker.DragEntity(
+                DisplayManager.Instance.GraphicsDevice,
+                this.camera.ProjectionMatrix,
+                this.camera.ViewMatrix,
+                this.terrain);
 
             this.skybox.Update(gameTime);
             this.camera.Update(gameTime, this.terrain);

@@ -4,6 +4,7 @@
     using System.Diagnostics;
 
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.UtilityInterfaces;
@@ -42,11 +43,12 @@
         /// The entities.
         /// </param>
         public static void PickEntity(
+            GraphicsDevice device,
             Matrix projectionMatrix, 
             Matrix viewMatrix, 
             IEnumerable<IEntity> entities)
         {
-            EntityPicked = RayCaster.CastToEntities(projectionMatrix, viewMatrix, entities);
+            EntityPicked = RayCaster.CastToEntities(device, projectionMatrix, viewMatrix, entities);
             if (HasPicked())
             {
                 EntityPicked.IsHighlighted = true;
@@ -79,14 +81,14 @@
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        public static void DragEntity(Matrix projectionMatrix, Matrix viewMatrix, ITerrain terrain)
+        public static void DragEntity(GraphicsDevice device, Matrix projectionMatrix, Matrix viewMatrix, ITerrain terrain)
         {
             if (!HasPicked())
             {
                 return;
             }
 
-            Vector3 position = RayCaster.GetTerrainPoint(projectionMatrix, viewMatrix, terrain);
+            Vector3 position = RayCaster.GetTerrainPoint(device, projectionMatrix, viewMatrix, terrain);
 
             EntityPicked.Position = position;
         }

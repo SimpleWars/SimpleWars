@@ -7,7 +7,6 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.DisplayManagement;
     using SimpleWars.Models.Entities;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.UtilityInterfaces;
@@ -55,11 +54,12 @@
         /// The <see cref="Entity"/>.
         /// </returns>
         public static IEntity CastToEntities(
+            GraphicsDevice device,
             Matrix projectionMatrix, 
             Matrix viewMatrix, 
             IEnumerable<IEntity> entities)
         {
-            Ray ray = CastRay(projectionMatrix, viewMatrix);
+            Ray ray = CastRay(device, projectionMatrix, viewMatrix);
 
             IEntity pickedEntity = null;
 
@@ -101,11 +101,12 @@
         /// The <see cref="Vector3?"/>
         /// </returns>
         public static Vector3 GetTerrainPoint(
+            GraphicsDevice device,
             Matrix projectionMatrix, 
             Matrix viewMatrix,
             ITerrain terrain)
         {
-            Ray ray = CastRay(projectionMatrix, viewMatrix);
+            Ray ray = CastRay(device, projectionMatrix, viewMatrix);
 
             Vector3 currentTerrainPoint = BinarySplitSearch(0, Range, ray, terrain, BinarySplits);
 
@@ -354,10 +355,8 @@
         /// <returns>
         /// The <see cref="Ray"/>.
         /// </returns>
-        private static Ray CastRay(Matrix projectionMatrix, Matrix viewMatrix)
-        {
-            GraphicsDevice device = DisplayManager.Instance.GraphicsDevice;
-           
+        private static Ray CastRay(GraphicsDevice device, Matrix projectionMatrix, Matrix viewMatrix)
+        {           
             float mouseX = Input.MousePos.X;
             float mouseY = Input.MousePos.Y;
 
