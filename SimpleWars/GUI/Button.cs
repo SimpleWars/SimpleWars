@@ -10,7 +10,7 @@
 
     public class Button : IButton
     {
-        public Button(Vector2 position, Texture2D background, string textContent, Vector2 scale, Vector2 textOffset, Action clickLogic)
+        public Button(Vector2 position, Texture2D background, string textContent, Vector2 scale, Vector2 textOffset, Action clickLogic, ITextBox attachedTextBox = null)
         {
             this.Position = position;
             this.Background = background;
@@ -18,6 +18,7 @@
             this.Scale = scale;
             this.TextOffset = textOffset;
             this.ClickLogic = clickLogic;
+            this.AttachedTextBox = attachedTextBox;
         }
 
         public Vector2 Position { get; set; }
@@ -32,6 +33,10 @@
 
         public Action ClickLogic { get; set; }
 
+        public ITextBox AttachedTextBox { get; set; }
+
+        public bool IsClicked { get; set; }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.Background, this.Position, null, Color.White, 0f, Vector2.Zero, this.Scale, SpriteEffects.None, 0f);
@@ -44,7 +49,12 @@
             if (mouseX >= this.Position.X && mouseX <= this.Position.X + this.Background.Width * this.Scale.X
                 && mouseY >= this.Position.Y && mouseY <= this.Position.Y + this.Background.Height * this.Scale.Y)
             {
+                this.IsClicked = true;
                 this.ClickLogic.Invoke();
+            }
+            else
+            {
+                this.IsClicked = false;
             }
         }
     }

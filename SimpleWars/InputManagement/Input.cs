@@ -1,5 +1,6 @@
 ﻿namespace SimpleWars.InputManagement
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using Microsoft.Xna.Framework;
@@ -37,6 +38,11 @@
 
             keyState = Keyboard.GetState();
             mouseState = Mouse.GetState();
+        }
+
+        public static IEnumerable<Keys> GetKeysPressed()
+        {
+            return keyState.GetPressedKeys();
         }
 
         public static bool KeyPressed(params Keys[] keys)

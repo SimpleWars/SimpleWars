@@ -14,5 +14,7 @@
         Texture2D Background { get; set; }
 
         string TextContent { get; set; }
+
+        ITextBox AttachedTextBox { get; set; }
     }
 }

@@ -90,6 +90,8 @@
     <Compile Include="GUI\Interfaces\IButton.cs" />
     <Compile Include="GUI\Interfaces\IClickable.cs" />
     <Compile Include="GUI\Interfaces\IGui.cs" />
+    <Compile Include="GUI\Interfaces\IInputReader.cs" />
+    <Compile Include="GUI\Interfaces\ITextBox.cs" />
     <Compile Include="GUI\TextBox.cs" />
     <Compile Include="InputManagement\EntityPicker.cs" />
     <Compile Include="InputManagement\RayCaster.cs" />
