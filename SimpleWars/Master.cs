@@ -4,7 +4,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SimpleWars
 {
+    using System;
     using System.Data.Entity;
+    using System.Data.Entity.ModelConfiguration;
+    using System.Data.Entity.Validation;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
@@ -82,7 +85,8 @@ namespace SimpleWars
 
             DisplayManager.Instance.LoadContent(this.Content, this.context);
 
-            PlayerManager.CurrentPlayer = this.context.Players.Include(p => p.ResourceSet).Include(p => p.ResourceProviders).Include(p => p.Units).SingleOrDefault(p => p.Id == 1);
+            //PlayerManager.CurrentPlayer = this.context.Players.Include(p => p.Resources).Include(p => p.ResourceProviders).Include(p => p.Units).SingleOrDefault(p => p.Id == 1);
+            PlayerManager.CurrentPlayer = this.context.Players.Find(1);
         }
 
         /// <summary>

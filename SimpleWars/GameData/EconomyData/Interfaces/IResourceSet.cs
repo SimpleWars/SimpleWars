@@ -6,7 +6,7 @@
     using SimpleWars.GameData.EconomyData.ConcreteResources;
 
     /// <summary>
-    /// The ResourceSet interface.
+    /// The Resources interface.
     /// </summary>
     public interface IResourceSet
     {

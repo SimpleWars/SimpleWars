@@ -66,27 +66,27 @@
 
             if (this.ResourceType == typeof(Gold).Name)
             {
-                this.Player.ResourceSet.Gold.Quantity += mined;
+                this.Player.Resources.Gold.Quantity += mined;
             }
             else if (this.ResourceType == typeof(Food).Name)
             {
-                this.Player.ResourceSet.Food.Quantity += mined;
+                this.Player.Resources.Food.Quantity += mined;
             }
             else if (this.ResourceType == typeof(Wood).Name)
             {
-                this.Player.ResourceSet.Wood.Quantity += mined;
+                this.Player.Resources.Wood.Quantity += mined;
             }
             else if (this.ResourceType == typeof(Rock).Name)
             {
-                this.Player.ResourceSet.Rock.Quantity += mined;
+                this.Player.Resources.Rock.Quantity += mined;
             }
             else if (this.ResourceType == typeof(Metal).Name)
             {
-                this.Player.ResourceSet.Metal.Quantity += mined;
+                this.Player.Resources.Metal.Quantity += mined;
             }
             else if (this.ResourceType == typeof(Population).Name)
             {
-                this.Player.ResourceSet.Population.Quantity += mined;
+                this.Player.Resources.Population.Quantity += mined;
             }
 
             this.Quantity -= amount;

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -14,6 +15,7 @@
     using SimpleWars.GameData.Entities;
     using SimpleWars.GameData.Entities.DynamicEntities;
     using SimpleWars.GameData.Entities.DynamicEntities.BasicUnits;
+    using SimpleWars.GameData.Entities.Interfaces;
     using SimpleWars.GameData.Entities.StaticEntities.Environment;
     using SimpleWars.GameData.Environment;
     using SimpleWars.GameData.Terrain;
@@ -40,38 +42,11 @@
 
             this.skybox = new Skybox();
 
-            if (PlayerManager.CurrentPlayer.ResourceProviders.Count == 0)
+            foreach (var entity 
+                    in PlayerManager.CurrentPlayer.ResourceProviders
+                    .Concat<IEntity>(PlayerManager.CurrentPlayer.Units))
             {
-                PlayerManager.CurrentPlayer.ResourceSet.Gold.Quantity = 5000;
-                PlayerManager.CurrentPlayer.ResourceSet.Wood.Quantity = 2000;
-                var random = new Random();
-                var numberOfTrees = random.Next(300, 400);
-
-                for (int i = 0; i < numberOfTrees; i++)
-                {
-                    var x = random.Next(-200, 200);
-                    var z = random.Next(-200, 200);
-                    //var y = this.terrain.GetWorldHeight(x, z);
-                    var weight = random.Next(5, 10);
-                    var y = 100;
-
-                    var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
-                    PlayerManager.CurrentPlayer.ResourceProviders.Add(tree);
-                }
-
-                context.SaveChanges();
-            }
-            else
-            {
-                foreach (var entity in PlayerManager.CurrentPlayer.ResourceProviders)
-                {
-                    entity.LoadModel();
-                }
-            }
-
-            foreach (var unit in PlayerManager.CurrentPlayer.Units)
-            {
-                unit.LoadModel();
+                entity.LoadModel();
             }
         }
 
@@ -109,8 +84,11 @@
                 }
                 else
                 {
-                    EntityPicker.PickEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, PlayerManager.CurrentPlayer.ResourceProviders);
-                }              
+                    EntityPicker.PickEntity(
+                        this.camera.ProjectionMatrix,
+                        this.camera.ViewMatrix,
+                        PlayerManager.CurrentPlayer.ResourceProviders);
+                }
             }
 
             EntityPicker.DragEntity(this.camera.ProjectionMatrix, this.camera.ViewMatrix, this.terrain);
@@ -126,15 +104,7 @@
 
             foreach (var entity in PlayerManager.CurrentPlayer.ResourceProviders)
             {
-                entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
-
-                //if (!(entity is AnimatedEntity))
-                //{
-                //}
-                //else
-                //{
-                //    (entity as AnimatedEntity).Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
-                //}                
+                entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);          
             }
 
             foreach (var unit in PlayerManager.CurrentPlayer.Units)

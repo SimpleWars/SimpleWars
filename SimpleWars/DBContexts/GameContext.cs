@@ -9,6 +9,7 @@ namespace SimpleWars.DBContexts
     using SimpleWars.GameData.Entities.DynamicEntities;
     using SimpleWars.GameData.Entities.Interfaces;
     using SimpleWars.GameData.Entities.StaticEntities;
+    using SimpleWars.Migrations;
     using SimpleWars.User;
     using SimpleWars.User.Interfaces;
 
@@ -17,7 +18,7 @@ namespace SimpleWars.DBContexts
         public GameContext()
             : base("name=GameDbConnection")
         {
-            Database.SetInitializer<GameContext>(new DropCreateDatabaseIfModelChanges<GameContext>());
+            Database.SetInitializer<GameContext>(new MigrateDatabaseToLatestVersion<GameContext, Configuration>());
         }
 
         public virtual DbSet<ResourceProvider> ResourceProviders { get; set; }

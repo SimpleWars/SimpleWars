@@ -133,7 +133,7 @@
         /// <summary>
         /// Gets the id.
         /// </summary>
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int Id { get; private set; }
 
         #region Idiotic ORM Transforms
@@ -318,13 +318,10 @@
 
         #region Owner Data
 
-        [ForeignKey("Player")]
-        public int PlayerId { get; private set; }
-
         /// <summary>
         /// Gets the owner.
         /// </summary>
-        public Player Player { get; private set; }
+        public virtual Player Player { get; private set; }
         #endregion
 
         #region Shader Options
@@ -492,20 +489,20 @@
             this.RotationMatrix = rotX * rotY * rotZ;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (!(obj is IEntity))
-            {
-                throw new InvalidOperationException("You are trying to equality compare entity with non entity");
-            }
+        //public override bool Equals(object obj)
+        //{
+        //    if (!(obj is IEntity))
+        //    {
+        //        throw new InvalidOperationException("You are trying to equality compare entity with non entity");
+        //    }
 
-            return this.Id == ((IEntity)obj).Id;
-        }
+        //    return this.Id == ((IEntity)obj).Id;
+        //}
 
-        public override int GetHashCode()
-        {
-            return this.Id;
-        }
+        //public override int GetHashCode()
+        //{
+        //    return this.Id;
+        //}
         #endregion
     }
 }

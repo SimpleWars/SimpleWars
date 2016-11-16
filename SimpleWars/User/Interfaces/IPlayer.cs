@@ -49,7 +49,7 @@
         /// <summary>
         /// Gets the resource set.
         /// </summary>
-        ResourceSet ResourceSet { get; }
+        ResourceSet Resources { get; }
 
         /// <summary>
         /// Gets the static entities.

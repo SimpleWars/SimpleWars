@@ -21,8 +21,10 @@
         /// <summary>
         /// Empty constructor for stupid ORM
         /// </summary>
-        private Player()
+        protected Player()
         {
+            this.ResourceProviders = new HashSet<ResourceProvider>();
+            this.Units = new HashSet<Unit>();
         }
 
         /// <summary>
@@ -40,15 +42,6 @@
         /// <param name="worldMapPos">
         /// The world map pos.
         /// </param>
-        /// <param name="entities">
-        /// The entities.
-        /// </param>
-        /// <param name="resourceSet">
-        /// The resource set.
-        /// </param>
-        /// <param name="id">
-        /// The id. It is set-able only for testing purposes
-        /// </param>
         public Player(
             string name,
             string hashedPassword,
@@ -63,10 +56,9 @@
 
             this.ResourceProviders = new HashSet<ResourceProvider>();
             this.Units = new HashSet<Unit>();
-            this.ResourceSet = new ResourceSet();
+            this.Resources = new ResourceSet(true);
         }
 
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; private set; }
 
         [Required]
@@ -93,10 +85,11 @@
             }
         }
 
-        [ForeignKey("ResourceSet")]
-        public int ResourceSetId { get; private set; }
+        [Required]
+        public int ResourcesId { get; private set; }
 
-        public ResourceSet ResourceSet { get; private set; }
+        [Required, ForeignKey("ResourcesId")]
+        public virtual ResourceSet Resources { get; private set; }
 
         public float WorldX
         {
@@ -124,9 +117,9 @@
             }
         }
 
-        public ICollection<ResourceProvider> ResourceProviders { get; private set; }
+        public virtual ICollection<ResourceProvider> ResourceProviders { get; private set; }
 
-        public ICollection<Unit> Units { get; private set; }
+        public virtual ICollection<Unit> Units { get; private set; }
 
         [NotMapped]
         public Vector2 WorldMapPos { get; private set; }

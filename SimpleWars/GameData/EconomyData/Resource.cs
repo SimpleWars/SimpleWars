@@ -99,6 +99,8 @@
             }
         }
 
+        //public virtual ResourceSet ResourceSet { get; private set; }
+
         #endregion
 
         #region Utilities

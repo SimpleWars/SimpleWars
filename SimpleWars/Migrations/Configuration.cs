@@ -8,10 +8,12 @@ namespace SimpleWars.Migrations
 
     using Microsoft.Xna.Framework;
 
+    using SimpleWars.DBContexts;
     using SimpleWars.GameData.Entities;
+    using SimpleWars.GameData.Entities.StaticEntities.Environment;
     using SimpleWars.User;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SimpleWars.DBContexts.GameContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<GameContext>
     {
         public Configuration()
         {
@@ -19,18 +21,34 @@ namespace SimpleWars.Migrations
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(SimpleWars.DBContexts.GameContext context)
+        protected override void Seed(GameContext context)
         {
             // Uncomment to debug the seed
             // if (System.Diagnostics.Debugger.IsAttached == false)
             //    System.Diagnostics.Debugger.Launch();
 
             // This method will be called after migrating to the latest version.
-            if (context.Players.Find(1) == null)
+            if (context.Players.Find(1) != null)
             {
-                var player = new Player("Gosho", "123", 190231, Vector2.Zero);
-                context.Players.AddOrUpdate(player);
+                return;
             }
+
+            var player = new Player("Gosho", "123", 190231, Vector2.Zero);
+            var random = new Random();
+            var numberOfTrees = random.Next(300, 400);
+
+            for (int i = 0; i < numberOfTrees; i++)
+            {
+                var x = random.Next(-200, 200);
+                var z = random.Next(-200, 200);
+                var weight = random.Next(5, 10);
+                var y = 100;
+
+                var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
+                player.ResourceProviders.Add(tree);
+            }
+
+            context.Players.AddOrUpdate(p => p.Username, player);
         }
     }
 }
