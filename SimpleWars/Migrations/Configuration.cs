@@ -11,7 +11,6 @@ namespace SimpleWars.Migrations
     using SimpleWars.DBContexts;
     using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
     using SimpleWars.Models.Users;
-    using SimpleWars.User;
 
     internal sealed class Configuration : DbMigrationsConfiguration<GameContext>
     {

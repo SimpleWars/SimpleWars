@@ -4,7 +4,6 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
-    using SimpleWars.DisplayManagement;
 
     /// <summary>
     /// The skybox.
@@ -39,9 +38,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Skybox"/> class.
         /// </summary>
-        public Skybox()
+        public Skybox(GraphicsDevice device)
         {
-            this.device = DisplayManager.Instance.GraphicsDevice;
+            this.device = device;
 
             this.texture = TexturesManager.Instance.GetTexture("Skybox", "skybox");
 

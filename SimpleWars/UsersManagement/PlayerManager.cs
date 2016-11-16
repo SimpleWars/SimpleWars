@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.User
+﻿namespace SimpleWars.UsersManagement
 {
     using SimpleWars.Models.Users.Interfaces;
 

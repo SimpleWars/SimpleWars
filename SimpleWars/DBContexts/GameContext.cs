@@ -9,7 +9,6 @@ namespace SimpleWars.DBContexts
     using SimpleWars.Models.Entities.DynamicEntities;
     using SimpleWars.Models.Entities.StaticEntities;
     using SimpleWars.Models.Users;
-    using SimpleWars.User;
 
     public class GameContext : DbContext
     {

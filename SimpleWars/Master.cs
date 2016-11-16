@@ -17,7 +17,7 @@ namespace SimpleWars
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.InputManagement;
-    using SimpleWars.User;
+    using SimpleWars.UsersManagement;
 
     /// <summary>
     /// This is the main type for your game.

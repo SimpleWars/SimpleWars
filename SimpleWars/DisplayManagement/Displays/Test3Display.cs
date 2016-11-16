@@ -15,7 +15,7 @@
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.InputManagement;
     using SimpleWars.Models.Entities.Interfaces;
-    using SimpleWars.User;
+    using SimpleWars.UsersManagement;
 
     public class Test3Display : Display
     {
@@ -32,9 +32,9 @@
                 aspectRatio,
                 new Vector3(50, 30, 0));
 
-            this.terrain = new HomeTerrain(new Vector3(-400, 0, -400));
+            this.terrain = new HomeTerrain(DisplayManager.Instance.GraphicsDevice, PlayerManager.CurrentPlayer.HomeSeed, new Vector3(-400, 0, -400));
 
-            this.skybox = new Skybox();
+            this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice);
 
             foreach (var entity 
                     in PlayerManager.CurrentPlayer.ResourceProviders

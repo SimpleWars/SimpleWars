@@ -3,8 +3,6 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.DisplayManagement;
-
     /// <summary>
     /// The light.
     /// </summary>

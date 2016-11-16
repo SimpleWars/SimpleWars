@@ -6,8 +6,6 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
-    using SimpleWars.DisplayManagement;
-    using SimpleWars.User;
     using SimpleWars.Utils;
 
     /// <summary>
@@ -66,6 +64,11 @@
         private float[,] heights;
 
         /// <summary>
+        /// The seed.
+        /// </summary>
+        private int? seed;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HomeTerrain"/> class.
         /// </summary>
         /// <param name="terrainTexture">
@@ -77,8 +80,8 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public HomeTerrain(Vector3? position, float scale = 1)
-            : this(position, null, scale)
+        public HomeTerrain(GraphicsDevice device, int? seed, Vector3? position, float scale = 1)
+            : this(device, seed, position, null, scale)
         {    
         }
 
@@ -97,10 +100,11 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public HomeTerrain(Vector3? position, Vector3? rotation, float scale = 1)
+        public HomeTerrain(GraphicsDevice device, int? seed, Vector3? position, Vector3? rotation, float scale = 1)
             : base(position, rotation, scale)
         {
-            this.device = DisplayManager.Instance.GraphicsDevice;
+            this.device = device;
+            this.seed = seed;
 
             this.texture = TexturesManager.Instance.GetTexture("Terrain", "grass");
 
@@ -222,7 +226,17 @@
         /// </summary>
         private void InitTerrain()
         {
-            NoiseGenerator generator = new NoiseGenerator(70, 4, 0.2f, (uint)PlayerManager.CurrentPlayer.HomeSeed);
+            NoiseGenerator generator;
+
+            if (this.seed == null)
+            {
+                generator = new NoiseGenerator(70, 4, 0.2f, null);
+            }
+            else
+            {
+                generator = new NoiseGenerator(70, 4, 0.2f, (uint)this.seed.Value);
+            }
+
 
             int vertexCount = 128;
 

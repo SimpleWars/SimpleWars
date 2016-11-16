@@ -9,8 +9,8 @@
 
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Users;
-    using SimpleWars.Models.UtilityEffects;
     using SimpleWars.Models.UtilityInterfaces;
+    using SimpleWars.Utils;
 
     /// <summary>
     /// The entity.
