@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWars.Utils", "SimpleW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWars.Environment", "SimpleWars.Environment\SimpleWars.Environment.csproj", "{BD533A57-22BD-4FBD-8937-110156009A69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWars.Data", "SimpleWars.Data\SimpleWars.Data.csproj", "{B13C8882-C73B-4FE3-9813-A397E57B5ABF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,14 @@ Global
 		{BD533A57-22BD-4FBD-8937-110156009A69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD533A57-22BD-4FBD-8937-110156009A69}.Release|x86.ActiveCfg = Release|Any CPU
 		{BD533A57-22BD-4FBD-8937-110156009A69}.Release|x86.Build.0 = Release|Any CPU
+		{B13C8882-C73B-4FE3-9813-A397E57B5ABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13C8882-C73B-4FE3-9813-A397E57B5ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13C8882-C73B-4FE3-9813-A397E57B5ABF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B13C8882-C73B-4FE3-9813-A397E57B5ABF}.Debug|x86.Build.0 = Debug|Any CPU
+		{B13C8882-C73B-4FE3-9813-A397E57B5ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13C8882-C73B-4FE3-9813-A397E57B5ABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B13C8882-C73B-4FE3-9813-A397E57B5ABF}.Release|x86.ActiveCfg = Release|Any CPU
+		{B13C8882-C73B-4FE3-9813-A397E57B5ABF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 ﻿namespace SimpleWars.DisplayManagement.Displays
 {
+    using System;
     using System.Linq;
 
     using Microsoft.Xna.Framework;
@@ -15,6 +16,7 @@
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.InputManagement;
     using SimpleWars.Models.Entities.Interfaces;
+    using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
     using SimpleWars.UsersManagement;
 
     public class Test3Display : Display
@@ -36,12 +38,31 @@
 
             this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice);
 
-            foreach (var entity 
-                    in PlayerManager.CurrentPlayer.ResourceProviders
-                    .Concat<IEntity>(PlayerManager.CurrentPlayer.Units))
+            if (!PlayerManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(PlayerManager.CurrentPlayer.Units).Any())
             {
-                entity.LoadModel();
+                var random = new Random();
+                var numberOfTrees = random.Next(300, 400);
+
+                for (int i = 0; i < numberOfTrees; i++)
+                {
+                    var x = random.Next(-200, 200);
+                    var z = random.Next(-200, 200);
+                    var weight = random.Next(5, 10);
+                    var y = 100;
+
+                    var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
+                    PlayerManager.CurrentPlayer.ResourceProviders.Add(tree);
+                }
             }
+            else
+            {
+                foreach (var entity in
+                    PlayerManager.CurrentPlayer.ResourceProviders
+                    .Concat<IEntity>(PlayerManager.CurrentPlayer.Units))
+                {
+                    entity.LoadModel();
+                }
+            }            
         }
 
         public override void UnloadContent()

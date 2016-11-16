@@ -27,6 +27,5 @@ namespace SimpleWars.DBContexts
         public virtual DbSet<ResourceSet> ResourceSets { get; set; }
 
         public virtual DbSet<Player> Players { get; set; }
-
     }
 }

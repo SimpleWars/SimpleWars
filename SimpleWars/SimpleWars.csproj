@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="Camera\CameraPerspective.cs" />
     <Compile Include="Camera\CameraOrthographic.cs" />
-    <Compile Include="DBContexts\GameContext.cs" />
     <Compile Include="DisplayManagement\Displays\Test3Display.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
     <Compile Include="GUI\Button.cs" />
@@ -74,7 +73,6 @@
     <Compile Include="DisplayManagement\Displays\MenuDisplay.cs" />
     <Compile Include="InputManagement\Input.cs" />
     <Compile Include="Master.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersManagement\PlayerManager.cs" />
@@ -117,6 +115,10 @@
     <ProjectReference Include="..\SimpleWars.Assets\SimpleWars.Assets.csproj">
       <Project>{ca3dafcf-5fd5-4762-9dd0-0d05760f2148}</Project>
       <Name>SimpleWars.Assets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Data\SimpleWars.Data.csproj">
+      <Project>{b13c8882-c73b-4fe3-9813-a397e57b5abf}</Project>
+      <Name>SimpleWars.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Environment\SimpleWars.Environment.csproj">
       <Project>{bd533a57-22bd-4fbd-8937-110156009a69}</Project>
