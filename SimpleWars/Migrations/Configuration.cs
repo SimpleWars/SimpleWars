@@ -9,8 +9,8 @@ namespace SimpleWars.Migrations
     using Microsoft.Xna.Framework;
 
     using SimpleWars.DBContexts;
-    using SimpleWars.GameData.Entities;
-    using SimpleWars.GameData.Entities.StaticEntities.Environment;
+    using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
+    using SimpleWars.Models.Users;
     using SimpleWars.User;
 
     internal sealed class Configuration : DbMigrationsConfiguration<GameContext>

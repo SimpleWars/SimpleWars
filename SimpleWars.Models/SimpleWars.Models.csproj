@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}</ProjectGuid>
+    <ProjectGuid>{9744DC53-F59F-4998-8438-F44D5688E368}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleWars.Assets</RootNamespace>
-    <AssemblyName>SimpleWars.Assets</AssemblyName>
+    <RootNamespace>SimpleWars.Models</RootNamespace>
+    <AssemblyName>SimpleWars.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -36,27 +36,51 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asset.cs" />
-    <Compile Include="AssetsManager.cs" />
-    <Compile Include="ContentServiceProvider.cs" />
-    <Compile Include="Interfaces\IAsset.cs" />
-    <Compile Include="Interfaces\IAsset2D.cs" />
-    <Compile Include="Interfaces\IAsset3D.cs" />
-    <Compile Include="Interfaces\IAssetAnimation3D.cs" />
-    <Compile Include="Interfaces\ISpritefont.cs" />
-    <Compile Include="ModelsManager.cs" />
+    <Compile Include="Economy\Interfaces\IResource.cs" />
+    <Compile Include="Economy\Interfaces\IResourceSet.cs" />
+    <Compile Include="Economy\Resource.cs" />
+    <Compile Include="Economy\ResourceSet.cs" />
+    <Compile Include="Economy\Resources\Food.cs" />
+    <Compile Include="Economy\Resources\Gold.cs" />
+    <Compile Include="Economy\Resources\Metal.cs" />
+    <Compile Include="Economy\Resources\Population.cs" />
+    <Compile Include="Economy\Resources\Rock.cs" />
+    <Compile Include="Economy\Resources\Wood.cs" />
+    <Compile Include="Entities\DynamicEntities\BattleUnits\Swordsman.cs" />
+    <Compile Include="Entities\DynamicEntities\Unit.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Interfaces\IAnimatedEntity.cs" />
+    <Compile Include="Entities\Interfaces\IEntity.cs" />
+    <Compile Include="Entities\Interfaces\IMoveable.cs" />
+    <Compile Include="Entities\Interfaces\IResourceProvider.cs" />
+    <Compile Include="Entities\Interfaces\IUnit.cs" />
+    <Compile Include="Entities\StaticEntities\ResourceProvider.cs" />
+    <Compile Include="Entities\StaticEntities\ResourceProviders\Tree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SkinnedModelsManager.cs" />
-    <Compile Include="SpriteFontManager.cs" />
-    <Compile Include="TexturesManager.cs" />
+    <Compile Include="Users\Interfaces\IPlayer.cs" />
+    <Compile Include="Users\Player.cs" />
+    <Compile Include="UtilityEffects\Light.cs" />
+    <Compile Include="UtilityInterfaces\ITerrain.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\SimpleWars.Assets\SimpleWars.Assets.csproj">
+      <Project>{ca3dafcf-5fd5-4762-9dd0-0d05760f2148}</Project>
+      <Name>SimpleWars.Assets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SkinnedModel\SkinnedModel.csproj">
       <Project>{761b99e5-5318-4f62-8e43-b0a593ac5b8d}</Project>
       <Name>SkinnedModel</Name>

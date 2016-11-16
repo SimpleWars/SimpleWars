@@ -8,10 +8,9 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.DisplayManagement;
-    using SimpleWars.GameData.Entities;
-    using SimpleWars.GameData.Entities.Interfaces;
-    using SimpleWars.GameData.Terrain;
-    using SimpleWars.GameData.Terrain.Interfaces;
+    using SimpleWars.Models.Entities;
+    using SimpleWars.Models.Entities.Interfaces;
+    using SimpleWars.Models.UtilityInterfaces;
 
     /// <summary>
     /// The ray caster.

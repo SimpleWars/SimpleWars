@@ -15,8 +15,7 @@ namespace SimpleWars
     using SimpleWars.Assets;
     using SimpleWars.DBContexts;
     using SimpleWars.DisplayManagement;
-    using SimpleWars.DisplayManagement.DisplaysHolder;
-    using SimpleWars.GameData.Entities;
+    using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.InputManagement;
     using SimpleWars.User;
 

@@ -4,14 +4,12 @@ namespace SimpleWars.DBContexts
     using System.Data.Entity;
     using System.Linq;
 
-    using SimpleWars.GameData.EconomyData;
-    using SimpleWars.GameData.Entities;
-    using SimpleWars.GameData.Entities.DynamicEntities;
-    using SimpleWars.GameData.Entities.Interfaces;
-    using SimpleWars.GameData.Entities.StaticEntities;
     using SimpleWars.Migrations;
+    using SimpleWars.Models.Economy;
+    using SimpleWars.Models.Entities.DynamicEntities;
+    using SimpleWars.Models.Entities.StaticEntities;
+    using SimpleWars.Models.Users;
     using SimpleWars.User;
-    using SimpleWars.User.Interfaces;
 
     public class GameContext : DbContext
     {

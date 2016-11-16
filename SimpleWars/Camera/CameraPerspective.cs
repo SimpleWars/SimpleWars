@@ -4,7 +4,7 @@
     using Microsoft.Xna.Framework.Input;
 
     using SimpleWars.DisplayManagement;
-    using SimpleWars.GameData.Terrain;
+    using SimpleWars.Environment.Terrain;
     using SimpleWars.InputManagement;
 
     /// <summary>

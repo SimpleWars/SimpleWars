@@ -5,10 +5,8 @@
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.GameData.Entities;
-    using SimpleWars.GameData.Entities.Interfaces;
-    using SimpleWars.GameData.Terrain;
-    using SimpleWars.GameData.Terrain.Interfaces;
+    using SimpleWars.Models.Entities.Interfaces;
+    using SimpleWars.Models.UtilityInterfaces;
 
     /// <summary>
     /// The entity picker.
