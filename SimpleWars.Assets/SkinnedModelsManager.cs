@@ -1,11 +1,10 @@
-﻿namespace SimpleWars.AssetsManagement
+﻿namespace SimpleWars.Assets
 {
     using System;
 
-    using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.AssetsManagement.Interfaces;
+    using SimpleWars.Assets.Interfaces;
 
     using SkinnedModel;
 

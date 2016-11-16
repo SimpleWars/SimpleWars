@@ -17,11 +17,6 @@
         Vector2 Dimensions { get; }
 
         /// <summary>
-        /// Gets the content.
-        /// </summary>
-        ContentManager Content { get; }
-
-        /// <summary>
         /// Gets the current display.
         /// </summary>
         IDisplay CurrentDisplay { get; }

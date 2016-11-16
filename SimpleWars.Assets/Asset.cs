@@ -1,11 +1,10 @@
-﻿namespace SimpleWars.AssetsManagement
+﻿namespace SimpleWars.Assets
 {
     using System;
 
     using Microsoft.Xna.Framework.Content;
 
-    using SimpleWars.AssetsManagement.Interfaces;
-    using SimpleWars.DisplayManagement;
+    using SimpleWars.Assets.Interfaces;
 
     /// <summary>
     /// The asset.
@@ -107,7 +106,9 @@
                 throw new InvalidOperationException("You are trying to load over existing content manager!");
             }
 
-            this.Content = new ContentManager(DisplayManager.Instance.Content.ServiceProvider, DisplayManager.Instance.Content.RootDirectory);
+            this.Content = new ContentManager(
+                ContentServiceProvider.ContentService,
+                ContentServiceProvider.RootDirectory);
         }
     }
 }

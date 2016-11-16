@@ -5,7 +5,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.AssetsManagement;
+    using SimpleWars.Assets;
     using SimpleWars.GUI.Interfaces;
 
     public class Button : IButton

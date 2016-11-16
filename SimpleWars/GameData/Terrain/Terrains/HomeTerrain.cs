@@ -5,7 +5,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.AssetsManagement;
+    using SimpleWars.Assets;
     using SimpleWars.DisplayManagement;
     using SimpleWars.User;
     using SimpleWars.Utils;

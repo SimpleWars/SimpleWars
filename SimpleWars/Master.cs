@@ -12,8 +12,7 @@ namespace SimpleWars
     using System.Linq;
     using System.Threading.Tasks;
 
-    using SimpleWars.AssetsManagement;
-    using SimpleWars.AssetsManagement.Interfaces;
+    using SimpleWars.Assets;
     using SimpleWars.DBContexts;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.DisplaysHolder;
@@ -48,6 +47,10 @@ namespace SimpleWars
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
+
+            ContentServiceProvider.ContentService = this.Content.ServiceProvider;
+            ContentServiceProvider.RootDirectory = this.Content.RootDirectory;
+
             this.context = new GameContext();
         }
 

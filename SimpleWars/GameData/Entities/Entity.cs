@@ -8,7 +8,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.AssetsManagement;
+    using SimpleWars.Assets;
     using SimpleWars.GameData.Entities.Interfaces;
     using SimpleWars.GameData.Terrain;
     using SimpleWars.GameData.Terrain.Interfaces;

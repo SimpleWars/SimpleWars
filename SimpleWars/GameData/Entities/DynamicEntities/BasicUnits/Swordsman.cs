@@ -1,7 +1,7 @@
 ﻿namespace SimpleWars.GameData.Entities.DynamicEntities.BasicUnits
 {
     using Microsoft.Xna.Framework;
-    using SimpleWars.AssetsManagement;
+    using SimpleWars.Assets;
 
     public class Swordsman : Unit
     {

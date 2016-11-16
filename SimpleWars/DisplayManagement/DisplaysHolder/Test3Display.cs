@@ -9,7 +9,7 @@
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
-    using SimpleWars.AssetsManagement;
+    using SimpleWars.Assets;
     using SimpleWars.Camera;
     using SimpleWars.DBContexts;
     using SimpleWars.GameData.Entities;

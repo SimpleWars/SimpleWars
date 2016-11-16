@@ -1,10 +1,10 @@
-﻿namespace SimpleWars.AssetsManagement
+﻿namespace SimpleWars.Assets
 {
     using System.Collections.Generic;
 
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.AssetsManagement.Interfaces;
+    using SimpleWars.Assets.Interfaces;
 
     public class TexturesManager : AssetsManager
     {

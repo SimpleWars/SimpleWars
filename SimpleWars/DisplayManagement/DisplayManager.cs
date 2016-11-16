@@ -62,10 +62,6 @@
         /// </summary>
         public Vector2 Dimensions { get; private set; }
 
-        /// <summary>
-        /// Gets the content.
-        /// </summary>
-        public ContentManager Content { get; private set; }
 
         /// <summary>
         /// Gets the current display.
@@ -80,7 +76,6 @@
         /// </param>
         public void LoadContent(ContentManager content, GameContext context)
         {
-            this.Content = new ContentManager(content.ServiceProvider, content.RootDirectory);
             this.CurrentDisplay.LoadContent(context);
         }
 
@@ -89,7 +84,6 @@
         /// </summary>
         public void UnloadContent()
         {
-            this.Content.Unload();
             this.CurrentDisplay.UnloadContent();
         }
 

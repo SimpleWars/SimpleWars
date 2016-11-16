@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinnedModel", "SkinnedMode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkinnedModelPipeline", "SkinnedModelPipeline\SkinnedModelPipeline.csproj", "{9DB877B0-32D7-49E0-B663-92998EE2A815}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWars.Assets", "SimpleWars.Assets\SimpleWars.Assets.csproj", "{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,14 @@ Global
 		{9DB877B0-32D7-49E0-B663-92998EE2A815}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9DB877B0-32D7-49E0-B663-92998EE2A815}.Release|x86.ActiveCfg = Release|Any CPU
 		{9DB877B0-32D7-49E0-B663-92998EE2A815}.Release|x86.Build.0 = Release|Any CPU
+		{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}.Debug|x86.Build.0 = Debug|Any CPU
+		{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}.Release|x86.ActiveCfg = Release|Any CPU
+		{CA3DAFCF-5FD5-4762-9DD0-0D05760F2148}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

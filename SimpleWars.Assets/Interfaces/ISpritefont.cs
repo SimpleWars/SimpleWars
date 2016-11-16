@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.AssetsManagement.Interfaces
+﻿namespace SimpleWars.Assets.Interfaces
 {
     using Microsoft.Xna.Framework.Graphics;
 

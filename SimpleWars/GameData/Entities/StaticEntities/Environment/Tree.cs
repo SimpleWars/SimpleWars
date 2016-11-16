@@ -4,7 +4,7 @@
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.AssetsManagement;
+    using SimpleWars.Assets;
 
     /// <summary>
     /// The tree.

@@ -1,12 +1,10 @@
-﻿namespace SimpleWars.AssetsManagement
+﻿namespace SimpleWars.Assets
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.AssetsManagement.Interfaces;
+    using SimpleWars.Assets.Interfaces;
 
     public class ModelsManager : AssetsManager
     {
