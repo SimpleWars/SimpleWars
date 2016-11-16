@@ -24,6 +24,7 @@
             this.BorderColor = borderColor;
             this.InnerColor = innerColor;
             this.BorderWidth = borderWidth;
+            this.TextContent = textContent;
 
             this.ClickLogic = () => { this.IsClicked = true; };
 
