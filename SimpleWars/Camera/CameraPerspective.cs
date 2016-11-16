@@ -5,7 +5,7 @@
 
     using SimpleWars.DisplayManagement;
     using SimpleWars.Environment.Terrain;
-    using SimpleWars.InputManagement;
+    using SimpleWars.Input;
 
     /// <summary>
     /// Perspective camera in 3D space.

@@ -1,23 +1,18 @@
-namespace SimpleWars.Migrations
+namespace SimpleWars.Data.Migrations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.DBContexts;
-    using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
+    using SimpleWars.Data.Contexts;
     using SimpleWars.Models.Users;
 
     internal sealed class Configuration : DbMigrationsConfiguration<GameContext>
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            this.AutomaticMigrationsEnabled = true;
+            this.AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(GameContext context)

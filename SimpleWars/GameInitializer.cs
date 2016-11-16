@@ -4,25 +4,16 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SimpleWars
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.ModelConfiguration;
-    using System.Data.Entity.Validation;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using SimpleWars.Assets;
-    using SimpleWars.DBContexts;
+    using SimpleWars.Data.Contexts;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.Displays;
-    using SimpleWars.InputManagement;
     using SimpleWars.UsersManagement;
 
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Master : Game
+    public class GameInitializer : Game
     {
         /// <summary>
         /// The graphics.
@@ -40,9 +31,9 @@ namespace SimpleWars
         private SpriteBatch spriteBatch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Master"/> class.
+        /// Initializes a new instance of the <see cref="GameInitializer"/> class.
         /// </summary>
-        public Master()
+        public GameInitializer()
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
@@ -87,7 +78,6 @@ namespace SimpleWars
 
             DisplayManager.Instance.LoadContent(this.Content, this.context);
 
-            //PlayerManager.CurrentPlayer = this.context.Players.Include(p => p.Resources).Include(p => p.ResourceProviders).Include(p => p.Units).SingleOrDefault(p => p.Id == 1);
             PlayerManager.CurrentPlayer = this.context.Players.Find(1);
         }
 
@@ -120,14 +110,14 @@ namespace SimpleWars
                 this.Exit();
             }
 
-            Input.Update();
+            Input.Input.Update();
 
-            if (Input.KeyPressed(Keys.R))
+            if (Input.Input.KeyPressed(Keys.R))
             {
                 DisplayManager.Instance.ChangeDisplay(new Test3Display(), this.context);
             }
 
-            if (Input.KeyPressed(Keys.T))
+            if (Input.Input.KeyPressed(Keys.T))
             {
                 DisplayManager.Instance.ChangeDisplay(new MenuDisplay(), this.context);
             }

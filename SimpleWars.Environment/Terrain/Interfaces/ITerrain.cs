@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.Models.UtilityInterfaces
+﻿namespace SimpleWars.Environment.Terrain.Interfaces
 {
     using Microsoft.Xna.Framework;
 

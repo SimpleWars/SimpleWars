@@ -6,7 +6,7 @@ namespace SimpleWars
     /// <summary>
     /// The main class.
     /// </summary>
-    public static class Program
+    public static class Startup
     {
         /// <summary>
         /// The main entry point for the application.
@@ -14,7 +14,7 @@ namespace SimpleWars
         [STAThread]
         static void Main()
         {
-            using (var game = new Master())
+            using (var game = new GameInitializer())
                 game.Run();
         }
     }

@@ -4,8 +4,8 @@
 
     using Microsoft.Xna.Framework;
 
+    using SimpleWars.Environment.Terrain.Interfaces;
     using SimpleWars.Models.Entities.Interfaces;
-    using SimpleWars.Models.UtilityInterfaces;
 
     /// <summary>
     /// The dynamic entity.

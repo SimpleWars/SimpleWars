@@ -3,8 +3,8 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Environment.Terrain.Interfaces;
     using SimpleWars.Models.Users;
-    using SimpleWars.Models.UtilityInterfaces;
 
     /// <summary>
     /// The Entity interface.

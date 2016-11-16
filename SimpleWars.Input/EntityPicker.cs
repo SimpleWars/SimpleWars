@@ -1,13 +1,12 @@
-﻿namespace SimpleWars.InputManagement
+﻿namespace SimpleWars.Input
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Environment.Terrain.Interfaces;
     using SimpleWars.Models.Entities.Interfaces;
-    using SimpleWars.Models.UtilityInterfaces;
 
     /// <summary>
     /// The entity picker.

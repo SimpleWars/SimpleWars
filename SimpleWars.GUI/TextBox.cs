@@ -7,7 +7,7 @@
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
     using SimpleWars.GUI.Interfaces;
-    using SimpleWars.InputManagement;
+    using SimpleWars.Input;
 
     public class TextBox : ITextBox
     {

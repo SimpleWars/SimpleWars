@@ -4,7 +4,7 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
-    using SimpleWars.DBContexts;
+    using SimpleWars.Data.Contexts;
 
     /// <summary>
     /// The menu display.

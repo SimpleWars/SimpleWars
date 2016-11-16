@@ -9,12 +9,12 @@
 
     using SimpleWars.Assets;
     using SimpleWars.Camera;
-    using SimpleWars.DBContexts;
+    using SimpleWars.Data.Contexts;
     using SimpleWars.Environment.Skybox;
     using SimpleWars.Environment.Terrain;
     using SimpleWars.Environment.Terrain.Terrains;
+    using SimpleWars.Input;
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
-    using SimpleWars.InputManagement;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
     using SimpleWars.UsersManagement;

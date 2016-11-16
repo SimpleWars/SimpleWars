@@ -2,7 +2,7 @@
 {
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Models.UtilityInterfaces;
+    using SimpleWars.Environment.Terrain.Interfaces;
 
     /// <summary>
     /// The terrain.

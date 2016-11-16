@@ -4,7 +4,7 @@
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.DBContexts;
+    using SimpleWars.Data.Contexts;
     using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.DisplayManagement.Interfaces;
 

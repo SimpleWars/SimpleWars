@@ -3,7 +3,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.DBContexts;
+    using SimpleWars.Data.Contexts;
 
     /// <summary>
     /// The Display interface.

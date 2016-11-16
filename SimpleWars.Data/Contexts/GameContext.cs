@@ -1,10 +1,8 @@
-namespace SimpleWars.DBContexts
+namespace SimpleWars.Data.Contexts
 {
-    using System;
     using System.Data.Entity;
-    using System.Linq;
 
-    using SimpleWars.Migrations;
+    using SimpleWars.Data.Migrations;
     using SimpleWars.Models.Economy;
     using SimpleWars.Models.Entities.DynamicEntities;
     using SimpleWars.Models.Entities.StaticEntities;

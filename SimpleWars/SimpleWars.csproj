@@ -62,8 +62,8 @@
     <Compile Include="DisplayManagement\Interfaces\IDisplayManager.cs" />
     <Compile Include="DisplayManagement\Interfaces\IDisplay.cs" />
     <Compile Include="DisplayManagement\Displays\MenuDisplay.cs" />
-    <Compile Include="Master.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="GameInitializer.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersManagement\PlayerManager.cs" />
   </ItemGroup>

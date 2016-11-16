@@ -7,9 +7,9 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Environment.Terrain.Interfaces;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Users;
-    using SimpleWars.Models.UtilityInterfaces;
     using SimpleWars.Utils;
 
     /// <summary>

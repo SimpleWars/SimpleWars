@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.InputManagement
+﻿namespace SimpleWars.Input
 {
     using System.Collections.Generic;
     using System.Linq;
