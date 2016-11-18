@@ -5,16 +5,12 @@
 
     public interface IButton : IGui, IClickable
     {
-        Vector2 Position { get; set; }
-
-        Vector2 Scale { get; set; }
-
-        Vector2 TextOffset { get; set; }
+        ITextBox AttachedTextBox { get; set; }
 
         Texture2D Background { get; set; }
 
         string TextContent { get; set; }
 
-        ITextBox AttachedTextBox { get; set; }
+        Vector2 TextOffset { get; set; }
     }
 }

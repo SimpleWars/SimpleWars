@@ -15,6 +15,8 @@
 
         private Rectangle rectangle;
 
+        private Color stateClickedColor;
+
         public TextBox(Vector2 position, Vector2 dimensions, Color borderColor, Color innerColor, string textContent = "", int borderWidth = 2)
         {
             this.Position = position;
@@ -27,11 +29,13 @@
             this.ClickLogic = () => { this.IsClicked = true; };
 
             this.rectangle = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)this.Dimensions.X, (int)this.Dimensions.Y);
+
+            this.stateClickedColor = Color.LightYellow;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            this.DrawInner(spriteBatch);
+            this.DrawInner(spriteBatch, this.IsClicked ? this.stateClickedColor : this.InnerColor);
             this.DrawBorder(spriteBatch);
         }
 
@@ -88,9 +92,9 @@
 
         public Action ClickLogic { get; set; }
 
-        private void DrawInner(SpriteBatch spriteBatch)
+        private void DrawInner(SpriteBatch spriteBatch, Color innerColor)
         {
-            spriteBatch.Draw(pointTexture, this.Position, null, this.InnerColor, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
+            spriteBatch.Draw(pointTexture, this.Position, null, innerColor, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
         }
 
         private void DrawBorder(SpriteBatch spriteBatch)

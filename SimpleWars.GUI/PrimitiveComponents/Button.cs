@@ -10,12 +10,12 @@
 
     public class Button : IButton
     {
-        public Button(Vector2 position, Texture2D background, string textContent, Vector2 scale, Vector2 textOffset, Action clickLogic, ITextBox attachedTextBox = null)
+        public Button(Vector2 position, Texture2D background, string textContent, Vector2 dimensions, Vector2 textOffset, Action clickLogic, ITextBox attachedTextBox = null)
         {
             this.Position = position;
             this.Background = background;
             this.TextContent = textContent;
-            this.Scale = scale;
+            this.Dimensions = dimensions;
             this.TextOffset = textOffset;
             this.ClickLogic = clickLogic;
             this.AttachedTextBox = attachedTextBox;
@@ -27,7 +27,7 @@
 
         public string TextContent { get; set; }
 
-        public Vector2 Scale { get; set; }
+        public Vector2 Dimensions { get; set; }
 
         public Vector2 TextOffset { get; set; }
 
@@ -39,15 +39,15 @@
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Background, this.Position, null, Color.White, 0f, Vector2.Zero, this.Scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(this.Background, this.Position, null, Color.White, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
 
             spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), this.TextContent, this.Position + this.TextOffset, Color.Black);
         }
 
         public void DetectClick(float mouseX, float mouseY)
         {
-            if (mouseX >= this.Position.X && mouseX <= this.Position.X + this.Background.Width * this.Scale.X
-                && mouseY >= this.Position.Y && mouseY <= this.Position.Y + this.Background.Height * this.Scale.Y)
+            if (mouseX >= this.Position.X && mouseX <= this.Position.X + this.Background.Width * this.Dimensions.X
+                && mouseY >= this.Position.Y && mouseY <= this.Position.Y + this.Background.Height * this.Dimensions.Y)
             {
                 this.IsClicked = true;
                 this.ClickLogic.Invoke();

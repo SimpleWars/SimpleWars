@@ -4,9 +4,9 @@
 
     public interface IClickable
     {
-        bool IsClicked { get; set; }
-
         Action ClickLogic { get; set; }
+
+        bool IsClicked { get; set; }
 
         void DetectClick(float mouseX, float mouseY);
     }
