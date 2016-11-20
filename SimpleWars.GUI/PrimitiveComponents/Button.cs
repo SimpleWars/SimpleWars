@@ -47,7 +47,7 @@
         public void DetectClick(float mouseX, float mouseY)
         {
             if (mouseX >= this.Position.X && mouseX <= this.Position.X + this.Background.Width * this.Dimensions.X
-                && mouseY >= this.Position.Y && mouseY <= this.Position.Y + this.Background.Height * this.Dimensions.Y)
+                && mouseY >= this.Position.Y && mouseY <= this.Position.Y + this.Background.Height * this.Dimensions.Y && this.IsClicked == false)
             {
                 this.IsClicked = true;
                 this.ClickLogic.Invoke();

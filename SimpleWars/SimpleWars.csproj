@@ -126,6 +126,10 @@
       <Project>{9744dc53-f59f-4998-8438-f44d5688e368}</Project>
       <Name>SimpleWars.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SkinnedModelPipeline\SkinnedModelPipeline.csproj">
+      <Project>{9db877b0-32d7-49e0-b663-92998ee2a815}</Project>
+      <Name>SkinnedModelPipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SkinnedModel\SkinnedModel.csproj">
       <Project>{761b99e5-5318-4f62-8e43-b0a593ac5b8d}</Project>
       <Name>SkinnedModel</Name>

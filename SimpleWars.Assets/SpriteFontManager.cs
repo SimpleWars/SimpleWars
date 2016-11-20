@@ -9,7 +9,7 @@
         private static SpriteFontManager instance;
 
         private SpriteFontManager()
-            : base(typeof(Font))
+            : base(typeof(SpriteFontManager.Font))
         {
         }
 
@@ -24,9 +24,10 @@
 
         private class Font : Asset, ISpritefont
         {
-            public Font(string name)
+            public Font(string dir, string name)
                 : base(name)
             {
+                this.LoadAsset(dir, name);
             }
 
             public override void LoadAsset(string dir, string name)

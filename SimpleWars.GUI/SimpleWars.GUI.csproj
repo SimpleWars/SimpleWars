@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Layouts\EntityDetailsLayout.cs" />
+    <Compile Include="Layouts\LoginLayout.cs" />
     <Compile Include="PrimitiveComponents\Button.cs" />
     <Compile Include="Interfaces\IButton.cs" />
     <Compile Include="Interfaces\IClickable.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Interfaces\IInputReader.cs" />
     <Compile Include="Interfaces\ILayout.cs" />
     <Compile Include="Interfaces\ITextBox.cs" />
+    <Compile Include="PrimitiveComponents\PointTextures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrimitiveComponents\TextBox.cs" />
   </ItemGroup>

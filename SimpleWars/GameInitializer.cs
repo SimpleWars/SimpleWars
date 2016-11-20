@@ -6,11 +6,13 @@ namespace SimpleWars
     using Microsoft.Xna.Framework.Input;
 
     using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
 
     using SimpleWars.Assets;
     using SimpleWars.Data.Contexts;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.Displays;
+    using SimpleWars.GUI;
     using SimpleWars.UsersManagement;
 
     /// <summary>
@@ -55,6 +57,9 @@ namespace SimpleWars
         /// </summary>
         protected override void Initialize()
         {
+            PointTextures.WhitePoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.WhitePoint.SetData<Color>(new Color[] { Color.White });
+
             DisplayManager.Instance.GraphicsManager = this.graphics;
 
             DisplayManager.Instance.ChangeDimensions(

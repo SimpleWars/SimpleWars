@@ -22,7 +22,7 @@
             // Establish the local endpoint for the socket.
             // The DNS name of the computer
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = ipHostInfo.AddressList[0];
+            IPAddress ipAddress = ipHostInfo.AddressList[5];
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, port);
 
             // Create a TCP/IP socket.

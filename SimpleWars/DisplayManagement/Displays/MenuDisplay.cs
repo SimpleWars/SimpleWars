@@ -5,6 +5,7 @@
 
     using SimpleWars.Assets;
     using SimpleWars.Data.Contexts;
+    using SimpleWars.GUI.Layouts;
 
     /// <summary>
     /// The menu display.
@@ -18,6 +19,8 @@
 
         private Texture2D background;
 
+        private LoginLayout loginGui;
+
         /// <summary>
         /// The load content.
         /// </summary>
@@ -30,6 +33,8 @@
                 (int)DisplayManager.Instance.Dimensions.Y);
 
             this.background = TexturesManager.Instance.GetTexture("Menu", "background");
+
+            this.loginGui = new LoginLayout(DisplayManager.Instance.GraphicsDevice);
         }
 
         /// <summary>
@@ -48,6 +53,7 @@
         /// </param>
         public override void Update(GameTime gameTime, GameContext context)
         {
+            this.loginGui.Update(gameTime, context);
         }
 
         /// <summary>
@@ -59,6 +65,8 @@
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.background, null, this.mainFrame);
+
+            this.loginGui.Draw(spriteBatch);
         }
     }
 }
