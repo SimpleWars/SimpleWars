@@ -1,9 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
+﻿
 namespace SimpleWars
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Input;
+
+    using System.Data.Entity;
+
     using SimpleWars.Assets;
     using SimpleWars.Data.Contexts;
     using SimpleWars.DisplayManagement;
