@@ -6,6 +6,7 @@
     using SimpleWars.Assets;
     using SimpleWars.Data.Contexts;
     using SimpleWars.GUI.Layouts;
+    using SimpleWars.Users.Enums;
 
     /// <summary>
     /// The menu display.
@@ -34,7 +35,7 @@
 
             this.background = TexturesManager.Instance.GetTexture("Menu", "background");
 
-            this.loginGui = new LoginLayout(DisplayManager.Instance.GraphicsDevice);
+            this.loginGui = new LoginLayout(DisplayManager.Instance.GraphicsDevice, context);
         }
 
         /// <summary>
@@ -54,6 +55,10 @@
         public override void Update(GameTime gameTime, GameContext context)
         {
             this.loginGui.Update(gameTime, context);
+            if (this.loginGui.LoginState == LoginState.Successful)
+            {
+                DisplayManager.Instance.ChangeDisplay(new Test3Display(), context);
+            }
         }
 
         /// <summary>

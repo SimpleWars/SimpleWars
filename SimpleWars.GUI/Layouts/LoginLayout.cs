@@ -1,17 +1,24 @@
 ﻿namespace SimpleWars.GUI.Layouts
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Assets;
     using SimpleWars.Data.Contexts;
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.Input;
+    using SimpleWars.Users;
+    using SimpleWars.Users.Enums;
+
     public class LoginLayout : ILayout
     {
-        public LoginLayout(GraphicsDevice device)
+        public LoginLayout(GraphicsDevice device, GameContext context)
         {
+            this.LoginState = LoginState.None;
+
             this.Buttons = new HashSet<IButton>();
             this.TextBoxes = new HashSet<ITextBox>();
 
@@ -22,8 +29,10 @@
             this.Dimensions = new Vector2(500, 300);
             this.Position = new Vector2(500, 300);
 
-            this.InitializeComponents();
+            this.InitializeComponents(context);
         }
+
+        public LoginState LoginState { get; set; }
 
         public Vector2 Position { get; set; }
 
@@ -74,10 +83,15 @@
             {
                 textBox.Draw(spriteBatch);
             }
+
+            if (this.LoginState == LoginState.Invalid)
+            {
+                spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), "Invalid credentials", this.Position - new Vector2(0, 50), Color.Red);
+            }
         }
 
 
-        private void InitializeComponents()
+        private void InitializeComponents(GameContext context)
         {
             var usernameTb = new TextBox(
                 this.Position + new Vector2(20, 20),
@@ -104,14 +118,21 @@
                 "Log In",
                 new Vector2(200, 30),
                 new Vector2(70, 0),
-                this.LoginPlayer);
+                () =>
+                    {
+                        string result = UsersManager.LoginUser(usernameTb.TextContent, passwordTb.TextContent, context);
+
+                        if (result == "Successful login")
+                        {
+                            this.LoginState = LoginState.Successful;
+                        }
+                        else if (result == "Invalid credentials")
+                        {
+                            this.LoginState = LoginState.Invalid;
+                        }
+                    });
 
             this.Buttons.Add(loginButton);
-        }
-
-        private void LoginPlayer()
-        {
-
         }
     }
 }

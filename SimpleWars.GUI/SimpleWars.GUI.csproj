@@ -88,6 +88,10 @@
       <Project>{9744dc53-f59f-4998-8438-f44d5688e368}</Project>
       <Name>SimpleWars.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Users\SimpleWars.Users.csproj">
+      <Project>{02a85fb2-11b1-4a29-9051-2d86094ffbf7}</Project>
+      <Name>SimpleWars.Users</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

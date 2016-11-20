@@ -5,9 +5,6 @@ namespace SimpleWars
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-
     using SimpleWars.Assets;
     using SimpleWars.Data.Contexts;
     using SimpleWars.DisplayManagement;
@@ -67,7 +64,6 @@ namespace SimpleWars
                 (int)DisplayManager.Instance.Dimensions.Y);
 
             UsersManager.RegisterUser("Gosho", "123", this.context);
-            UsersManager.LoginUser("Gosho", "123", this.context);
 
             this.IsMouseVisible = true;
 
@@ -121,12 +117,7 @@ namespace SimpleWars
 
             Input.Input.Update();
 
-            if (Input.Input.KeyPressed(Keys.R))
-            {
-                DisplayManager.Instance.ChangeDisplay(new Test3Display(), this.context);
-            }
-
-            if (Input.Input.KeyPressed(Keys.T))
+            if (Input.Input.KeyPressed(Keys.M))
             {
                 DisplayManager.Instance.ChangeDisplay(new MenuDisplay(), this.context);
             }
