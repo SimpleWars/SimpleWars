@@ -66,6 +66,7 @@ namespace SimpleWars
                 (int)DisplayManager.Instance.Dimensions.X, 
                 (int)DisplayManager.Instance.Dimensions.Y);
 
+            UsersManager.RegisterUser("Gosho", "123", this.context);
             UsersManager.LoginUser("Gosho", "123", this.context);
 
             this.IsMouseVisible = true;
