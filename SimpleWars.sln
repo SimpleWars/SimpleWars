@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWars.Input", "SimpleW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWars.Server", "SimpleWars.Server\SimpleWars.Server.csproj", "{70D7DA6A-94B5-4A29-B48B-31225C4688A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleWars.Users", "SimpleWars.Users\SimpleWars.Users.csproj", "{02A85FB2-11B1-4A29-9051-2D86094FFBF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,14 @@ Global
 		{70D7DA6A-94B5-4A29-B48B-31225C4688A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{70D7DA6A-94B5-4A29-B48B-31225C4688A3}.Release|x86.ActiveCfg = Release|Any CPU
 		{70D7DA6A-94B5-4A29-B48B-31225C4688A3}.Release|x86.Build.0 = Release|Any CPU
+		{02A85FB2-11B1-4A29-9051-2D86094FFBF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A85FB2-11B1-4A29-9051-2D86094FFBF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A85FB2-11B1-4A29-9051-2D86094FFBF7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{02A85FB2-11B1-4A29-9051-2D86094FFBF7}.Debug|x86.Build.0 = Debug|Any CPU
+		{02A85FB2-11B1-4A29-9051-2D86094FFBF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A85FB2-11B1-4A29-9051-2D86094FFBF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A85FB2-11B1-4A29-9051-2D86094FFBF7}.Release|x86.ActiveCfg = Release|Any CPU
+		{02A85FB2-11B1-4A29-9051-2D86094FFBF7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

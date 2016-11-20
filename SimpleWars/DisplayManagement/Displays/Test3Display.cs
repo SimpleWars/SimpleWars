@@ -17,7 +17,7 @@
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
-    using SimpleWars.UsersManagement;
+    using SimpleWars.Users;
 
     public class Test3Display : Display
     {
@@ -34,11 +34,11 @@
                 aspectRatio,
                 new Vector3(50, 30, 0));
 
-            this.terrain = new HomeTerrain(DisplayManager.Instance.GraphicsDevice, PlayerManager.CurrentPlayer.HomeSeed, new Vector3(-400, 0, -400));
+            this.terrain = new HomeTerrain(DisplayManager.Instance.GraphicsDevice, UsersManager.CurrentPlayer.HomeSeed, new Vector3(-400, 0, -400));
 
             this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice);
 
-            if (!PlayerManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(PlayerManager.CurrentPlayer.Units).Any())
+            if (!UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units).Any())
             {
                 var random = new Random();
                 var numberOfTrees = random.Next(300, 400);
@@ -51,14 +51,14 @@
                     var y = 100;
 
                     var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
-                    PlayerManager.CurrentPlayer.ResourceProviders.Add(tree);
+                    UsersManager.CurrentPlayer.ResourceProviders.Add(tree);
                 }
             }
             else
             {
                 foreach (var entity in
-                    PlayerManager.CurrentPlayer.ResourceProviders
-                    .Concat<IEntity>(PlayerManager.CurrentPlayer.Units))
+                    UsersManager.CurrentPlayer.ResourceProviders
+                    .Concat<IEntity>(UsersManager.CurrentPlayer.Units))
                 {
                     entity.LoadModel();
                 }
@@ -72,7 +72,7 @@
 
         public override void Update(GameTime gameTime, GameContext context)
         {
-            foreach (var entity in PlayerManager.CurrentPlayer.ResourceProviders)
+            foreach (var entity in UsersManager.CurrentPlayer.ResourceProviders)
             {
                 entity.GravityAffect(gameTime, this.terrain);
             }
@@ -86,7 +86,7 @@
                 else
                 {
                     var unit = new Swordsman(Vector3.Zero, 1);
-                    PlayerManager.CurrentPlayer.Units.Add(unit);
+                    UsersManager.CurrentPlayer.Units.Add(unit);
                     EntityPicker.EntityPicked = unit;
                 }
             }
@@ -103,7 +103,7 @@
                         DisplayManager.Instance.GraphicsDevice,
                         this.camera.ProjectionMatrix,
                         this.camera.ViewMatrix,
-                        PlayerManager.CurrentPlayer.ResourceProviders);
+                        UsersManager.CurrentPlayer.ResourceProviders);
                 }
             }
 
@@ -122,12 +122,12 @@
             this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
             this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
 
-            foreach (var entity in PlayerManager.CurrentPlayer.ResourceProviders)
+            foreach (var entity in UsersManager.CurrentPlayer.ResourceProviders)
             {
                 entity.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);          
             }
 
-            foreach (var unit in PlayerManager.CurrentPlayer.Units)
+            foreach (var unit in UsersManager.CurrentPlayer.Units)
             {
                 unit.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             }

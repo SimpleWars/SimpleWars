@@ -13,7 +13,7 @@ namespace SimpleWars
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.GUI;
-    using SimpleWars.UsersManagement;
+    using SimpleWars.Users;
 
     /// <summary>
     /// This is the main type for your game.
@@ -65,7 +65,9 @@ namespace SimpleWars
             DisplayManager.Instance.ChangeDimensions(
                 (int)DisplayManager.Instance.Dimensions.X, 
                 (int)DisplayManager.Instance.Dimensions.Y);
-            
+
+            UsersManager.LoginUser("Gosho", "123", this.context);
+
             this.IsMouseVisible = true;
 
             base.Initialize();
@@ -85,8 +87,6 @@ namespace SimpleWars
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             DisplayManager.Instance.LoadContent(this.Content, this.context);
-
-            PlayerManager.CurrentPlayer = this.context.Players.Find(1);
         }
 
         /// <summary>
