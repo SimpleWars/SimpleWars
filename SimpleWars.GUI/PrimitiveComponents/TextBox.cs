@@ -21,7 +21,9 @@
 
         private TimeSpan lastTyped = TimeSpan.Zero;
 
-        public TextBox(Vector2 position, Vector2 dimensions, Color borderColor, Color innerColor, string textContent = "", int borderWidth = 2)
+        private int currentIndexToDisplay;
+
+        public TextBox(Vector2 position, Vector2 dimensions, Color borderColor, Color innerColor, Vector2 textOffset, int maxCharsDisplayedAtSingleTime, string textContent = "", int borderWidth = 2)
         {
             this.Position = position;
             this.Dimensions = dimensions;
@@ -29,6 +31,9 @@
             this.InnerColor = innerColor;
             this.BorderWidth = borderWidth;
             this.TextContent = textContent;
+            this.TextOffset = textOffset;
+
+            this.CharsDisplayed = maxCharsDisplayedAtSingleTime;
 
             this.ClickLogic = () => { this.IsClicked = true; };
 
@@ -62,21 +67,45 @@
             {
                 return;
             }
+
             this.lastTyped = this.lastTyped.Add(gameTime.ElapsedGameTime);
-            IEnumerable<Keys> pressedKeys = Input.GetKeysPressed();
-            if (this.lastTyped.TotalMilliseconds >= 200)
+            if (!(this.lastTyped.TotalMilliseconds >= 200))
             {
-                foreach (var keyPressed in pressedKeys)
+                return;
+            }
+
+            IEnumerable<Keys> pressedKeys = Input.GetKeysPressed();
+
+            foreach (var keyPressed in pressedKeys)
+            {
+                switch (keyPressed)
                 {
-                    if (keyPressed == Keys.Back)
-                    {
+                    case Keys.Back:
                         if (!string.IsNullOrEmpty(this.TextContent))
                         {
                             this.TextContent = this.TextContent.Substring(0, this.TextContent.Length - 1);
+                            this.CurrentIndexToDisplay -= 1;
                         }
-                    }
-                    else
-                    {
+
+                        break;
+
+                    case Keys.Left:
+                        if (this.CurrentIndexToDisplay - 1 > -1)
+                        {
+                            this.CurrentIndexToDisplay -= 1;
+                        }
+
+                        break;
+
+                    case Keys.Right:
+                        if (this.CurrentIndexToDisplay + 1 < this.TextContent.Length - this.CharsDisplayed)
+                        {
+                            this.CurrentIndexToDisplay += 1;
+                        }
+
+                        break;
+
+                    default:
                         if (IsKeyAChar(keyPressed))
                         {
                             if (Input.KeyDown(Keys.LeftShift))
@@ -87,16 +116,27 @@
                             {
                                 this.TextContent += keyPressed.ToString().ToLower();
                             }
+
+                            if (this.TextContent.Length > this.CharsDisplayed)
+                            {
+                                this.CurrentIndexToDisplay += 1;
+                            }
                         }
                         else if (IsKeyADigit(keyPressed))
                         {
                             this.TextContent += keyPressed.ToString()[1];
+
+                            if (this.TextContent.Length > this.CharsDisplayed)
+                            {
+                                this.CurrentIndexToDisplay += 1;
+                            }
                         }
 
-                        this.lastTyped = gameTime.ElapsedGameTime;
-                    }
+                        break;
                 }
-            }          
+
+                this.lastTyped = gameTime.ElapsedGameTime;
+            }
         }
 
         public Vector2 Position { get; set; }
@@ -104,6 +144,29 @@
         public Vector2 Dimensions { get; set; }
 
         public string TextContent { get; set; }
+
+        public int CharsDisplayed { get; set; }
+
+        public int CurrentIndexToDisplay
+        {
+            get
+            {
+                return this.currentIndexToDisplay;
+            }
+
+            set
+            {
+                if (value < 0)
+                {
+                    this.currentIndexToDisplay = 0;
+                    return;
+                }
+
+                this.currentIndexToDisplay = value;
+            }
+        }
+
+        public Vector2 TextOffset { get; set; }
 
         public Color BorderColor { get; set; }
 
@@ -119,7 +182,11 @@
         {
             spriteBatch.Draw(PointTextures.WhitePoint, this.Position, null, innerColor, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
 
-            spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), this.TextContent, this.Position + new Vector2(7, 7), Color.Black);
+            string displayText = this.TextContent.Substring(
+                this.CurrentIndexToDisplay,
+                Math.Min(this.CharsDisplayed, this.TextContent.Length));
+
+            spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), displayText, this.Position + this.TextOffset, Color.Black);
         }
 
         private void DrawBorder(SpriteBatch spriteBatch)

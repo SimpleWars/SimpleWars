@@ -19,8 +19,8 @@
             this.Background.SetData<Color>(new Color[] { Color.CornflowerBlue });
 
             // Just placeholder values for now. Will be properly calculated.
-            this.Dimensions = new Vector2(300, 300);
-            this.Position = new Vector2(300, 300);
+            this.Dimensions = new Vector2(500, 300);
+            this.Position = new Vector2(500, 300);
 
             this.InitializeComponents();
         }
@@ -81,19 +81,29 @@
         {
             var usernameTb = new TextBox(
                 this.Position + new Vector2(20, 20),
-                new Vector2(100, 30),
+                new Vector2(200, 30),
                 Color.Black,
-                Color.White);
+                Color.White,
+                new Vector2(8, 5), 
+                14);
+
             var passwordTb = new TextBox(
                 this.Position + new Vector2(20, 60),
-                new Vector2(100, 30),
+                new Vector2(200, 30),
                 Color.Black,
-                Color.White);
+                Color.White,
+                new Vector2(8, 5),
+                14);
 
             this.TextBoxes.Add(usernameTb);
             this.TextBoxes.Add(passwordTb);
 
-            var loginButton = new Button(this.Position + new Vector2(20, 100), this.Background, "Login", new Vector2(100, 30), new Vector2(5, 5),
+            var loginButton = new Button(
+                this.Position + new Vector2(20, 100),
+                this.Background,
+                "Log In",
+                new Vector2(200, 30),
+                new Vector2(70, 0),
                 this.LoginPlayer);
 
             this.Buttons.Add(loginButton);
