@@ -11,6 +11,7 @@
     using SimpleWars.Data.Contexts;
     using SimpleWars.Models.Users;
     using SimpleWars.Models.Users.Interfaces;
+    using SimpleWars.Users.Enums;
 
     public static class UsersManager
     {
@@ -18,7 +19,7 @@
 
         public static IPlayer CurrentPlayer { get; private set; }
 
-        public static string LoginUser(string username, string password, GameContext context)
+        public static LoginState LoginUser(string username, string password, GameContext context)
         {
             string hashedPassword = HashPassword(password);
             var player =
@@ -28,12 +29,12 @@
 
             if (player == null)
             {
-                return "Invalid credentials";
+                return LoginState.Invalid;
             }
 
             CurrentPlayer = player;
 
-            return "Successful login";
+            return LoginState.Successful;
         }
 
         public static string RegisterUser(string username, string password, GameContext context)

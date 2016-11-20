@@ -23,10 +23,10 @@
             this.TextBoxes = new HashSet<ITextBox>();
 
             this.Background = new Texture2D(device, 1, 1);
-            this.Background.SetData<Color>(new Color[] { Color.CornflowerBlue });
+            this.Background.SetData<Color>(new Color[] { Color.Transparent });
 
             // Just placeholder values for now. Will be properly calculated.
-            this.Dimensions = new Vector2(500, 300);
+            this.Dimensions = new Vector2(240, 140);
             this.Position = new Vector2(500, 300);
 
             this.InitializeComponents(context);
@@ -72,7 +72,7 @@
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.Background, this.Position, Color.White);
+            spriteBatch.Draw(this.Background, this.Position, null, Color.White, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
 
             foreach (var button in this.Buttons)
             {
@@ -86,7 +86,7 @@
 
             if (this.LoginState == LoginState.Invalid)
             {
-                spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), "Invalid credentials", this.Position - new Vector2(0, 50), Color.Red);
+                spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), "Invalid credentials", this.Position + new Vector2(20, -20), Color.Red);
             }
         }
 
@@ -120,16 +120,7 @@
                 new Vector2(70, 0),
                 () =>
                     {
-                        string result = UsersManager.LoginUser(usernameTb.TextContent, passwordTb.TextContent, context);
-
-                        if (result == "Successful login")
-                        {
-                            this.LoginState = LoginState.Successful;
-                        }
-                        else if (result == "Invalid credentials")
-                        {
-                            this.LoginState = LoginState.Invalid;
-                        }
+                        this.LoginState = UsersManager.LoginUser(usernameTb.TextContent, passwordTb.TextContent, context);
                     });
 
             this.Buttons.Add(loginButton);
