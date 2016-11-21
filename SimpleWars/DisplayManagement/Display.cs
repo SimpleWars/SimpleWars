@@ -11,10 +11,17 @@
     /// </summary>
     public abstract class Display : IDisplay
     {
+        public GameContext Context { get; }
+
+        protected Display()
+        {
+            this.Context = new GameContext();
+        }
+
         /// <summary>
         /// The load content.
         /// </summary>
-        public abstract void LoadContent(GameContext context);
+        public abstract void LoadContent();
 
         /// <summary>
         /// The unload content.
@@ -27,7 +34,7 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        public abstract void Update(GameTime gameTime, GameContext context);
+        public abstract void Update(GameTime gameTime);
 
         /// <summary>
         /// The draw.

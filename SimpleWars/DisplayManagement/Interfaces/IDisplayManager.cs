@@ -27,7 +27,7 @@
         /// <param name="content">
         /// The content.
         /// </param>
-        void LoadContent(ContentManager content, GameContext context);
+        void LoadContent(ContentManager content);
 
         /// <summary>
         /// The unload content.
@@ -40,7 +40,7 @@
         /// <param name="display">
         /// The display.
         /// </param>
-        void ChangeDisplay(IDisplay display, GameContext context);
+        void ChangeDisplay(IDisplay display);
 
         /// <summary>
         /// The update.
@@ -48,7 +48,7 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        void Update(GameTime gameTime, GameContext context);
+        void Update(GameTime gameTime);
 
         /// <summary>
         /// The draw.

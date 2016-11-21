@@ -17,7 +17,7 @@
     {
         private static readonly Random RandomSeeder = new Random();
 
-        public static IPlayer CurrentPlayer { get; private set; }
+        public static Player CurrentPlayer { get; private set; }
 
         public static LoginState LoginUser(string username, string password, GameContext context)
         {

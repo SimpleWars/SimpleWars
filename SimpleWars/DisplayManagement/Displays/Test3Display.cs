@@ -27,7 +27,7 @@
 
         private Skybox skybox;
 
-        public override void LoadContent(GameContext context)
+        public override void LoadContent()
         {
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
             this.camera = new CameraPerspective(
@@ -68,10 +68,9 @@
         public override void UnloadContent()
         {
             ModelsManager.Instance.DisposeAll();
-            GC.Collect();
         }
 
-        public override void Update(GameTime gameTime, GameContext context)
+        public override void Update(GameTime gameTime)
         {
             foreach (var entity in UsersManager.CurrentPlayer.ResourceProviders)
             {

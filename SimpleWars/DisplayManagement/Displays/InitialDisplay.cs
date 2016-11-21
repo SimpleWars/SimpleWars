@@ -31,7 +31,7 @@
         /// <summary>
         /// The load content.
         /// </summary>
-        public override void LoadContent(GameContext context)
+        public override void LoadContent()
         {
             this.mainFrame = new Rectangle(
                 0, 
@@ -41,7 +41,7 @@
 
             this.background = TexturesManager.Instance.GetTexture("Menu", "background");
 
-            this.initialGui = new InitialLayout(PointTextures.TransparentPoint, context);
+            this.initialGui = new InitialLayout(PointTextures.TransparentPoint, this.Context);
         }
 
         /// <summary>
@@ -50,7 +50,6 @@
         public override void UnloadContent()
         {
             TexturesManager.Instance.DisposeAll();
-            GC.Collect();
         }
 
         /// <summary>
@@ -59,13 +58,13 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        public override void Update(GameTime gameTime, GameContext context)
+        public override void Update(GameTime gameTime)
         {
             this.initialGui.Update(gameTime);
 
             if (this.initialGui.LoginState == LoginState.Successful || this.initialGui.RegisterState == RegisterState.Successful)
             {
-                DisplayManager.Instance.ChangeDisplay(new Test3Display(), context);
+                DisplayManager.Instance.ChangeDisplay(new Test3Display());
             }
         }
 

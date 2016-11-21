@@ -25,11 +25,6 @@ namespace SimpleWars
         private readonly GraphicsDeviceManager graphics;
 
         /// <summary>
-        /// The context.
-        /// </summary>
-        private readonly GameContext context;
-
-        /// <summary>
         /// The sprite batch.
         /// </summary>
         private SpriteBatch spriteBatch;
@@ -44,8 +39,6 @@ namespace SimpleWars
 
             ContentServiceProvider.ContentService = this.Content.ServiceProvider;
             ContentServiceProvider.RootDirectory = this.Content.RootDirectory;
-
-            this.context = new GameContext();
         }
 
         /// <summary>
@@ -71,8 +64,6 @@ namespace SimpleWars
                 (int)DisplayManager.Instance.Dimensions.X, 
                 (int)DisplayManager.Instance.Dimensions.Y);
 
-            UsersManager.RegisterUser("Gosho", "123", this.context);
-
             this.IsMouseVisible = true;
 
             base.Initialize();
@@ -91,7 +82,7 @@ namespace SimpleWars
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            DisplayManager.Instance.LoadContent(this.Content, this.context);
+            DisplayManager.Instance.LoadContent(this.Content);
         }
 
         /// <summary>
@@ -100,8 +91,6 @@ namespace SimpleWars
         /// </summary>
         protected override void UnloadContent()
         {
-            this.context.SaveChanges();
-
             TexturesManager.Instance.DisposeAll();
             ModelsManager.Instance.DisposeAll();
 
@@ -127,10 +116,10 @@ namespace SimpleWars
 
             if (Input.Input.KeyPressed(Keys.M))
             {
-                DisplayManager.Instance.ChangeDisplay(new InitialDisplay(), this.context);
+                DisplayManager.Instance.ChangeDisplay(new InitialDisplay());
             }
 
-            DisplayManager.Instance.Update(gameTime, this.context);
+            DisplayManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }

@@ -10,10 +10,12 @@
     /// </summary>
     public interface IDisplay
     {
+        GameContext Context { get; }
+
         /// <summary>
         /// The load content.
         /// </summary>
-        void LoadContent(GameContext context);
+        void LoadContent();
 
         /// <summary>
         /// The unload content.
@@ -26,7 +28,7 @@
         /// <param name="gameTime">
         /// The game Time.
         /// </param>
-        void Update(GameTime gameTime, GameContext context);
+        void Update(GameTime gameTime);
 
         /// <summary>
         /// The draw.

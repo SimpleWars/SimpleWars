@@ -1,5 +1,9 @@
 ﻿namespace SimpleWars.DisplayManagement
 {
+    using System;
+    using System.Diagnostics;
+    using System.Linq;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -7,6 +11,9 @@
     using SimpleWars.Data.Contexts;
     using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.DisplayManagement.Interfaces;
+    using SimpleWars.Models.Users;
+    using SimpleWars.Models.Users.Interfaces;
+    using SimpleWars.Users;
 
     /// <summary>
     /// The display manager.
@@ -74,9 +81,9 @@
         /// <param name="content">
         /// The content.
         /// </param>
-        public void LoadContent(ContentManager content, GameContext context)
+        public void LoadContent(ContentManager content)
         {
-            this.CurrentDisplay.LoadContent(context);
+            this.CurrentDisplay.LoadContent();
         }
 
         /// <summary>
@@ -93,12 +100,25 @@
         /// <param name="display">
         /// The display.
         /// </param>
-        public void ChangeDisplay(IDisplay display, GameContext context)
+        /// <param name="context">
+        /// The game context
+        /// </param>
+        public void ChangeDisplay(IDisplay display)
         {
-            context.SaveChanges();
+            // saving the context from the old display
+            this.CurrentDisplay.Context.SaveChanges();  
+            this.CurrentDisplay.Context.Dispose();
+            // disposing of the old display content
             this.CurrentDisplay.UnloadContent();
+            // changing the display
             this.CurrentDisplay = display;
-            this.CurrentDisplay.LoadContent(context);
+            // attaching the player to the new context
+            this.CurrentDisplay.Context.Players.Attach(UsersManager.CurrentPlayer);
+            // loading the fresh display content
+            this.CurrentDisplay.LoadContent();
+
+            // manual garbage collection
+            GC.Collect();
         }
 
         /// <summary>
@@ -126,9 +146,9 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        public void Update(GameTime gameTime, GameContext context)
+        public void Update(GameTime gameTime)
         {
-            this.CurrentDisplay.Update(gameTime, context);
+            this.CurrentDisplay.Update(gameTime);
         }
 
         /// <summary>
