@@ -7,10 +7,10 @@
     {
         string TextContent { get; set; }
 
-        string DisplayText { get; set; }
-
         SpriteFont SpriteFont { get; set; }
 
         Color TextColor { get; set; }
+
+        IGui Parent { get; set; }
     }
 }

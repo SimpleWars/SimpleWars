@@ -1,4 +1,4 @@
-﻿namespace SimpleWars.GUI
+﻿namespace SimpleWars.GUI.PrimitiveComponents
 {
     using Microsoft.Xna.Framework.Graphics;
 

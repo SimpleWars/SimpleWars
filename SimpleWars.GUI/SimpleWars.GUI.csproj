@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IPartialTextNode.cs" />
+    <Compile Include="Interfaces\IPasswordTextNode.cs" />
     <Compile Include="Interfaces\ITextNode.cs" />
     <Compile Include="Layouts\EntityDetailsLayout.cs" />
     <Compile Include="Layouts\LoginLayout.cs" />
@@ -64,6 +66,8 @@
     <Compile Include="Interfaces\IInputReader.cs" />
     <Compile Include="Interfaces\ILayout.cs" />
     <Compile Include="Interfaces\ITextBox.cs" />
+    <Compile Include="PrimitiveComponents\PartialTextNode.cs" />
+    <Compile Include="PrimitiveComponents\PasswordTextNode.cs" />
     <Compile Include="PrimitiveComponents\PointTextures.cs" />
     <Compile Include="PrimitiveComponents\TextNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

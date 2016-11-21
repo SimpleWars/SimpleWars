@@ -1,25 +1,26 @@
-﻿namespace SimpleWars.GUI
+﻿namespace SimpleWars.GUI.PrimitiveComponents
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.GUI.Interfaces;
+
     public class TextNode : ITextNode
     {
         public TextNode(
-            Vector2 position,
+            IGui parent,
+            Vector2 offsetFromParent,
             Vector2 dimensions,
             string textContent,
             SpriteFont spriteFont,
-            Color textColor,
-            string displayText = null)
+            Color textColor)
         {
-            this.Position = position;
+            this.Parent = parent;
+            this.Position = this.Parent != null ? this.Parent.Position + offsetFromParent : offsetFromParent;
             this.Dimensions = dimensions;
             this.TextContent = textContent;
             this.SpriteFont = spriteFont;
             this.TextColor = textColor;
-            this.DisplayText = displayText ?? this.TextContent;
         }
 
         public Vector2 Position { get; set; }
@@ -28,15 +29,15 @@
 
         public string TextContent { get; set; }
 
-        public string DisplayText { get; set; }
-
         public SpriteFont SpriteFont { get; set; }
 
         public Color TextColor { get; set; }
 
+        public IGui Parent { get; set; }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(this.SpriteFont, this.DisplayText, this.Position, this.TextColor, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(this.SpriteFont, this.TextContent, this.Position, this.TextColor, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
         }
     }
 }

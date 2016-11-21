@@ -10,6 +10,7 @@ namespace SimpleWars
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.GUI;
+    using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Users;
 
     /// <summary>

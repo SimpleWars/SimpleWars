@@ -9,6 +9,7 @@
     using SimpleWars.Assets;
     using SimpleWars.Data.Contexts;
     using SimpleWars.GUI.Interfaces;
+    using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Input;
     using SimpleWars.Users;
     using SimpleWars.Users.Enums;
@@ -97,17 +98,35 @@
                 this.Position + new Vector2(20, 20),
                 new Vector2(200, 30),
                 Color.Black,
-                Color.White,
-                new Vector2(8, 5), 
-                14);
+                Color.White);
 
             var passwordTb = new TextBox(
                 this.Position + new Vector2(20, 60),
                 new Vector2(200, 30),
                 Color.Black,
-                Color.White,
+                Color.White);
+
+            var usernameTbPartialTextNode = new PartialTextNode(
+                usernameTb,
                 new Vector2(8, 5),
-                14);
+                Vector2.One,
+                SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"),
+                Color.Black,
+                12,
+                12);
+
+            var passwordTbPartialTextNode = new PasswordTextNode(
+                passwordTb,
+                new Vector2(8, 5),
+                Vector2.One,
+                SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"),
+                Color.Black,
+                12,
+                '*',
+                12);
+
+            usernameTb.TextNode = usernameTbPartialTextNode;
+            passwordTb.TextNode = passwordTbPartialTextNode;
 
             this.TextBoxes.Add(usernameTb);
             this.TextBoxes.Add(passwordTb);
@@ -115,13 +134,16 @@
             var loginButton = new Button(
                 this.Position + new Vector2(20, 100),
                 this.Background,
-                "Log In",
                 new Vector2(200, 30),
                 new Vector2(70, 0),
                 () =>
                     {
-                        this.LoginState = UsersManager.LoginUser(usernameTb.TextContent, passwordTb.TextContent, context);
+                        this.LoginState = UsersManager.LoginUser(usernameTb.TextNode.TextContent, passwordTb.TextNode.TextContent, context);
                     });
+
+            var loginButtonTextNode = new TextNode(loginButton, new Vector2(70, 0), Vector2.One, "Log In", SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), Color.Black);
+
+            loginButton.TextNode = loginButtonTextNode;
 
             this.Buttons.Add(loginButton);
         }
