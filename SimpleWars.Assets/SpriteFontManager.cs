@@ -15,11 +15,11 @@
 
         public static SpriteFontManager Instance => instance ?? (instance = new SpriteFontManager());
 
-        public SpriteFont GetFont(string dir, string name)
+        public SpriteFont GetFont(string name)
         {
-            this.LoadAsset(dir, name);
+            this.LoadAsset("Spritefonts", name);
 
-            return ((Font)this.AssetsDirDict[dir][name]).SpriteFont;
+            return ((Font)this.AssetsDirDict["Spritefonts"][name]).SpriteFont;
         }
 
         private class Font : Asset, ISpritefont
@@ -39,7 +39,7 @@
                 }
                 else
                 {
-                    this.SpriteFont = SpriteFontManager.Instance.GetFont(dir, name);
+                    this.SpriteFont = SpriteFontManager.Instance.GetFont(name);
                 }
             }
 

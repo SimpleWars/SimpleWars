@@ -22,6 +22,7 @@
 
             this.Buttons = new HashSet<IButton>();
             this.TextBoxes = new HashSet<ITextBox>();
+            this.TextNodes = new HashSet<ITextNode>();
 
             this.Background = new Texture2D(device, 1, 1);
             this.Background.SetData<Color>(new Color[] { Color.Transparent });
@@ -42,6 +43,8 @@
         public ICollection<IButton> Buttons { get; }
 
         public ICollection<ITextBox> TextBoxes { get; }
+
+        public ICollection<ITextNode> TextNodes { get; }
 
         public Texture2D Background { get; set; }
 
@@ -85,9 +88,14 @@
                 textBox.Draw(spriteBatch);
             }
 
+            foreach (var textNode in this.TextNodes)
+            {
+                textNode.Draw(spriteBatch);
+            }
+
             if (this.LoginState == LoginState.Invalid)
             {
-                spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), "Invalid credentials", this.Position + new Vector2(20, -20), Color.Red);
+                spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Arial_18"), "Invalid credentials", this.Position + new Vector2(20, -20), Color.Red);
             }
         }
 
@@ -106,27 +114,48 @@
                 Color.Black,
                 Color.White);
 
+            var usernameTbDefaultTextNode = new TextNode(
+                usernameTb,
+                new Vector2(30, 0),
+                Vector2.One,
+                "Username",
+                SpriteFontManager.Instance.GetFont("Arial_Italic_22"),
+                Color.Gray);
+
+            var passwordDefaultTextNode = new TextNode(
+                passwordTb,
+                new Vector2(30, 0),
+                Vector2.One,
+                "Password",
+                SpriteFontManager.Instance.GetFont("Arial_Italic_22"),
+                Color.Gray);
+
             var usernameTbPartialTextNode = new PartialTextNode(
                 usernameTb,
-                new Vector2(8, 5),
+                new Vector2(8, 0),
                 Vector2.One,
-                SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"),
+                SpriteFontManager.Instance.GetFont("Arial_22"),
                 Color.Black,
                 12,
                 12);
 
             var passwordTbPartialTextNode = new PasswordTextNode(
                 passwordTb,
-                new Vector2(8, 5),
-                Vector2.One,
-                SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"),
+                new Vector2(15, 3),
+                Vector2.One, 
+                SpriteFontManager.Instance.GetFont("Arial_26"),
                 Color.Black,
                 12,
                 '*',
                 12);
 
+
+            usernameTb.DefaultTextNode = usernameTbDefaultTextNode;
+            passwordTb.DefaultTextNode = passwordDefaultTextNode;
+
             usernameTb.TextNode = usernameTbPartialTextNode;
             passwordTb.TextNode = passwordTbPartialTextNode;
+            
 
             this.TextBoxes.Add(usernameTb);
             this.TextBoxes.Add(passwordTb);
@@ -141,7 +170,7 @@
                         this.LoginState = UsersManager.LoginUser(usernameTb.TextNode.TextContent, passwordTb.TextNode.TextContent, context);
                     });
 
-            var loginButtonTextNode = new TextNode(loginButton, new Vector2(70, 0), Vector2.One, "Log In", SpriteFontManager.Instance.GetFont("Spritefonts", "Basic"), Color.Black);
+            var loginButtonTextNode = new TextNode(loginButton, new Vector2(70, 0), Vector2.One, "Log In", SpriteFontManager.Instance.GetFont("Arial_22"), Color.Black);
 
             loginButton.TextNode = loginButtonTextNode;
 

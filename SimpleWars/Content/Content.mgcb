@@ -155,9 +155,27 @@
 /processorParam:TextureFormat=DxtCompressed
 /build:Models3D/tree.fbx
 
-#begin Spritefonts/Basic.spritefont
+#begin Spritefonts\Arial_18.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:TextureFormat=Compressed
-/build:Spritefonts/Basic.spritefont
+/build:Spritefonts\Arial_18.spritefont
+
+#begin Spritefonts/Arial_22.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Spritefonts/Arial_22.spritefont
+
+#begin Spritefonts/Arial_26.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Spritefonts/Arial_26.spritefont
+
+#begin Spritefonts/Arial_Italic_22.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Spritefonts/Arial_Italic_22.spritefont
 

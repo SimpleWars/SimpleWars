@@ -13,5 +13,7 @@
         int BorderWidth { get; set; }
 
         PartialTextNode TextNode { get; set; }
+
+        TextNode DefaultTextNode { get; set; }
     }
 }

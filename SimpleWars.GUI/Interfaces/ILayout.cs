@@ -13,6 +13,8 @@
 
         ICollection<ITextBox> TextBoxes { get; }
 
+        ICollection<ITextNode> TextNodes { get; }
+
         Texture2D Background { get; set; }
 
         void Update(GameTime gameTime, GameContext context);

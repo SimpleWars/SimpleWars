@@ -120,6 +120,8 @@
 
         public PartialTextNode TextNode { get; set; }
 
+        public TextNode DefaultTextNode { get; set; }
+
         public Color BorderColor { get; set; }
 
         public Color InnerColor { get; set; }
@@ -134,7 +136,14 @@
         {
             spriteBatch.Draw(PointTextures.WhitePoint, this.Position, null, innerColor, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
 
-            this.TextNode.Draw(spriteBatch);
+            if (this.TextNode != null && this.TextNode.TextContent != "")
+            {
+                this.TextNode.Draw(spriteBatch);
+            }
+            else
+            {
+                this.DefaultTextNode?.Draw(spriteBatch);
+            }
         }
 
         private void DrawBorder(SpriteBatch spriteBatch)

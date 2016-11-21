@@ -7,8 +7,6 @@
 
     public interface IButton : IGui, IClickable
     {
-        ITextBox AttachedTextBox { get; set; }
-
         Texture2D Background { get; set; }
 
         TextNode TextNode { get; set; }

@@ -16,6 +16,7 @@
         {
             this.Buttons = new HashSet<IButton>();
             this.TextBoxes = new HashSet<ITextBox>();
+            this.TextNodes = new HashSet<ITextNode>();
 
             this.Background = new Texture2D(device, 1, 1);
             this.Background.SetData<Color>(new Color[] { Color.Black });
@@ -30,6 +31,8 @@
         public ICollection<IButton> Buttons { get; }
 
         public ICollection<ITextBox> TextBoxes { get; }
+
+        public ICollection<ITextNode> TextNodes { get; }
 
         public Texture2D Background { get; set; }
 

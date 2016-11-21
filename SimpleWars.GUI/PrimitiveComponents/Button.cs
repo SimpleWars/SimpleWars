@@ -9,14 +9,13 @@
 
     public class Button : IButton
     {
-        public Button(Vector2 position, Texture2D background, Vector2 dimensions, Vector2 textOffset, Action clickLogic, ITextBox attachedTextBox = null)
+        public Button(Vector2 position, Texture2D background, Vector2 dimensions, Vector2 textOffset, Action clickLogic)
         {
             this.Position = position;
             this.Background = background;
             this.Dimensions = dimensions;
             this.TextOffset = textOffset;
             this.ClickLogic = clickLogic;
-            this.AttachedTextBox = attachedTextBox;
         }
 
         public Vector2 Position { get; set; }
@@ -31,15 +30,13 @@
 
         public Action ClickLogic { get; set; }
 
-        public ITextBox AttachedTextBox { get; set; }
-
         public bool IsClicked { get; set; }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.Background, this.Position, null, Color.White, 0f, Vector2.Zero, this.Dimensions, SpriteEffects.None, 0f);
 
-            this.TextNode.Draw(spriteBatch);
+            this.TextNode?.Draw(spriteBatch);
         }
 
         public void DetectClick(float mouseX, float mouseY)
