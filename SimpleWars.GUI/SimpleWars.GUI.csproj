@@ -57,8 +57,11 @@
     <Compile Include="Interfaces\IPartialTextNode.cs" />
     <Compile Include="Interfaces\IPasswordTextNode.cs" />
     <Compile Include="Interfaces\ITextNode.cs" />
-    <Compile Include="Layouts\EntityDetailsLayout.cs" />
-    <Compile Include="Layouts\LoginLayout.cs" />
+    <Compile Include="Layouts\PrimitiveLayouts\EntityDetailsLayout.cs" />
+    <Compile Include="Layouts\Layout.cs" />
+    <Compile Include="Layouts\PrimitiveLayouts\LoginLayout.cs" />
+    <Compile Include="Layouts\WrapperLayouts\InitialLayout.cs" />
+    <Compile Include="Layouts\PrimitiveLayouts\RegisterLayout.cs" />
     <Compile Include="PrimitiveComponents\Button.cs" />
     <Compile Include="Interfaces\IButton.cs" />
     <Compile Include="Interfaces\IClickable.cs" />
@@ -68,7 +71,6 @@
     <Compile Include="Interfaces\ITextBox.cs" />
     <Compile Include="PrimitiveComponents\PartialTextNode.cs" />
     <Compile Include="PrimitiveComponents\PasswordTextNode.cs" />
-    <Compile Include="PrimitiveComponents\PointTextures.cs" />
     <Compile Include="PrimitiveComponents\TextNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrimitiveComponents\TextBox.cs" />
@@ -97,6 +99,10 @@
     <ProjectReference Include="..\SimpleWars.Users\SimpleWars.Users.csproj">
       <Project>{02a85fb2-11b1-4a29-9051-2d86094ffbf7}</Project>
       <Name>SimpleWars.Users</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Utils\SimpleWars.Utils.csproj">
+      <Project>{d01a7838-51c9-41f1-be53-ace04714d8ee}</Project>
+      <Name>SimpleWars.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

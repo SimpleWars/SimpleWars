@@ -21,58 +21,79 @@
 
         public static LoginState LoginUser(string username, string password, GameContext context)
         {
-            string hashedPassword = HashPassword(password);
-            var player =
-                context.Players.FirstOrDefault(p => p.Username == username && p.HashedPassword == hashedPassword);
-
-            hashedPassword = string.Empty;
-
-            if (player == null)
+            try
             {
-                return LoginState.Invalid;
+                string hashedPassword = HashPassword(password);
+                var player =
+                    context.Players.FirstOrDefault(p => p.Username == username && p.HashedPassword == hashedPassword);
+
+                hashedPassword = string.Empty;
+
+                if (player == null)
+                {
+                    return LoginState.Invalid;
+                }
+
+                CurrentPlayer = player;
+
+                return LoginState.Successful;
             }
-
-            CurrentPlayer = player;
-
-            return LoginState.Successful;
+            catch (Exception)
+            {
+                return LoginState.Error;
+            }
         }
 
-        public static string RegisterUser(string username, string password, GameContext context)
+        public static RegisterState RegisterUser(string username, string password, GameContext context)
         {
-            var player = context.Players.FirstOrDefault(p => p.Username == username);
-
-            if (player != null)
+            try
             {
-                return "Username already taken";
+                var player = context.Players.FirstOrDefault(p => p.Username == username);
+
+                if (player != null)
+                {
+                    return RegisterState.UsernameTaken;
+                }
+
+                int homeWorldSeed = RandomSeeder.Next(0, 1000000000);
+                float homeX = (float)RandomSeeder.NextDouble() * 1000;
+                float homeY = (float)RandomSeeder.NextDouble() * 500;
+
+                string hashedPassword = HashPassword(password);
+                var registeredPlayer = new Player(username, hashedPassword, homeWorldSeed, new Vector2(homeX, homeY));
+                context.Players.Add(registeredPlayer);
+                context.SaveChanges();
+                CurrentPlayer =
+                    context.Players.FirstOrDefault(p => p.Username == username && p.HashedPassword == hashedPassword);
+
+                hashedPassword = string.Empty;
+
+                return RegisterState.Successful;
             }
-
-            int homeWorldSeed = RandomSeeder.Next(0, 1000000000);
-            float homeX = (float)RandomSeeder.NextDouble() * 1000;
-            float homeY = (float)RandomSeeder.NextDouble() * 500;
-
-            string hashedPassword = HashPassword(password);
-            var registeredPlayer = new Player(username, hashedPassword, homeWorldSeed, new Vector2(homeX, homeY));
-            context.Players.Add(registeredPlayer);
-            context.SaveChanges();
-            CurrentPlayer =
-                context.Players.FirstOrDefault(p => p.Username == username && p.HashedPassword == hashedPassword);
-
-            hashedPassword = string.Empty;
-
-            return "Successful registration";
+            catch (Exception)
+            {
+                return RegisterState.Error;
+            }
         }
 
-        public static string LogoutCurrentUser(GameContext context)
+        public static LogoutState LogoutCurrentUser(GameContext context)
         {
-            if (CurrentPlayer == null)
+            try
             {
-                return "You must be logged in";
+                if (CurrentPlayer == null)
+                {
+                    return LogoutState.NotLogged;
+                }
+
+                context.SaveChanges();
+                CurrentPlayer = null;
+
+                return LogoutState.Successful;
             }
-
-            context.SaveChanges();
-            CurrentPlayer = null;
-
-            return "Successful logout";
+            catch (Exception)
+            {
+                return LogoutState.Error;
+            }
         }
 
         private static string HashPassword(string password)

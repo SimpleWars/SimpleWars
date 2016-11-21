@@ -12,6 +12,7 @@ namespace SimpleWars
     using SimpleWars.GUI;
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Users;
+    using SimpleWars.Utils;
 
     /// <summary>
     /// This is the main type for your game.
@@ -57,6 +58,12 @@ namespace SimpleWars
         {
             PointTextures.WhitePoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
             PointTextures.WhitePoint.SetData<Color>(new Color[] { Color.White });
+            PointTextures.BlackPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.BlackPoint.SetData<Color>(new Color[] { Color.Black });
+            PointTextures.TransparentPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.TransparentPoint.SetData<Color>(new Color[] { Color.Transparent });
+            PointTextures.GrayPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.GrayPoint.SetData<Color>(new Color[] { Color.Gray });
 
             DisplayManager.Instance.GraphicsManager = this.graphics;
 
@@ -120,7 +127,7 @@ namespace SimpleWars
 
             if (Input.Input.KeyPressed(Keys.M))
             {
-                DisplayManager.Instance.ChangeDisplay(new MenuDisplay(), this.context);
+                DisplayManager.Instance.ChangeDisplay(new InitialDisplay(), this.context);
             }
 
             DisplayManager.Instance.Update(gameTime, this.context);

@@ -54,14 +54,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Camera\CameraPerspective.cs" />
-    <Compile Include="Camera\CameraOrthographic.cs" />
     <Compile Include="DisplayManagement\Displays\Test3Display.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
     <Compile Include="DisplayManagement\DisplayManager.cs" />
     <Compile Include="DisplayManagement\Display.cs" />
     <Compile Include="DisplayManagement\Interfaces\IDisplayManager.cs" />
     <Compile Include="DisplayManagement\Interfaces\IDisplay.cs" />
-    <Compile Include="DisplayManagement\Displays\MenuDisplay.cs" />
+    <Compile Include="DisplayManagement\Displays\InitialDisplay.cs" />
     <Compile Include="GameInitializer.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +127,10 @@
     <ProjectReference Include="..\SimpleWars.Users\SimpleWars.Users.csproj">
       <Project>{02a85fb2-11b1-4a29-9051-2d86094ffbf7}</Project>
       <Name>SimpleWars.Users</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Utils\SimpleWars.Utils.csproj">
+      <Project>{d01a7838-51c9-41f1-be53-ace04714d8ee}</Project>
+      <Name>SimpleWars.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\SkinnedModelPipeline\SkinnedModelPipeline.csproj">
       <Project>{9db877b0-32d7-49e0-b663-92998ee2a815}</Project>

@@ -42,6 +42,8 @@
     <Compile Include="Light.cs" />
     <Compile Include="MersenneTwister.cs" />
     <Compile Include="NoiseGenerator.cs" />
+    <Compile Include="PointTextures.cs" />
+    <Compile Include="PrimitiveShapes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

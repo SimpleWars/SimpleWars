@@ -1,14 +1,13 @@
-﻿namespace SimpleWars.GUI.Layouts
+﻿namespace SimpleWars.GUI.Layouts.PrimitiveLayouts
 {
     using System.Collections.Generic;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Data.Contexts;
     using SimpleWars.GUI.Interfaces;
-    using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Input;
+    using SimpleWars.Models.Entities.Interfaces;
 
     public class EntityDetailsLayout : ILayout
     {
@@ -45,7 +44,7 @@
             // TODO: Implement Draw
         }
 
-        public void Update(GameTime gameTime, GameContext context)
+        public void Update(GameTime gameTime)
         {
             // TODO: Implement Update Logic
         }

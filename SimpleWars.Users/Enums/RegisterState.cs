@@ -1,10 +1,10 @@
 ﻿namespace SimpleWars.Users.Enums
 {
-    public enum LoginState
+    public enum RegisterState
     {
         None = 0,
         Successful = 1,
-        Invalid = 2,
+        UsernameTaken = 2,
         Error = -1
     }
 }

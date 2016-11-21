@@ -7,13 +7,17 @@
 
     using SimpleWars.Assets;
     using SimpleWars.Data.Contexts;
+    using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.Layouts;
+    using SimpleWars.GUI.Layouts.WrapperLayouts;
+    using SimpleWars.Users;
     using SimpleWars.Users.Enums;
+    using SimpleWars.Utils;
 
     /// <summary>
     /// The menu display.
     /// </summary>
-    public class MenuDisplay : Display
+    public class InitialDisplay : Display
     {
         /// <summary>
         /// The main frame.
@@ -22,7 +26,7 @@
 
         private Texture2D background;
 
-        private LoginLayout loginGui;
+        private InitialLayout initialGui;
 
         /// <summary>
         /// The load content.
@@ -37,7 +41,7 @@
 
             this.background = TexturesManager.Instance.GetTexture("Menu", "background");
 
-            this.loginGui = new LoginLayout(DisplayManager.Instance.GraphicsDevice, context);
+            this.initialGui = new InitialLayout(PointTextures.TransparentPoint, context);
         }
 
         /// <summary>
@@ -57,8 +61,9 @@
         /// </param>
         public override void Update(GameTime gameTime, GameContext context)
         {
-            this.loginGui.Update(gameTime, context);
-            if (this.loginGui.LoginState == LoginState.Successful)
+            this.initialGui.Update(gameTime);
+
+            if (this.initialGui.LoginState == LoginState.Successful || this.initialGui.RegisterState == RegisterState.Successful)
             {
                 DisplayManager.Instance.ChangeDisplay(new Test3Display(), context);
             }
@@ -74,7 +79,7 @@
         {
             spriteBatch.Draw(this.background, null, this.mainFrame);
 
-            this.loginGui.Draw(spriteBatch);
+            this.initialGui.Draw(spriteBatch);
         }
     }
 }

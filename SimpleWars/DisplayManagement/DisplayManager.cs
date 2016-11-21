@@ -32,7 +32,7 @@
         {
             this.Dimensions = new Vector2(1280, 720);
 
-            this.CurrentDisplay = new MenuDisplay();
+            this.CurrentDisplay = new InitialDisplay();
         }
 
         /// <summary>

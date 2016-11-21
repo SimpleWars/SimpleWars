@@ -11,6 +11,8 @@
 
         TextNode TextNode { get; set; }
 
-        Vector2 TextOffset { get; set; }
+        Color BorderColor { get; set; }
+
+        int BorderWidth { get; set; }
     }
 }

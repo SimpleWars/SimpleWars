@@ -17,6 +17,6 @@
 
         Texture2D Background { get; set; }
 
-        void Update(GameTime gameTime, GameContext context);
+        void Update(GameTime gameTime);
     }
 }

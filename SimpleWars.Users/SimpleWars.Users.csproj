@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\LoginState.cs" />
+    <Compile Include="Enums\LogoutState.cs" />
+    <Compile Include="Enums\RegisterState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersManager.cs" />
   </ItemGroup>

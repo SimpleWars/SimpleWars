@@ -10,12 +10,13 @@
 
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.Input;
+    using SimpleWars.Utils;
 
     public class TextBox : ITextBox
     {
-        private Rectangle rectangle;
+        private readonly Rectangle rectangle;
 
-        private Color stateClickedColor;
+        private readonly Color stateClickedColor;
 
         private TimeSpan lastTyped = TimeSpan.Zero;
 
@@ -55,7 +56,7 @@
 
         public void ReadInput(GameTime gameTime)
         {
-            if (!this.IsClicked)
+            if (!this.IsClicked || this.TextNode == null)
             {
                 return;
             }
@@ -75,9 +76,16 @@
                     case Keys.Back:
                         if (!string.IsNullOrEmpty(this.TextNode.TextContent))
                         {
-                            this.TextNode.TextContent = this.TextNode.TextContent.Substring(
+                            if (Input.KeyDown(Keys.LeftShift))
+                            {
+                                this.TextNode.TextContent = string.Empty;
+                            }
+                            else
+                            {
+                                this.TextNode.TextContent = this.TextNode.TextContent.Substring(
                                 0,
                                 this.TextNode.TextContent.Length - 1);
+                            }  
                         }
 
                         break;
@@ -148,15 +156,7 @@
 
         private void DrawBorder(SpriteBatch spriteBatch)
         {
-            DrawRectangle(spriteBatch, this.rectangle, this.BorderColor, this.BorderWidth);
-        }
-
-        private static void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color, int lineWidth)
-        {
-            spriteBatch.Draw(PointTextures.WhitePoint, new Rectangle(rectangle.X, rectangle.Y, lineWidth, rectangle.Height + lineWidth), color);
-            spriteBatch.Draw(PointTextures.WhitePoint, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width + lineWidth, lineWidth), color);
-            spriteBatch.Draw(PointTextures.WhitePoint, new Rectangle(rectangle.X + rectangle.Width, rectangle.Y, lineWidth, rectangle.Height + lineWidth), color);
-            spriteBatch.Draw(PointTextures.WhitePoint, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height, rectangle.Width + lineWidth, lineWidth), color);
+            PrimitiveShapes.DrawRectangle(spriteBatch, this.rectangle, this.BorderColor, this.BorderWidth);
         }
 
         private static bool IsKeyAChar(Keys key)
