@@ -68,6 +68,7 @@
         public override void UnloadContent()
         {
             ModelsManager.Instance.DisposeAll();
+            GC.Collect();
         }
 
         public override void Update(GameTime gameTime, GameContext context)

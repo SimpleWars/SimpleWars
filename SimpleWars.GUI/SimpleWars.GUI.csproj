@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ITextNode.cs" />
     <Compile Include="Layouts\EntityDetailsLayout.cs" />
     <Compile Include="Layouts\LoginLayout.cs" />
     <Compile Include="PrimitiveComponents\Button.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Interfaces\ILayout.cs" />
     <Compile Include="Interfaces\ITextBox.cs" />
     <Compile Include="PrimitiveComponents\PointTextures.cs" />
+    <Compile Include="PrimitiveComponents\TextNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PrimitiveComponents\TextBox.cs" />
   </ItemGroup>

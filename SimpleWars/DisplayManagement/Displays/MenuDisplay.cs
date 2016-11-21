@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.DisplayManagement.Displays
 {
+    using System;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -44,6 +46,7 @@
         public override void UnloadContent()
         {
             TexturesManager.Instance.DisposeAll();
+            GC.Collect();
         }
 
         /// <summary>
