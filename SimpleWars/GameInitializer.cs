@@ -105,7 +105,7 @@ namespace SimpleWars
                 this.Exit();
             }
 
-            Input.Input.Update();
+            Input.Input.Update(gameTime);
 
             if (Input.Input.KeyPressed(Keys.M))
             {

@@ -87,10 +87,28 @@
             }
             else if (entity is IUnit)
             {
-                // dimensions will be adjusted to properly display unit data later
                 this.Dimensions = new Vector2(240, 150);
-                var unit = (IUnit)entity;
+                this.SerializeUnit((IUnit)entity);
             }
+        }
+
+        private void SerializeUnit(IUnit unit)
+        {
+            var pickProvider = new Button(
+            this.Position + new Vector2(20, 110),
+            PointTextures.TransparentGrayPoint,
+            new Vector2(80, 30),
+            Color.Black,
+            2,
+            () =>
+            {
+                this.Command = DetailCommand.PickEntity;
+            });
+
+            var pickProviderTextNode = new TextNode(pickProvider, new Vector2(20, 0), Vector2.One, "Pick", SpriteFontManager.Instance.GetFont("Arial_18"), Color.White);
+            pickProvider.TextNode = pickProviderTextNode;
+
+            this.Buttons.Add(pickProvider);
         }
 
         private void SerializeResourceProvider(IResourceProvider provider)

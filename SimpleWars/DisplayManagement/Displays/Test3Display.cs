@@ -80,10 +80,7 @@
 
         public override void Update(GameTime gameTime)
         {
-            var userEntities =
-                UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units);
-
-            foreach (var entity in userEntities)
+            foreach (var entity in UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units))
             {
                 entity.GravityAffect(gameTime, this.terrain);
             }
@@ -116,7 +113,7 @@
                       DisplayManager.Instance.GraphicsDevice,
                       this.camera.ProjectionMatrix,
                       this.camera.ViewMatrix,
-                      userEntities);
+                      UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units));
 
                     if (clickedEntity != null)
                     {

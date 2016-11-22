@@ -1,6 +1,7 @@
 ﻿namespace SimpleWars.Input
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     using Microsoft.Xna.Framework;
@@ -11,6 +12,13 @@
     /// </summary>
     public static class Input
     {
+        private static double clickTimer;
+
+        private static bool doubleClickPotential;
+
+        private const double TimeDelay = 400;
+
+
         /// <summary>
         /// The key state.
         /// </summary>
@@ -31,13 +39,29 @@
         /// </summary>
         private static MouseState previousMouseState;
 
-        public static void Update()
+        public static void Update(GameTime gameTime)
         {
             previousKeyState = keyState;
             previousMouseState = mouseState;
 
             keyState = Keyboard.GetState();
             mouseState = Mouse.GetState();
+
+            clickTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (!LeftMouseClick())
+            {      
+                return;
+            }
+
+            if (doubleClickPotential)
+            {
+                LeftMouseDoubleClick = clickTimer < TimeDelay;
+                doubleClickPotential = false;
+                clickTimer = 0;
+            }
+              
+            doubleClickPotential = true;
         }
 
         public static IEnumerable<Keys> GetKeysPressed()
@@ -119,5 +143,7 @@
                 }
             }
         }
+
+        public static bool LeftMouseDoubleClick { get; private set; }
     }
 }
