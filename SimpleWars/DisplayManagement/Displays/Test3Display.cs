@@ -84,6 +84,8 @@
                 entity.GravityAffect(gameTime, this.terrain);
             }
 
+            this.details?.Update(gameTime);
+                
             if (Input.KeyPressed(Keys.D1))
             {
                 if (EntityPicker.HasPicked())
@@ -100,39 +102,37 @@
 
             if (Input.LeftMouseClick())
             {
-                //if (EntityPicker.HasPicked())
-                //{
-                //    EntityPicker.PlaceEntity();
-                //}
-                //else
-                //{
-                //    EntityPicker.PickEntity(
-                //        DisplayManager.Instance.GraphicsDevice,
-                //        this.camera.ProjectionMatrix,
-                //        this.camera.ViewMatrix,
-                //        UsersManager.CurrentPlayer.ResourceProviders);
-                //}
-
-                IEntity clickedEntity = RayCaster.CastToEntities(
-                    DisplayManager.Instance.GraphicsDevice,
-                    this.camera.ProjectionMatrix,
-                    this.camera.ViewMatrix,
-                    UsersManager.CurrentPlayer.ResourceProviders);
-
-                if (clickedEntity != null)
+                if (EntityPicker.HasPicked())
                 {
-                    var projectedPosition =
-                        DisplayManager.Instance.GraphicsDevice.Viewport.Project(
-                            clickedEntity.Position,
-                            this.camera.ProjectionMatrix,
-                            this.camera.ViewMatrix,
-                            Matrix.Identity);
+                    EntityPicker.PlaceEntity();
+                }
+                else
+                {
+                    IEntity clickedEntity = RayCaster.CastToEntities(
+                      DisplayManager.Instance.GraphicsDevice,
+                      this.camera.ProjectionMatrix,
+                      this.camera.ViewMatrix,
+                      UsersManager.CurrentPlayer.ResourceProviders);
 
-                    this.details = new EntityDetailsLayout(clickedEntity, PointTextures.TransparentBlackPoint, projectedPosition);
+                    if (clickedEntity != null)
+                    {
+                        var projectedPosition =
+                            DisplayManager.Instance.GraphicsDevice.Viewport.Project(
+                                clickedEntity.Position,
+                                this.camera.ProjectionMatrix,
+                                this.camera.ViewMatrix,
+                                Matrix.Identity);
+
+                        this.details = new EntityDetailsLayout(clickedEntity, PointTextures.TransparentBlackPoint, projectedPosition);
+                    }
                 }
             }
 
-            this.ProjectClickedEntity();
+            if (this.details != null)
+            {
+                this.ProjectClickedEntity();
+                this.ReadDetailsCommand();
+            }
 
             EntityPicker.DragEntity(
                 DisplayManager.Instance.GraphicsDevice,
@@ -164,11 +164,6 @@
 
         private void ProjectClickedEntity()
         {
-            if (this.details == null)
-            {
-                return;
-            }
-
             var projectedPosition = DisplayManager.Instance.GraphicsDevice.Viewport.Project(
                 this.details.Entity.Position,
                 this.camera.ProjectionMatrix,
@@ -176,6 +171,31 @@
                 Matrix.Identity);
 
             this.details.AdjustPosition(new Vector2(projectedPosition.X, projectedPosition.Y));
+        }
+
+        private void ReadDetailsCommand()
+        {
+            if (this.details.Command == DetailCommand.PickEntity)
+            {
+                EntityPicker.PickEntity(this.details.Entity);
+                this.details = null;
+            }
+            else if (this.details.Command == DetailCommand.GatherResource)
+            {
+                ((IResourceProvider)this.details.Entity).Gather(5);
+            }
+            else if (this.details.Command == DetailCommand.CommandMovement)
+            {
+                // logic for units movement command execution
+            }
+            else if (this.details.Command == DetailCommand.DestroyEntity)
+            {
+                // logic for entity destruction (mark as death in db and ignore)
+            }
+            else if (this.details.Command == DetailCommand.Close)
+            {
+                this.details = null;
+            }
         }
     }
 }

@@ -14,7 +14,7 @@
     public static class EntityPicker
     {
         /// <summary>
-        /// Gets the entity picked.
+        /// Gets or sets the entity picked.
         /// </summary>
         public static IEntity EntityPicked { get; set; }
 
@@ -48,6 +48,15 @@
             IEnumerable<IEntity> entities)
         {
             EntityPicked = RayCaster.CastToEntities(device, projectionMatrix, viewMatrix, entities);
+            if (HasPicked())
+            {
+                EntityPicked.IsHighlighted = true;
+            }
+        }
+
+        public static void PickEntity(IEntity entity)
+        {
+            EntityPicked = entity;
             if (HasPicked())
             {
                 EntityPicked.IsHighlighted = true;

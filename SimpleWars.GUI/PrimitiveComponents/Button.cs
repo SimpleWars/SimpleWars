@@ -12,34 +12,37 @@
     {
         private Rectangle rectangle;
 
+        private Vector2 position;
+
         public Button(Vector2 position, Texture2D background, Vector2 dimensions, Color borderColor, int borderWidth, Action clickLogic)
         {
-            this.Position = position;
             this.Background = background;
             this.Dimensions = dimensions;
+
+            this.Position = position;
             this.BorderColor = borderColor;
             this.ClickLogic = clickLogic;
-            this.BorderWidth = borderWidth;
-
-            if (this.Background.Width == 1 && this.Background.Height == 1)
-            {
-                this.rectangle = new Rectangle(
-                    (int)this.Position.X,
-                    (int)this.Position.Y,
-                    (int)this.Dimensions.X,
-                    (int)this.Dimensions.Y);
-            }
-            else
-            {
-                this.rectangle = new Rectangle(
-                    (int)this.Position.X,
-                    (int)this.Position.Y,
-                    this.Background.Width,
-                    this.Background.Height);
-            }
+            this.BorderWidth = borderWidth; 
         }
 
-        public Vector2 Position { get; set; }
+        public Vector2 Position
+        {
+            get
+            {
+                return this.position;
+            }
+
+            set
+            {
+                this.position = value;
+
+                this.rectangle = new Rectangle(
+                    (int)this.Position.X,
+                    (int)this.Position.Y,
+                    (int)(this.Dimensions.X * this.Background.Width),
+                    (int)(this.Dimensions.Y * this.Background.Height));
+            }
+        }
 
         public Texture2D Background { get; set; }
 
