@@ -11,7 +11,7 @@
 
     public abstract class Layout : ILayout
     {
-        protected Layout(Texture2D background)
+        protected Layout(Texture2D background, float transparency = 1)
         {
             this.Background = background;
             this.Buttons = new HashSet<IButton>();

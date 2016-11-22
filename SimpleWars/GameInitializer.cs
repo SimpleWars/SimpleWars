@@ -49,14 +49,7 @@ namespace SimpleWars
         /// </summary>
         protected override void Initialize()
         {
-            PointTextures.WhitePoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
-            PointTextures.WhitePoint.SetData<Color>(new Color[] { Color.White });
-            PointTextures.BlackPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
-            PointTextures.BlackPoint.SetData<Color>(new Color[] { Color.Black });
-            PointTextures.TransparentPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
-            PointTextures.TransparentPoint.SetData<Color>(new Color[] { Color.Transparent });
-            PointTextures.GrayPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
-            PointTextures.GrayPoint.SetData<Color>(new Color[] { Color.Gray });
+            this.InitializePointTextures();
 
             DisplayManager.Instance.GraphicsManager = this.graphics;
 
@@ -133,7 +126,7 @@ namespace SimpleWars
             this.GraphicsDevice.Clear(Color.CornflowerBlue);
             this.spriteBatch.Begin();
 
-            this.GraphicsDevice.BlendState = BlendState.Opaque;
+            this.GraphicsDevice.BlendState = BlendState.AlphaBlend;
             this.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             this.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             this.GraphicsDevice.SamplerStates[0] = SamplerState.AnisotropicWrap;
@@ -142,6 +135,26 @@ namespace SimpleWars
             this.spriteBatch.End();
             
             base.Draw(gameTime);
+        }
+
+        private void InitializePointTextures()
+        {
+            PointTextures.WhitePoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.WhitePoint.SetData<Color>(new Color[] { Color.White });
+            PointTextures.BlackPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.BlackPoint.SetData<Color>(new Color[] { Color.Black });
+            PointTextures.TransparentPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.TransparentPoint.SetData<Color>(new Color[] { Color.Transparent });
+            PointTextures.GrayPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.GrayPoint.SetData<Color>(new Color[] { Color.Gray });
+            PointTextures.TransparentBlackPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.TransparentBlackPoint.SetData(new Color[] { new Color(Color.Black, 0.6f) });
+            PointTextures.TransparentGrayPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.TransparentGrayPoint.SetData(new Color[] { new Color(Color.Gray, 0.6f) });
+            PointTextures.TransparentWhitePoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.TransparentWhitePoint.SetData(new Color[] { new Color(Color.White, 0.6f) });
+            PointTextures.TransparentLightYellowPoint = new Texture2D(this.graphics.GraphicsDevice, 1, 1);
+            PointTextures.TransparentLightYellowPoint.SetData(new Color[] { new Color(Color.LightYellow, 0.6f) });
         }
     }
 }

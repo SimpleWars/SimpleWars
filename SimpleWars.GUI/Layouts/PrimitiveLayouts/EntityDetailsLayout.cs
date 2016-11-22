@@ -5,53 +5,81 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
+    using SimpleWars.Assets;
     using SimpleWars.GUI.Interfaces;
+    using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Input;
     using SimpleWars.Models.Entities.Interfaces;
 
-    public class EntityDetailsLayout : ILayout
+    public class EntityDetailsLayout : Layout
     {
-        public EntityDetailsLayout(IEntity entity, GraphicsDevice device)
+        public EntityDetailsLayout(IEntity entity, Texture2D background)
+            : base(background)
         {
-            this.Buttons = new HashSet<IButton>();
-            this.TextBoxes = new HashSet<ITextBox>();
-            this.TextNodes = new HashSet<ITextNode>();
-
-            this.Background = new Texture2D(device, 1, 1);
-            this.Background.SetData<Color>(new Color[] { Color.Black });
-
             // Just placeholder values for now. Will be properly calculated.
             this.Dimensions = new Vector2(150, 250);
-            this.Position = new Vector2(Input.MousePos.X, Input.MousePos.Y - 50);
+            this.Position = new Vector2(Input.MousePos.X, Input.MousePos.Y - 250);
 
             this.SerializeEntity(entity);
         }
 
-        public ICollection<IButton> Buttons { get; }
-
-        public ICollection<ITextBox> TextBoxes { get; }
-
-        public ICollection<ITextNode> TextNodes { get; }
-
-        public Texture2D Background { get; set; }
-
-        public Vector2 Position { get; set; }
-
-        public Vector2 Dimensions { get; set; }
-
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Update(GameTime gameTime)
         {
-            // TODO: Implement Draw
+            base.Update(gameTime);
+
+            //if (Input.LeftMouseClick())
+            //{
+            //    if(Input.MousePos.X > )
+            //}
         }
 
-        public void Update(GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            // TODO: Implement Update Logic
+            base.Draw(spriteBatch);
         }
 
         private void SerializeEntity(IEntity entity)
         {
-            // TODO: Implement serialization to fill buttons and show entity specific text
+            if (entity is IResourceProvider)
+            {
+                var provider = (IResourceProvider)entity;
+                var providerType = provider.GetType().BaseType;
+                var providerName = providerType?.Name ?? "Not specified";
+                var resourceType = provider.ResourceType;
+                var resourceQuantity = provider.Quantity;
+
+                var typeTextNode = new TextNode(
+                    this,
+                    new Vector2(20, 20),
+                    Vector2.One,
+                    providerName,
+                    SpriteFontManager.Instance.GetFont("Arial_18"),
+                    Color.White);
+
+                var resourceTypeTextNode = new TextNode(
+                    this,
+                    new Vector2(20, 50),
+                    Vector2.One,
+                    resourceType,
+                    SpriteFontManager.Instance.GetFont("Arial_18"),
+                    Color.White);
+
+                var resourceQuantityTextNode = new TextNode(
+                    this,
+                    new Vector2(20, 80),
+                    Vector2.One,
+                    resourceQuantity.ToString(),
+                    SpriteFontManager.Instance.GetFont("Arial_18"),
+                    Color.White);
+
+                this.TextNodes.Add(typeTextNode);
+                this.TextNodes.Add(resourceTypeTextNode);
+                this.TextNodes.Add(resourceQuantityTextNode);
+            } 
+            else if (entity is IUnit)
+            {
+                var unit = (IUnit)entity;
+            }
         }
     }
 }

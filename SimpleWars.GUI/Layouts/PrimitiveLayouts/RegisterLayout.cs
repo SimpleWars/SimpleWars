@@ -9,6 +9,7 @@
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Users;
     using SimpleWars.Users.Enums;
+    using SimpleWars.Utils;
 
     public class RegisterLayout : Layout
     {
@@ -21,6 +22,10 @@
         private ITextBox confirmPasswordTb;
 
         private bool passwordsDoNotMatch;
+
+        private bool passwordEmpty;
+
+        private bool usernameEmpty;
 
         public RegisterLayout(Texture2D background, GameContext context)
             : base(background)
@@ -42,6 +47,22 @@
                 spriteBatch.DrawString(
                     SpriteFontManager.Instance.GetFont("Arial_18"),
                     "Passwords do not match",
+                    this.Position + new Vector2(20, -20),
+                    Color.Red);
+            }
+            else if (this.passwordEmpty)
+            {
+                spriteBatch.DrawString(
+                    SpriteFontManager.Instance.GetFont("Arial_18"),
+                    "Password cannot be empty",
+                    this.Position + new Vector2(20, -20),
+                    Color.Red);
+            }
+            else if (this.usernameEmpty)
+            {
+                spriteBatch.DrawString(
+                    SpriteFontManager.Instance.GetFont("Arial_18"),
+                    "Username cannot be empty",
                     this.Position + new Vector2(20, -20),
                     Color.Red);
             }
@@ -155,13 +176,25 @@
 
             this.registerButton = new Button(
                 this.Position + new Vector2(20, 140),
-                this.Background,
+                PointTextures.TransparentBlackPoint,
                 new Vector2(200, 30),
-                Color.Transparent,
+                Color.Black,
                 2,
                 () =>
                 {
-                    if (this.passwordTb.TextNode.TextContent == this.confirmPasswordTb.TextNode.TextContent)
+                    if (string.IsNullOrWhiteSpace(this.usernameTb.TextNode.TextContent))
+                    {
+                        this.usernameEmpty = true;
+                        this.passwordEmpty = false;
+                        this.passwordsDoNotMatch = false;
+                    }
+                    else if (string.IsNullOrWhiteSpace(this.passwordTb.TextNode.TextContent))
+                    {
+                        this.passwordEmpty = true;
+                        this.passwordsDoNotMatch = false;
+                        this.usernameEmpty = false;
+                    }
+                    else if (this.passwordTb.TextNode.TextContent == this.confirmPasswordTb.TextNode.TextContent)
                     {
                         this.RegisterState = UsersManager.RegisterUser(
                             this.usernameTb.TextNode.TextContent,
@@ -171,10 +204,12 @@
                     else
                     {
                         this.passwordsDoNotMatch = true;
+                        this.passwordEmpty = false;
+                        this.usernameEmpty = false;
                     }
                 });
 
-            var registerButtonTextNode = new TextNode(this.registerButton, new Vector2(60, 0), Vector2.One, "Register", SpriteFontManager.Instance.GetFont("Arial_22"), Color.Black);
+            var registerButtonTextNode = new TextNode(this.registerButton, new Vector2(50, 0), Vector2.One, "Register", SpriteFontManager.Instance.GetFont("Arial_22"), Color.White);
 
             this.registerButton.TextNode = registerButtonTextNode;
 

@@ -13,11 +13,14 @@
     using SimpleWars.Environment.Skybox;
     using SimpleWars.Environment.Terrain;
     using SimpleWars.Environment.Terrain.Terrains;
+    using SimpleWars.GUI.Interfaces;
+    using SimpleWars.GUI.Layouts.PrimitiveLayouts;
     using SimpleWars.Input;
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
     using SimpleWars.Users;
+    using SimpleWars.Utils;
 
     public class Test3Display : Display
     {
@@ -26,6 +29,8 @@
         private Terrain terrain;
 
         private Skybox skybox;
+
+        private ILayout details;
 
         public override void LoadContent()
         {
@@ -93,17 +98,28 @@
 
             if (Input.LeftMouseClick())
             {
-                if (EntityPicker.HasPicked())
+                //if (EntityPicker.HasPicked())
+                //{
+                //    EntityPicker.PlaceEntity();
+                //}
+                //else
+                //{
+                //    EntityPicker.PickEntity(
+                //        DisplayManager.Instance.GraphicsDevice,
+                //        this.camera.ProjectionMatrix,
+                //        this.camera.ViewMatrix,
+                //        UsersManager.CurrentPlayer.ResourceProviders);
+                //}
+
+                IEntity clickedEntity = RayCaster.CastToEntities(
+                    DisplayManager.Instance.GraphicsDevice,
+                    this.camera.ProjectionMatrix,
+                    this.camera.ViewMatrix,
+                    UsersManager.CurrentPlayer.ResourceProviders);
+
+                if (clickedEntity != null)
                 {
-                    EntityPicker.PlaceEntity();
-                }
-                else
-                {
-                    EntityPicker.PickEntity(
-                        DisplayManager.Instance.GraphicsDevice,
-                        this.camera.ProjectionMatrix,
-                        this.camera.ViewMatrix,
-                        UsersManager.CurrentPlayer.ResourceProviders);
+                    this.details = new EntityDetailsLayout(clickedEntity, PointTextures.TransparentBlackPoint);
                 }
             }
 
@@ -131,6 +147,8 @@
             {
                 unit.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
             }
+
+            this.details?.Draw(spriteBatch);
         }
     }
 }

@@ -11,6 +11,7 @@
     public class Button : IButton
     {
         private Rectangle rectangle;
+
         public Button(Vector2 position, Texture2D background, Vector2 dimensions, Color borderColor, int borderWidth, Action clickLogic)
         {
             this.Position = position;

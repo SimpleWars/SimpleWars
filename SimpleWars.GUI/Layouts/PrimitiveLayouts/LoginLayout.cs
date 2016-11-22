@@ -9,6 +9,7 @@
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Users;
     using SimpleWars.Users.Enums;
+    using SimpleWars.Utils;
 
     public class LoginLayout : Layout
     {
@@ -106,16 +107,16 @@
 
             this.loginButton = new Button(
                 this.Position + new Vector2(20, 100),
-                this.Background,
+                PointTextures.TransparentBlackPoint,
                 new Vector2(200, 30),
-                Color.Transparent,
+                Color.Black,
                 2,
                 () =>
                     {
                         this.LoginState = UsersManager.LoginUser(this.usernameTb.TextNode.TextContent, this.passwordTb.TextNode.TextContent, context);
                     });
 
-            var loginButtonTextNode = new TextNode(this.loginButton, new Vector2(70, 0), Vector2.One, "Log In", SpriteFontManager.Instance.GetFont("Arial_22"), Color.Black);
+            var loginButtonTextNode = new TextNode(this.loginButton, new Vector2(70, -2), Vector2.One, "Log In", SpriteFontManager.Instance.GetFont("Arial_22"), Color.White);
 
             this.loginButton.TextNode = loginButtonTextNode;
 
