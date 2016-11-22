@@ -7,7 +7,7 @@
     /// <summary>
     /// The Moveable interface.
     /// </summary>
-    public interface IMoveable : IEntity
+    public interface IMove : IEntity
     {
         /// <summary>
         /// The move.
@@ -15,13 +15,13 @@
         /// <param name="gameTime">
         /// The game time.
         /// </param>
-        /// <param name="direction">
+        /// <param name="destionation">
         /// The direction.
         /// </param>
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        void Move(GameTime gameTime, Vector3 direction, ITerrain terrain);
+        void Move(GameTime gameTime, Vector3 destionation, ITerrain terrain);
 
         /// <summary>
         /// The rotate.
@@ -29,6 +29,9 @@
         /// <param name="angle">
         /// The angle.
         /// </param>
-        void Rotate(Vector3 angle);
+        /// <param name="gameTime">
+        /// The game Time.
+        /// </param>
+        void Rotate(Vector3 angle, GameTime gameTime);
     }
 }

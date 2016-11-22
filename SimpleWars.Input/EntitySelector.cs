@@ -11,12 +11,28 @@
     /// <summary>
     /// The entity picker.
     /// </summary>
-    public static class EntityPicker
+    public static class EntitySelector
     {
+        private static IEntity entityPicked;
+
         /// <summary>
         /// Gets or sets the entity picked.
         /// </summary>
-        public static IEntity EntityPicked { get; set; }
+        public static IEntity EntityPicked
+        {
+            get
+            {
+                return entityPicked;
+            }
+
+            set
+            {
+                entityPicked = value;
+                SelectEntity(value);
+            }
+        }
+
+        public static IEntity EntitySelected { get; set; }
 
         /// <summary>
         /// The has picked.
@@ -27,6 +43,11 @@
         public static bool HasPicked()
         {
             return EntityPicked != null;
+        }
+
+        public static bool HasSelected()
+        {
+            return EntitySelected != null;
         }
 
         /// <summary>
@@ -47,6 +68,11 @@
             Matrix viewMatrix, 
             IEnumerable<IEntity> entities)
         {
+            if (HasPicked())
+            {
+                PlaceEntity();
+            }
+
             EntityPicked = RayCaster.CastToEntities(device, projectionMatrix, viewMatrix, entities);
             if (HasPicked())
             {
@@ -56,10 +82,48 @@
 
         public static void PickEntity(IEntity entity)
         {
+            if (HasPicked())
+            {
+                PlaceEntity();
+            }
+
             EntityPicked = entity;
+
             if (HasPicked())
             {
                 EntityPicked.IsHighlighted = true;
+            }
+        }
+
+        public static void SelectEntity(
+            GraphicsDevice device,
+            Matrix projectionMatrix,
+            Matrix viewMatrix,
+            IEnumerable<IEntity> entities)
+        {
+            if (HasSelected())
+            {
+                EntitySelected.IsHighlighted = false;
+            }
+
+            EntitySelected = RayCaster.CastToEntities(device, projectionMatrix, viewMatrix, entities);
+            if (HasSelected())
+            {
+                EntityPicked.IsHighlighted = true;
+            }
+        }
+
+        public static void SelectEntity(IEntity entity)
+        {
+            if (HasSelected())
+            {
+                EntitySelected.IsHighlighted = false;
+            }
+
+            EntitySelected = entity;
+            if (HasSelected())
+            {
+                EntitySelected.IsHighlighted = true;
             }
         }
 

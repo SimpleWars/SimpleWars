@@ -89,23 +89,23 @@
                 
             if (Input.KeyPressed(Keys.D1))
             {
-                if (EntityPicker.HasPicked())
+                if (EntitySelector.HasPicked())
                 {
-                    EntityPicker.PlaceEntity();
+                    EntitySelector.PlaceEntity();
                 }
                 else
                 {
-                    var unit = new Swordsman(Vector3.Zero, 1);
+                    var unit = new Swordsman(Vector3.Zero);
                     UsersManager.CurrentPlayer.Units.Add(unit);
-                    EntityPicker.EntityPicked = unit;
+                    EntitySelector.EntityPicked = unit;
                 }
             }
 
             if (Input.LeftMouseClick())
             {
-                if (EntityPicker.HasPicked())
+                if (EntitySelector.HasPicked())
                 {
-                    EntityPicker.PlaceEntity();
+                    EntitySelector.PlaceEntity();
                 }
                 else
                 {
@@ -135,7 +135,7 @@
                 this.ReadDetailsCommand();
             }
 
-            EntityPicker.DragEntity(
+            EntitySelector.DragEntity(
                 DisplayManager.Instance.GraphicsDevice,
                 this.camera.ProjectionMatrix,
                 this.camera.ViewMatrix,
@@ -178,7 +178,7 @@
         {
             if (this.details.Command == DetailCommand.PickEntity)
             {
-                EntityPicker.PickEntity(this.details.Entity);
+                EntitySelector.PickEntity(this.details.Entity);
                 this.details = null;
             }
             else if (this.details.Command == DetailCommand.GatherResource)

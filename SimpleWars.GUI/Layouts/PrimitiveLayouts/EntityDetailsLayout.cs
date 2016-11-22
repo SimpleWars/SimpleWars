@@ -10,6 +10,7 @@
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Input;
+    using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Utils;
 
@@ -80,57 +81,21 @@
 
         private void SerializeEntity(IEntity entity)
         {
-            if (entity is IResourceProvider)
-            {
-                this.Dimensions = new Vector2(240, 150);
-                this.SerializeResourceProvider((IResourceProvider)entity);
-            }
-            else if (entity is IUnit)
-            {
-                this.Dimensions = new Vector2(240, 150);
-                this.SerializeUnit((IUnit)entity);
-            }
-        }
-
-        private void SerializeUnit(IUnit unit)
-        {
-            var pickProvider = new Button(
-            this.Position + new Vector2(20, 110),
-            PointTextures.TransparentGrayPoint,
-            new Vector2(80, 30),
-            Color.Black,
-            2,
-            () =>
-            {
-                this.Command = DetailCommand.PickEntity;
-            });
-
-            var pickProviderTextNode = new TextNode(pickProvider, new Vector2(20, 0), Vector2.One, "Pick", SpriteFontManager.Instance.GetFont("Arial_18"), Color.White);
-            pickProvider.TextNode = pickProviderTextNode;
-
-            this.Buttons.Add(pickProvider);
-        }
-
-        private void SerializeResourceProvider(IResourceProvider provider)
-        {
-            var providerType = provider.GetType();
+            var entityType = entity.GetType();
             string providerName;
 
-            if (providerType.BaseType != null && providerType.BaseType.IsAbstract)
+            if (entityType.BaseType != null && entityType.BaseType.IsAbstract)
             {
-                providerName = providerType.Name;
+                providerName = entityType.Name;
             }
-            else if (providerType.BaseType != null)
+            else if (entityType.BaseType != null)
             {
-                providerName = providerType.BaseType.Name;
+                providerName = entityType.BaseType.Name;
             }
             else
             {
                 providerName = "Not specified";
             }
-
-            var resourceType = provider.ResourceType;
-            var resourceQuantity = provider.Quantity;
 
             var typeTextNode = new TextNode(
                 this,
@@ -139,6 +104,69 @@
                 providerName,
                 SpriteFontManager.Instance.GetFont("Arial_18"),
                 Color.White);
+
+            this.TextNodes.Add(typeTextNode);
+
+            if (entity is IResourceProvider)
+            {
+                this.Dimensions = new Vector2(240, 150);
+                this.SerializeResourceProvider((IResourceProvider)entity);
+            }
+            else if (entity is ICombatUnit)
+            {
+                this.Dimensions = new Vector2(240, 200);
+                this.SerializeCombatUnit((ICombatUnit)entity);
+            }
+        }
+
+        private void SerializeCombatUnit(ICombatUnit unit)
+        {
+           string healthToDisplay = "Health: " + unit.Health + "/" + unit.MaxHealth;
+            var healthTextNode = new TextNode(
+                this,
+                new Vector2(20, 50),
+                Vector2.One,
+                healthToDisplay,
+                SpriteFontManager.Instance.GetFont("Arial_18"),
+                Color.White);
+
+            string damageDisplay = "Damage: " + unit.Damage;
+            var damageTextNode = new TextNode(
+                this,
+                new Vector2(20, 80),
+                Vector2.One,
+                damageDisplay,
+                SpriteFontManager.Instance.GetFont("Arial_18"),
+                Color.White);
+
+            string armorDisplay = "Armor: " + unit.Armor;
+            var armorTextNode = new TextNode(
+                this,
+                new Vector2(20, 110),
+                Vector2.One,
+                armorDisplay,
+                SpriteFontManager.Instance.GetFont("Arial_18"),
+                Color.White);
+
+            string attackRangeDisplay = "Range: " + unit.AttackRange;
+            var attackRangeTextNode = new TextNode(
+                this,
+                new Vector2(20, 140),
+                Vector2.One,
+                attackRangeDisplay,
+                SpriteFontManager.Instance.GetFont("Arial_18"),
+                Color.White);
+
+            this.TextNodes.Add(healthTextNode);
+            this.TextNodes.Add(damageTextNode);
+            this.TextNodes.Add(armorTextNode);
+            this.TextNodes.Add(attackRangeTextNode);
+        }
+
+        private void SerializeResourceProvider(IResourceProvider provider)
+        {
+            var resourceType = provider.ResourceType;
+            var resourceQuantity = provider.Quantity;
 
             var resourceTypeTextNode = new TextNode(
                 this,
@@ -156,7 +184,6 @@
                 SpriteFontManager.Instance.GetFont("Arial_18"),
                 Color.White);
 
-            this.TextNodes.Add(typeTextNode);
             this.TextNodes.Add(resourceTypeTextNode);
             this.TextNodes.Add(resourceQuantityTextNode);
 
