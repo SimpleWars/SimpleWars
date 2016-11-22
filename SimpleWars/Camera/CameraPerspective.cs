@@ -5,6 +5,7 @@
 
     using SimpleWars.DisplayManagement;
     using SimpleWars.Environment.Terrain;
+    using SimpleWars.GUI.Interfaces;
     using SimpleWars.Input;
 
     /// <summary>
@@ -160,8 +161,8 @@
                 this.SnapView();
             }
 
-            float deltaX = Input.PrevMountPos.X - Input.MousePos.X;
-            float deltaY = Input.PrevMountPos.Y - Input.MousePos.Y;
+            float deltaX = Input.PreviousMousePos.X - Input.MousePos.X;
+            float deltaY = Input.PreviousMousePos.Y - Input.MousePos.Y;
 
             if (Input.MiddleButtonHold())
             {

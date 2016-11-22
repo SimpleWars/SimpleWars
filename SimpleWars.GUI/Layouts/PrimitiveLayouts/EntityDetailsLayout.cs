@@ -13,24 +13,33 @@
 
     public class EntityDetailsLayout : Layout
     {
-        public EntityDetailsLayout(IEntity entity, Texture2D background)
+        public EntityDetailsLayout(IEntity entity, Texture2D background, Vector3 projectedPosition)
             : base(background)
         {
+            this.Entity = entity;
             // Just placeholder values for now. Will be properly calculated.
             this.Dimensions = new Vector2(150, 250);
-            this.Position = new Vector2(Input.MousePos.X, Input.MousePos.Y - 250);
-
+            this.Position = new Vector2(projectedPosition.X, projectedPosition.Y - 300);
             this.SerializeEntity(entity);
+        }
+
+        public IEntity Entity { get; }
+
+        public void AdjustPosition(Vector2 position)
+        {
+            Vector2 offset = this.Position - position;
+
+            this.Position = position;
+
+            foreach (var textNode in this.TextNodes)
+            {
+                textNode.Position -= offset;
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            //if (Input.LeftMouseClick())
-            //{
-            //    if(Input.MousePos.X > )
-            //}
         }
 
         public override void Draw(SpriteBatch spriteBatch)

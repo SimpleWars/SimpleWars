@@ -99,7 +99,7 @@
 
         public static Vector2 MousePos => mouseState.Position.ToVector2();
 
-        public static Vector2 PrevMountPos => previousMouseState.Position.ToVector2();
+        public static Vector2 PreviousMousePos => previousMouseState.Position.ToVector2();
 
         public static int MouseScroll
         {

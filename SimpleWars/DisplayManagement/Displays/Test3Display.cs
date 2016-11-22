@@ -30,7 +30,7 @@
 
         private Skybox skybox;
 
-        private ILayout details;
+        private EntityDetailsLayout details;
 
         public override void LoadContent()
         {
@@ -119,9 +119,18 @@
 
                 if (clickedEntity != null)
                 {
-                    this.details = new EntityDetailsLayout(clickedEntity, PointTextures.TransparentBlackPoint);
+                    var projectedPosition =
+                        DisplayManager.Instance.GraphicsDevice.Viewport.Project(
+                            clickedEntity.Position,
+                            this.camera.ProjectionMatrix,
+                            this.camera.ViewMatrix,
+                            Matrix.Identity);
+
+                    this.details = new EntityDetailsLayout(clickedEntity, PointTextures.TransparentBlackPoint, projectedPosition);
                 }
             }
+
+            this.AdjustDetailsProjection();
 
             EntityPicker.DragEntity(
                 DisplayManager.Instance.GraphicsDevice,
@@ -149,6 +158,22 @@
             }
 
             this.details?.Draw(spriteBatch);
+        }
+
+        private void AdjustDetailsProjection()
+        {
+            if (this.details == null)
+            {
+                return;
+            }
+
+            var projectedPosition = DisplayManager.Instance.GraphicsDevice.Viewport.Project(
+                this.details.Entity.Position,
+                this.camera.ProjectionMatrix,
+                this.camera.ViewMatrix,
+                Matrix.Identity);
+
+            this.details.AdjustPosition(new Vector2(projectedPosition.X, projectedPosition.Y));
         }
     }
 }
