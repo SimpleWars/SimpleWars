@@ -43,7 +43,8 @@
 
             this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice);
 
-            if (!UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units).Any())
+            if (!UsersManager.CurrentPlayer.ResourceProviders
+                .Concat<IEntity>(UsersManager.CurrentPlayer.Units).Any())
             {
                 var random = new Random();
                 var numberOfTrees = random.Next(300, 400);
@@ -79,7 +80,10 @@
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var entity in UsersManager.CurrentPlayer.ResourceProviders)
+            var userEntities =
+                UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units);
+
+            foreach (var entity in userEntities)
             {
                 entity.GravityAffect(gameTime, this.terrain);
             }
@@ -112,7 +116,7 @@
                       DisplayManager.Instance.GraphicsDevice,
                       this.camera.ProjectionMatrix,
                       this.camera.ViewMatrix,
-                      UsersManager.CurrentPlayer.ResourceProviders);
+                      userEntities);
 
                     if (clickedEntity != null)
                     {

@@ -1,13 +1,17 @@
 ﻿namespace SimpleWars.Models.Entities.DynamicEntities.BattleUnits
 {
+    using System.Collections.Generic;
+
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
+    using SimpleWars.Utils;
 
     public class Swordsman : Unit
     {
         private const string Dir = "Models3D";
-        private const string FileName = "uvsphere";
+        private const string FileName = "swordsman";
 
         private const int BaseHealth = 100;
         private const int BaseDamage = 25;
