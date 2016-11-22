@@ -73,6 +73,8 @@
         public override void UnloadContent()
         {
             ModelsManager.Instance.DisposeAll();
+            this.Context.SaveChanges();
+            this.Context.Dispose();
         }
 
         public override void Update(GameTime gameTime)
@@ -130,7 +132,7 @@
                 }
             }
 
-            this.AdjustDetailsProjection();
+            this.ProjectClickedEntity();
 
             EntityPicker.DragEntity(
                 DisplayManager.Instance.GraphicsDevice,
@@ -160,7 +162,7 @@
             this.details?.Draw(spriteBatch);
         }
 
-        private void AdjustDetailsProjection()
+        private void ProjectClickedEntity()
         {
             if (this.details == null)
             {

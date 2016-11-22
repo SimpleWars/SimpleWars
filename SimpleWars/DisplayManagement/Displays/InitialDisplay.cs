@@ -50,6 +50,8 @@
         public override void UnloadContent()
         {
             TexturesManager.Instance.DisposeAll();
+            this.Context.SaveChanges();
+            this.Context.Dispose();
         }
 
         /// <summary>

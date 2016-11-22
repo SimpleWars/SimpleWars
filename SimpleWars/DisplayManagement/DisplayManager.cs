@@ -105,10 +105,7 @@
         /// </param>
         public void ChangeDisplay(IDisplay display)
         {
-            // saving the context from the old display
-            this.CurrentDisplay.Context.SaveChanges();  
-            this.CurrentDisplay.Context.Dispose();
-            // disposing of the old display content
+            // disposing of the old display content and context
             this.CurrentDisplay.UnloadContent();
             // changing the display
             this.CurrentDisplay = display;
