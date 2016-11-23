@@ -23,14 +23,6 @@
 
         private int armor;
 
-        private Vector3 movementDirection;
-
-        private Vector3 startPosition;
-
-        private Quaternion orientationDestination;
-
-        private float? movementDistance;
-
         #endregion
 
         #region Constructors
@@ -159,6 +151,15 @@
             }
         }
 
+        public Vector3 MovementDirection { get; protected set; }
+
+        public Vector3 MovementStartPosition { get; protected set; }
+
+        public Quaternion OrientDirection { get; protected set; }
+
+        [NotMapped]
+        public float? MovementDistance { get; protected set; }
+
         [NotMapped]
         public float Speed { get; protected set; }
 
@@ -189,16 +190,22 @@
         public bool IsAlive { get; protected set; }
         #endregion
 
-        #region Unit Specific Methods
+        #region Utility Methods
+
         /// <summary>
         /// The take damage.
         /// </summary>
         /// <param name="damageTaken">
-        /// The damageTaken.
+        /// The damage taken.
         /// </param>
         public void TakeDamage(int damageTaken)
         {
             this.Health -= damageTaken - this.Armor;
+        }
+
+        public virtual void Update(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
+        {
+            this.Move(gameTime, terrain, others);
         }
         #endregion
 
@@ -217,7 +224,7 @@
         /// </param>
         public virtual void Move(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
         {
-            if (this.movementDistance == null)
+            if (this.MovementDistance == null)
             {
                 return;
             }
@@ -226,11 +233,11 @@
             float movementFactor = (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed;
             Vector3 prevPosition = this.Position;
 
-            this.Position += this.movementDirection * movementFactor;
+            this.Position += this.MovementDirection * movementFactor;
 
             this.Rotation = Quaternion.Slerp(
                 this.Rotation,
-                this.orientationDestination,
+                this.OrientDirection,
                 (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed);
 
             bool collides = Collision.CheckCollision(this, others);
@@ -238,13 +245,13 @@
             if (collides)
             {
                 this.Position = prevPosition;
-                this.movementDistance = null;
+                this.MovementDistance = null;
                 return;
             }
 
-            if (Vector3.Distance(this.Position, this.startPosition) >= this.movementDistance.Value)
+            if (Vector3.Distance(this.Position, this.MovementStartPosition) >= this.MovementDistance.Value)
             {
-                this.movementDistance = null;
+                this.MovementDistance = null;
             }
 
             this.GravityAffect(gameTime, terrain);
@@ -252,11 +259,11 @@
 
         public virtual void ChangeDestination(Vector3 destination)
         {
-            this.movementDirection = Vector3.Normalize(destination - this.Position);           
-            this.movementDistance = Vector3.Distance(this.Position, destination);
-            this.startPosition = this.Position;
+            this.MovementDirection = Vector3.Normalize(destination - this.Position);           
+            this.MovementDistance = Vector3.Distance(this.Position, destination);
+            this.MovementStartPosition = this.Position;
 
-            Vector3 lockedDirection = new Vector3(this.movementDirection.X, 0, this.movementDirection.Z);
+            Vector3 lockedDirection = new Vector3(this.MovementDirection.X, 0, this.MovementDirection.Z);
 
             float dot = Vector3.Dot(Vector3.Forward, lockedDirection);
 
@@ -264,19 +271,19 @@
             {
                 // vector a and b point exactly in the opposite direction, 
                 // so it is a 180 degrees turn around the up-axis
-                this.orientationDestination = new Quaternion(Vector3.Up, MathHelper.ToRadians(180.0f));
+                this.OrientDirection = new Quaternion(Vector3.Up, MathHelper.ToRadians(180.0f));
             }
             if (Math.Abs(dot - (1.0f)) < 0.000001f)
             {
                 // vector a and b point exactly in the same direction
                 // so we return the identity quaternion
-                this.orientationDestination = Quaternion.Identity;
+                this.OrientDirection = Quaternion.Identity;
             }
 
             float rotAngle = (float)Math.Acos(dot);
             Vector3 rotAxis = Vector3.Normalize(Vector3.Cross(Vector3.Forward, lockedDirection));
             Quaternion orientation = Quaternion.CreateFromAxisAngle(rotAxis, rotAngle);
-            this.orientationDestination = orientation;
+            this.OrientDirection = orientation;
         }
 
         public virtual void Rotate(GameTime gameTime, float angle)

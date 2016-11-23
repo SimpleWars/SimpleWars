@@ -11,6 +11,12 @@
     /// </summary>
     public interface IMoveable : IEntity
     {
+        Vector3 MovementDirection { get; }
+        Vector3 MovementStartPosition { get; }
+        Quaternion OrientDirection { get; }
+
+        float? MovementDistance { get; }
+
         float Speed { get; }
 
         /// <summary>

@@ -1,6 +1,8 @@
 ﻿namespace SimpleWars.DisplayManagement.Displays
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
 
     using Microsoft.Xna.Framework;
@@ -16,6 +18,7 @@
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.Layouts.PrimitiveLayouts;
     using SimpleWars.Input;
+    using SimpleWars.Models.Entities.DynamicEntities;
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
@@ -43,8 +46,7 @@
 
             this.skybox = new Skybox(DisplayManager.Instance.GraphicsDevice);
 
-            if (!UsersManager.CurrentPlayer.ResourceProviders
-                .Concat<IEntity>(UsersManager.CurrentPlayer.Units).Any())
+            if (!UsersManager.CurrentPlayer.AllEntities.Any())
             {
                 var random = new Random();
                 var numberOfTrees = random.Next(300, 400);
@@ -62,9 +64,7 @@
             }
             else
             {
-                foreach (var entity in
-                    UsersManager.CurrentPlayer.ResourceProviders
-                    .Concat<IEntity>(UsersManager.CurrentPlayer.Units))
+                foreach (var entity in UsersManager.CurrentPlayer.AllEntities)
                 {
                     entity.LoadModel();
                 }
@@ -82,6 +82,8 @@
 
         public override void Update(GameTime gameTime)
         {
+            this.CleanDead();
+
             var allEntities = UsersManager.CurrentPlayer.AllEntities;
 
             foreach (var entity in allEntities)
@@ -91,7 +93,7 @@
 
             foreach (var unit in UsersManager.CurrentPlayer.Units)
             {
-                unit.Move(gameTime, this.terrain, allEntities);
+                unit.Update(gameTime, this.terrain, allEntities);             
             }
 
             this.details?.Update(gameTime);
@@ -142,17 +144,9 @@
             {
                 if (Input.RightMouseDoubleClick)
                 {
-                    if (EntitySelector.EntitySelected is IUnit)
-                    {
-                        Vector3 destination = RayCaster.GetTerrainPoint(
-                            DisplayManager.Instance.GraphicsDevice,
-                            this.camera.ProjectionMatrix,
-                            this.camera.ViewMatrix,
-                            this.terrain);
-
-                        ((IMoveable)EntitySelector.EntitySelected).ChangeDestination(destination);
-                    }
-                } 
+                    IEntity selected = EntitySelector.EntitySelected;
+                    this.CommandSelectedEntity(selected, allEntities.Where(e => e != selected));
+                }
             }
 
             if (this.details != null)
@@ -189,6 +183,45 @@
             this.details?.Draw(spriteBatch);
         }
 
+        private void CommandSelectedEntity(IEntity selected, IEnumerable<IEntity> others)
+        {
+            if (selected is IUnit)
+            {
+                IEntity target = RayCaster.CastToEntities(
+                    DisplayManager.Instance.GraphicsDevice,
+                    this.camera.ProjectionMatrix,
+                    this.camera.ViewMatrix,
+                    others);
+
+                bool targetedSelf = target == selected;
+
+                if (!targetedSelf)
+                {
+                    this.CommandSelectedUnit(selected, target);
+                }
+
+                Vector3 destination = RayCaster.GetTerrainPoint(
+                    DisplayManager.Instance.GraphicsDevice,
+                    this.camera.ProjectionMatrix,
+                    this.camera.ViewMatrix,
+                    this.terrain);
+
+                ((IMoveable)selected).ChangeDestination(destination);
+            }
+        }
+
+        private void CommandSelectedUnit(IEntity selected, IEntity target)
+        {
+            if (!(target is IKillable))
+            {
+                (selected as ICombatUnit)?.ChangeAttackTarget(null);
+            }
+            else
+            {
+                (selected as ICombatUnit)?.ChangeAttackTarget((IKillable)target);
+            }
+        }
+
         private void ProjectClickedEntity()
         {
             var projectedPosition = DisplayManager.Instance.GraphicsDevice.Viewport.Project(
@@ -222,6 +255,26 @@
             else if (this.details.Command == DetailCommand.Close)
             {
                 this.details = null;
+            }
+        }
+
+        private void CleanDead()
+        {
+            var markedForDestruction = UsersManager.CurrentPlayer.Units.Where(u => u.IsAlive == false).ToArray();
+
+            foreach (var unit in markedForDestruction)
+            {
+                UsersManager.CurrentPlayer.Units.Remove(unit);
+                if (EntitySelector.EntityPicked == unit || EntitySelector.EntitySelected == unit)
+                {
+                    EntitySelector.Deselect();
+                    EntitySelector.PlaceEntity();
+                }
+
+                if (this.details?.Entity == unit)
+                {
+                    this.details = null;
+                }
             }
         }
     }

@@ -1,9 +1,12 @@
 ﻿namespace SimpleWars.Models.Entities.DynamicEntities.BattleUnits
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Microsoft.Xna.Framework;
+
+    using SimpleWars.Environment.Terrain.Interfaces;
     using SimpleWars.Models.Entities.Interfaces;
     public abstract class CombatUnit : Unit, ICombatUnit
     {
@@ -30,6 +33,9 @@
             this.Damage = damage;
         }
 
+        [NotMapped]
+        public IKillable Target { get; protected set; }
+
         /// <summary>
         /// Gets or sets the damageTaken.
         /// </summary>
@@ -54,14 +60,40 @@
             }
         }
 
+        public override void Update(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
+        {
+            base.Update(gameTime, terrain, others);
+
+            this.TryAttack();
+        }
+
         [NotMapped]
         public float AttackRange { get; set; }
 
-        public virtual void Attack(IKillable target)
+        public virtual void TryAttack()
         {
-            if (Vector3.Distance(this.Position, target.Position) <= this.AttackRange)
+            if (this.Target == null)
             {
-                target.TakeDamage(this.Damage);
+                return;
+            }
+
+            if (Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange)
+            {
+                this.Target.TakeDamage(this.Damage);
+            }
+            else
+            {
+                this.MovementDistance = Vector3.Distance(this.Target.Position, this.Position);
+                this.MovementDirection = Vector3.Normalize(this.Target.Position - this.Position);
+                this.MovementStartPosition = this.Position;
+            }
+        }
+
+        public virtual void ChangeAttackTarget(IKillable target)
+        {
+            if (target != this)
+            {
+                this.Target = target;
             }
         }
     }

@@ -2,6 +2,8 @@
 {
     public interface IFight : IEntity
     {
+        IKillable Target { get; }
+
         /// <summary>
         /// Gets or sets the damage.
         /// </summary>
@@ -9,6 +11,8 @@
 
         float AttackRange { get; set; }
 
-        void Attack(IKillable target);
+        void TryAttack();
+
+        void ChangeAttackTarget(IKillable target);
     }
 }
