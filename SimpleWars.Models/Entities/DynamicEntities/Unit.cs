@@ -10,6 +10,7 @@
     using SimpleWars.Environment.Terrain.Interfaces;
     using SimpleWars.Models.Economy.Interfaces;
     using SimpleWars.Models.Entities.Interfaces;
+    using SimpleWars.Models.Utils;
 
     /// <summary>
     /// The dynamic entity.
@@ -214,26 +215,37 @@
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        public virtual void Move(GameTime gameTime, ITerrain terrain)
+        public virtual void Move(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
         {
             if (this.movementDistance == null)
             {
                 return;
             }
 
+
             float movementFactor = (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed;
+            Vector3 prevPosition = this.Position;
 
             this.Position += this.movementDirection * movementFactor;
-
-            if (Vector3.Distance(this.Position, this.startPosition) >= this.movementDistance.Value)
-            {
-                this.movementDistance = null;
-            }
 
             this.Rotation = Quaternion.Slerp(
                 this.Rotation,
                 this.orientationDestination,
                 (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed);
+
+            bool collides = Collision.CheckCollision(this, others);
+
+            if (collides)
+            {
+                this.Position = prevPosition;
+                this.movementDistance = null;
+                return;
+            }
+
+            if (Vector3.Distance(this.Position, this.startPosition) >= this.movementDistance.Value)
+            {
+                this.movementDistance = null;
+            }
 
             this.GravityAffect(gameTime, terrain);
         }

@@ -87,7 +87,8 @@
 
             foreach (var unit in UsersManager.CurrentPlayer.Units)
             {
-                unit.Move(gameTime, this.terrain);
+                unit.Move(gameTime, this.terrain,
+                    UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units));
             }
 
             this.details?.Update(gameTime);

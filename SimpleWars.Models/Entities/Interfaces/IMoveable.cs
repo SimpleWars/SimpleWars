@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Models.Entities.Interfaces
 {
+    using System.Collections.Generic;
+
     using Microsoft.Xna.Framework;
 
     using SimpleWars.Environment.Terrain.Interfaces;
@@ -20,7 +22,7 @@
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        void Move(GameTime gameTime, ITerrain terrain);
+        void Move(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others);
 
         void ChangeDestination(Vector3 destination);
 
