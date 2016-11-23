@@ -74,6 +74,7 @@
             }
 
             EntityPicked = RayCaster.CastToEntities(device, projectionMatrix, viewMatrix, entities);
+
             if (HasPicked())
             {
                 EntityPicked.IsHighlighted = true;
@@ -107,9 +108,10 @@
             }
 
             EntitySelected = RayCaster.CastToEntities(device, projectionMatrix, viewMatrix, entities);
+
             if (HasSelected())
             {
-                EntityPicked.IsHighlighted = true;
+                EntitySelected.IsHighlighted = true;
             }
         }
 
@@ -125,6 +127,17 @@
             {
                 EntitySelected.IsHighlighted = true;
             }
+        }
+
+        public static void Deselect()
+        {
+            if (!HasPicked())
+            {
+                return;
+            }
+
+            EntitySelected.IsHighlighted = false;
+            EntitySelected = null;
         }
 
         /// <summary>

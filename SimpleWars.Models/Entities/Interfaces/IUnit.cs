@@ -7,7 +7,7 @@
     /// <summary>
     /// The Unit interface.
     /// </summary>
-    public interface IUnit : IMove, IKillable
+    public interface IUnit : IMoveable, IKillable
     {
     }
 }

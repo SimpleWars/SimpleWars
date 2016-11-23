@@ -60,7 +60,7 @@
     <Compile Include="Entities\Interfaces\IFight.cs" />
     <Compile Include="Entities\Interfaces\IKIllable.cs" />
     <Compile Include="Entities\Interfaces\IEntity.cs" />
-    <Compile Include="Entities\Interfaces\IMove.cs" />
+    <Compile Include="Entities\Interfaces\IMoveable.cs" />
     <Compile Include="Entities\Interfaces\IResourceProvider.cs" />
     <Compile Include="Entities\Interfaces\IUnit.cs" />
     <Compile Include="Entities\Interfaces\IWorker.cs" />

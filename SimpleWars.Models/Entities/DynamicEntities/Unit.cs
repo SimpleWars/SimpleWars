@@ -21,6 +21,12 @@
 
         private int armor;
 
+        private Vector3 movementDirection;
+
+        private Vector3 startPosition;
+
+        private float? movementDistance;
+
         #endregion
 
         #region Constructors
@@ -50,8 +56,8 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Unit(int maxHealth, int health, int armor, Vector3 position, float scale = 1)
-         : this(maxHealth, health, armor, position, Vector3.Zero, scale)
+        protected Unit(int maxHealth, int health, float speed, int armor, Vector3 position, float scale = 1)
+         : this(maxHealth, health, speed, armor, position, Vector3.Zero, scale)
         {
         }
 
@@ -76,8 +82,8 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Unit(int maxHealth, int health, int armor, Vector3 position, Vector3 rotation, float scale = 1)
-            : this(maxHealth, health, armor, position, rotation, 1f, scale)
+        protected Unit(int maxHealth, int health, float speed, int armor, Vector3 position, Vector3 rotation, float scale = 1)
+            : this(maxHealth, health, speed, armor, position, rotation, 1f, scale)
         {
         }
 
@@ -105,10 +111,11 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Unit(int maxHealth, int health, int armor, Vector3 position, Vector3 rotation, float weight = 1, float scale = 1)
+        protected Unit(int maxHealth, int health, float speed, int armor, Vector3 position, Vector3 rotation, float weight = 1, float scale = 1)
             : base(position, rotation, weight, scale)
         {
             this.MaxHealth = maxHealth;
+            this.Speed = speed;
             this.IsAlive = true;
             this.Health = health;
             this.Armor = armor;
@@ -147,6 +154,9 @@
                 this.health = value;
             }
         }
+
+        [NotMapped]
+        public float Speed { get; protected set; }
 
         /// <summary>
         /// Gets or sets the armor.
@@ -196,17 +206,39 @@
         /// The game time.
         /// </param>
         /// <param name="direction">
-        /// The direction represented as world units in x, y, z axes.
+        /// The destination represented as world units in x, y, z axes.
         /// </param>
         /// <param name="terrain">
         /// The terrain.
         /// </param>
-        public virtual void Move(GameTime gameTime, Vector3 destination, ITerrain terrain)
+        public virtual void Move(GameTime gameTime, ITerrain terrain)
         {
-            this.Position = Vector3.Lerp(this.Position, destination, (float)gameTime.ElapsedGameTime.TotalSeconds);
-            this.Rotation = Vector3.Transform(this.Rotation, Matrix.CreateLookAt(this.Position, destination, Vector3.Up));
+            if (this.movementDistance == null)
+            {
+                return;
+            }
+
+            float movementFactor = (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed;
+
+            this.Position += this.movementDirection * movementFactor;
+
+            if (Vector3.Distance(this.Position, this.startPosition) >= this.movementDistance.Value)
+            {
+                this.movementDistance = null;
+            }
 
             this.GravityAffect(gameTime, terrain);
+        }
+
+        public virtual void ChangeDestination(Vector3 destination)
+        {
+            this.movementDirection = Vector3.Normalize(destination - this.Position);           
+            this.movementDistance = Vector3.Distance(this.Position, destination);
+            this.startPosition = this.Position;
+
+            float dot = Vector3.Dot(Vector3.Normalize(this.Rotation), this.movementDirection);
+            float rotAngle = (float)Math.Acos(dot) * 360;
+            this.Rotation = new Vector3(0, rotAngle, 0);
         }
 
         /// <summary>
@@ -215,9 +247,9 @@
         /// <param name="angle">
         /// The rotation in degrees around x, y, z represented as vector.
         /// </param>
-        public virtual void Rotate(Vector3 angle, GameTime gameTime)
+        public virtual void Rotate(Vector3 angle)
         {
-            this.Rotation = Vector3.Lerp(this.Rotation, angle, (float)gameTime.ElapsedGameTime.TotalSeconds);
+            this.Rotation += angle;
         }
         #endregion
     }

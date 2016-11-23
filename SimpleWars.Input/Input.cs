@@ -14,8 +14,6 @@
     {
         private static double clickTimer;
 
-        private static bool doubleClickPotential;
-
         private const double TimeDelay = 400;
 
 
@@ -49,19 +47,27 @@
 
             clickTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if (!LeftMouseClick())
-            {      
-                return;
+            if (LeftMouseDoubleClick)
+            {
+                LeftMouseDoubleClick = false;
             }
 
-            if (doubleClickPotential)
+            if (RightMouseDoubleClick)
+            {
+                RightMouseDoubleClick = false;
+            }
+
+            if (LeftMouseClick())
             {
                 LeftMouseDoubleClick = clickTimer < TimeDelay;
-                doubleClickPotential = false;
                 clickTimer = 0;
             }
-              
-            doubleClickPotential = true;
+
+            if (RightMouseClick())
+            {
+                RightMouseDoubleClick = clickTimer < TimeDelay;
+                clickTimer = 0;
+            }
         }
 
         public static IEnumerable<Keys> GetKeysPressed()
@@ -145,5 +151,7 @@
         }
 
         public static bool LeftMouseDoubleClick { get; private set; }
+
+        public static bool RightMouseDoubleClick { get; private set; }
     }
 }

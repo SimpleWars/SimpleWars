@@ -18,25 +18,27 @@
         private const int BaseHealth = 100;
         private const int BaseDamage = 25;
         private const int BaseArmor = 10;
+        private const float BaseSpeed = 5;
         private const float BaseAttackRange = 5;
-    
+
         protected Swordsman()
         {
             this.MaxHealth = BaseMaxHealth;
+            this.Speed = BaseSpeed;
             this.Damage = BaseDamage;
             this.Armor = BaseArmor;
             this.AttackRange = BaseAttackRange;
         }
 
-        public Swordsman(Vector3 position, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseDamage, BaseArmor, BaseAttackRange, position, scale)
+        public Swordsman(Vector3 position, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, scale)
         {
         }
 
-        public Swordsman(Vector3 position, Vector3 rotation, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, scale)
+        public Swordsman(Vector3 position, Vector3 rotation, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, scale)
         {
         }
 
-        public Swordsman(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, weight, scale)
+        public Swordsman(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, weight, scale)
         {
         }
 

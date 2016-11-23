@@ -13,18 +13,18 @@
         {
         }
 
-        protected CombatUnit(int maxHealth, int health, int damage, int armor, float attackRange, Vector3 position, float scale = 1) 
-            : this(maxHealth, health, damage, armor, attackRange, position, Vector3.Zero, 1, scale)
+        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, Vector3 position, float scale = 1) 
+            : this(maxHealth, health, speed, damage, armor, attackRange, position, Vector3.Zero, 1, scale)
         {
         }
 
-        protected CombatUnit(int maxHealth, int health, int damage, int armor, float attackRange, Vector3 position, Vector3 rotation, float scale = 1) 
-            : this(maxHealth, health, damage, armor, attackRange, position, rotation, 1, scale)
+        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, Vector3 position, Vector3 rotation, float scale = 1) 
+            : this(maxHealth, health, speed, damage, armor, attackRange, position, rotation, 1, scale)
         {       
         }
 
-        protected CombatUnit(int maxHealth, int health, int damage, int armor, float attackRange, Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) 
-            : base(maxHealth, health, armor, position, rotation, weight, scale)
+        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) 
+            : base(maxHealth, health, speed, armor, position, rotation, weight, scale)
         {
             this.AttackRange = attackRange;
             this.Damage = damage;

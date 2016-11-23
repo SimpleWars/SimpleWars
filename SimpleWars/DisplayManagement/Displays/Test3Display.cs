@@ -85,6 +85,11 @@
                 entity.GravityAffect(gameTime, this.terrain);
             }
 
+            foreach (var unit in UsersManager.CurrentPlayer.Units)
+            {
+                unit.Move(gameTime, this.terrain);
+            }
+
             this.details?.Update(gameTime);
                 
             if (Input.KeyPressed(Keys.D1))
@@ -109,24 +114,41 @@
                 }
                 else
                 {
-                    IEntity clickedEntity = RayCaster.CastToEntities(
+                    EntitySelector.SelectEntity(
                       DisplayManager.Instance.GraphicsDevice,
                       this.camera.ProjectionMatrix,
                       this.camera.ViewMatrix,
                       UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units));
 
-                    if (clickedEntity != null)
+                    if (EntitySelector.HasSelected())
                     {
                         var projectedPosition =
                             DisplayManager.Instance.GraphicsDevice.Viewport.Project(
-                                clickedEntity.Position,
+                                EntitySelector.EntitySelected.Position,
                                 this.camera.ProjectionMatrix,
                                 this.camera.ViewMatrix,
                                 Matrix.Identity);
 
-                        this.details = new EntityDetailsLayout(clickedEntity, PointTextures.TransparentBlackPoint, projectedPosition);
+                        this.details = new EntityDetailsLayout(EntitySelector.EntitySelected, PointTextures.TransparentBlackPoint, projectedPosition);
                     }
                 }
+            }
+
+            if (EntitySelector.HasSelected())
+            {
+                if (Input.RightMouseDoubleClick)
+                {
+                    if (EntitySelector.EntitySelected is IUnit)
+                    {
+                        Vector3 destination = RayCaster.GetTerrainPoint(
+                            DisplayManager.Instance.GraphicsDevice,
+                            this.camera.ProjectionMatrix,
+                            this.camera.ViewMatrix,
+                            this.terrain);
+
+                        ((IMoveable)EntitySelector.EntitySelected).ChangeDestination(destination);
+                    }
+                } 
             }
 
             if (this.details != null)
