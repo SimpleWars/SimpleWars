@@ -74,21 +74,24 @@
         public override void UnloadContent()
         {
             ModelsManager.Instance.DisposeAll();
+            EntitySelector.Deselect();
+            EntitySelector.PlaceEntity();
             this.Context.SaveChanges();
             this.Context.Dispose();
         }
 
         public override void Update(GameTime gameTime)
         {
-            foreach (var entity in UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units))
+            var allEntities = UsersManager.CurrentPlayer.AllEntities;
+
+            foreach (var entity in allEntities)
             {
                 entity.GravityAffect(gameTime, this.terrain);
             }
 
             foreach (var unit in UsersManager.CurrentPlayer.Units)
             {
-                unit.Move(gameTime, this.terrain,
-                    UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units));
+                unit.Move(gameTime, this.terrain, allEntities);
             }
 
             this.details?.Update(gameTime);
@@ -119,7 +122,7 @@
                       DisplayManager.Instance.GraphicsDevice,
                       this.camera.ProjectionMatrix,
                       this.camera.ViewMatrix,
-                      UsersManager.CurrentPlayer.ResourceProviders.Concat<IEntity>(UsersManager.CurrentPlayer.Units));
+                      allEntities);
 
                     if (EntitySelector.HasSelected())
                     {

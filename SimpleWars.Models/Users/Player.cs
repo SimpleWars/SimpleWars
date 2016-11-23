@@ -4,11 +4,13 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
 
     using Microsoft.Xna.Framework;
 
     using SimpleWars.Models.Economy;
     using SimpleWars.Models.Entities.DynamicEntities;
+    using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Entities.StaticEntities;
     using SimpleWars.Models.Users.Interfaces;
 
@@ -118,6 +120,9 @@
         public virtual ICollection<ResourceProvider> ResourceProviders { get; private set; }
 
         public virtual ICollection<Unit> Units { get; private set; }
+
+        [NotMapped]
+        public IEnumerable<IEntity> AllEntities => this.ResourceProviders.Concat<IEntity>(this.Units);
 
         [NotMapped]
         public Vector2 WorldMapPos { get; private set; }

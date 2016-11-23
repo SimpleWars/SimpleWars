@@ -131,7 +131,7 @@
 
         public static void Deselect()
         {
-            if (!HasPicked())
+            if (!HasSelected())
             {
                 return;
             }
