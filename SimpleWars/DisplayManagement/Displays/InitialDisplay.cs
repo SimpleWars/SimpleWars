@@ -66,7 +66,7 @@
 
             if (this.initialGui.LoginState == LoginState.Successful || this.initialGui.RegisterState == RegisterState.Successful)
             {
-                DisplayManager.Instance.ChangeDisplay(new Test3Display());
+                DisplayManager.Instance.ChangeDisplay(new HomeWorldDisplay());
             }
         }
 

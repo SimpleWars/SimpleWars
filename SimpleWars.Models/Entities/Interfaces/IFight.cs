@@ -6,7 +6,7 @@
     {
         IKillable Target { get; }
 
-        int TimeBetweenAttacks { get; }
+        int AttackSpeed { get; }
 
         /// <summary>
         /// Gets or sets the damage.

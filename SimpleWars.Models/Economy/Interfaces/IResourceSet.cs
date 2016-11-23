@@ -6,7 +6,7 @@
     using SimpleWars.Models.Economy.Resources;
 
     /// <summary>
-    /// The Resources interface.
+    /// The ResourceSet interface.
     /// </summary>
     public interface IResourceSet
     {

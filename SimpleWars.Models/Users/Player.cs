@@ -56,7 +56,7 @@
 
             this.ResourceProviders = new HashSet<ResourceProvider>();
             this.Units = new HashSet<Unit>();
-            this.Resources = new ResourceSet(true);
+            this.ResourceSet = new ResourceSet(true);
         }
 
         public int Id { get; private set; }
@@ -86,10 +86,7 @@
         }
 
         [Required]
-        public int ResourcesId { get; private set; }
-
-        [Required, ForeignKey("ResourcesId")]
-        public virtual ResourceSet Resources { get; private set; }
+        public virtual ResourceSet ResourceSet { get; private set; }
 
         public float WorldX
         {

@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Camera\CameraPerspective.cs" />
-    <Compile Include="DisplayManagement\Displays\Test3Display.cs" />
+    <Compile Include="DisplayManagement\Displays\HomeWorldDisplay.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
     <Compile Include="DisplayManagement\DisplayManager.cs" />
     <Compile Include="DisplayManagement\Display.cs" />

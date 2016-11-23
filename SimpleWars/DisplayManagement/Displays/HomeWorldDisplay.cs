@@ -25,7 +25,7 @@
     using SimpleWars.Users;
     using SimpleWars.Utils;
 
-    public class Test3Display : Display
+    public class HomeWorldDisplay : Display
     {
         private CameraPerspective camera;
 
