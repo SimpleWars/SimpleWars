@@ -34,7 +34,7 @@
         /// <summary>
         /// Gets or sets the rotation.
         /// </summary>
-        Vector3 Rotation { get; set; }
+        Quaternion Rotation { get; set; }
 
         /// <summary>
         /// Gets the transformation matrix.

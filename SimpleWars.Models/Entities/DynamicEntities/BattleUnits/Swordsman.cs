@@ -34,11 +34,11 @@
         {
         }
 
-        public Swordsman(Vector3 position, Vector3 rotation, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, scale)
+        public Swordsman(Vector3 position, Quaternion rotation, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, scale)
         {
         }
 
-        public Swordsman(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, weight, scale)
+        public Swordsman(Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, weight, scale)
         {
         }
 

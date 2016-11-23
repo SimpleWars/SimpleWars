@@ -1,5 +1,6 @@
 ﻿namespace SimpleWars.Models.Entities
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -33,7 +34,13 @@
         /// <summary>
         /// The rotation.
         /// </summary>
-        private Vector3 rotation;
+        private Quaternion rotation;
+
+        private float? rotX;
+
+        private float? rotY;
+
+        private float? rotZ;
 
         /// <summary>
         /// The scale.
@@ -76,7 +83,7 @@
         /// The scale.
         /// </param>
         protected Entity(Vector3 position, float scale = 1)
-        : this(position, Vector3.Zero, scale)
+        : this(position, Quaternion.Identity, scale)
         {
         }
 
@@ -92,7 +99,7 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(Vector3 position, Vector3 rotation, float scale = 1)
+        protected Entity(Vector3 position, Quaternion rotation, float scale = 1)
             : this(position, rotation, 1f, scale)
         {
         }
@@ -112,7 +119,7 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(Vector3 position, Vector3 rotation, float weight, float scale)
+        protected Entity(Vector3 position, Quaternion rotation, float weight, float scale)
         {
             this.LoadModel();
             this.Position = position;
@@ -178,12 +185,18 @@
         {
             get
             {
-                return this.Rotation.X;
+                return
+                    (float)
+                    Math.Atan2(
+                        -2 * (this.Rotation.Y * this.Rotation.Z - this.Rotation.W * this.Rotation.X),
+                        this.Rotation.W * this.Rotation.W - this.Rotation.X * this.Rotation.X
+                        - this.Rotation.Y * this.Rotation.Y + this.Rotation.Z * this.Rotation.Z);
             }
 
-            private set
+            protected set
             {
-                this.Rotation = new Vector3(value, this.Rotation.Y, this.Rotation.Z);
+                this.rotX = value;
+                this.GenerateQuaternion();
             }
         }
 
@@ -191,12 +204,13 @@
         {
             get
             {
-                return this.Rotation.Y;
+                return (float)Math.Asin(2 * (this.Rotation.X * this.Rotation.Z + this.Rotation.W * this.Rotation.Y));
             }
 
-            private set
+            protected set
             {
-                this.Rotation = new Vector3(this.Rotation.X, value, this.Rotation.Z);
+                this.rotY = value;
+                this.GenerateQuaternion();
             }
         }
 
@@ -204,12 +218,18 @@
         {
             get
             {
-                return this.Rotation.Y;
+                return
+                    (float)
+                    Math.Atan2(
+                        -2 * (this.Rotation.X * this.Rotation.Y - this.Rotation.W * this.Rotation.Z),
+                        this.Rotation.W * this.Rotation.W + this.Rotation.X * this.Rotation.X
+                        - this.Rotation.Y * this.Rotation.Y - this.Rotation.Z * this.Rotation.Z);
             }
 
-            private set
+            protected set
             {
-                this.Rotation = new Vector3(this.Rotation.X, this.Rotation.Y, value);
+                this.rotZ = value;
+                this.GenerateQuaternion();
             }
         }
         #endregion
@@ -234,11 +254,8 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the rotation for the entity.
-        /// </summary>
         [NotMapped]
-        public Vector3 Rotation
+        public Quaternion Rotation
         {
             get
             {
@@ -248,7 +265,7 @@
             set
             {
                 this.rotation = value;
-                this.CalculateRotationMatrix();
+                this.RotationMatrix = Matrix.CreateFromQuaternion(this.rotation);
                 this.transformationMatrixDirty = true;
             }
         }
@@ -470,37 +487,33 @@
         #endregion
 
         #region Utility Methods
+
         /// <summary>
-        /// The calculate rotation matrix.
+        /// Creates a quaternion based on euler angles.
+        /// Only used when entity is initialized from Entity Framework.
         /// </summary>
-        protected virtual void CalculateRotationMatrix()
+        private void GenerateQuaternion()
         {
-            Vector3 radians = new Vector3(
-                MathHelper.ToRadians(this.Rotation.X),
-                MathHelper.ToRadians(this.Rotation.Y),
-                MathHelper.ToRadians(this.Rotation.Z));
+            if (this.rotX == null || this.rotY == null || this.rotZ == null)
+            {
+                return;
+            }
 
-            Matrix rotX = Matrix.CreateRotationX(radians.X);
-            Matrix rotY = Matrix.CreateRotationY(radians.Y);
-            Matrix rotZ = Matrix.CreateRotationZ(radians.Z);
+            float c1 = (float)Math.Cos(this.rotX.Value / 2);
+            float s1 = (float)Math.Sin(this.rotX.Value / 2);
+            float c2 = (float)Math.Cos(this.rotY.Value / 2);
+            float s2 = (float)Math.Sin(this.rotY.Value / 2);
+            float c3 = (float)Math.Cos(this.rotZ.Value / 2);
+            float s3 = (float)Math.Sin(this.rotZ.Value / 2);
 
-            this.RotationMatrix = rotX * rotY * rotZ;
+            this.rotation.W = c1 * c2 * c3 - s1 * s2 * s3;
+            this.rotation.X = s1 * c2 * c3 + c1 * s2 * s3;
+            this.rotation.Y = c1 * s2 * c3 - s1 * c2 * s3;
+            this.rotation.Z = c1 * c2 * s3 + s1 * s2 * c3;
+
+            this.RotationMatrix = Matrix.CreateFromQuaternion(this.Rotation);
+            this.transformationMatrixDirty = true;
         }
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (!(obj is IEntity))
-        //    {
-        //        throw new InvalidOperationException("You are trying to equality compare entity with non entity");
-        //    }
-
-        //    return this.Id == ((IEntity)obj).Id;
-        //}
-
-        //public override int GetHashCode()
-        //{
-        //    return this.Id;
-        //}
         #endregion
     }
 }

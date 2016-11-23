@@ -19,16 +19,16 @@
         }
 
         protected ResourceProvider(int quantity, string resourceType, Vector3 position, float scale = 1) 
-            : this(quantity, resourceType, position, Vector3.Zero, scale)
+            : this(quantity, resourceType, position, Quaternion.Identity, scale)
         {
         }
 
-        protected ResourceProvider(int quantity, string resourceType, Vector3 position, Vector3 rotation, float scale = 1) 
+        protected ResourceProvider(int quantity, string resourceType, Vector3 position, Quaternion rotation, float scale = 1) 
             : this(quantity, resourceType, position, rotation, 1f, scale)
         {
         }
 
-        protected ResourceProvider(int quantity, string resourceType, Vector3 position, Vector3 rotation, float weight, float scale) 
+        protected ResourceProvider(int quantity, string resourceType, Vector3 position, Quaternion rotation, float weight, float scale) 
             : base(position, rotation, weight, scale)
         {
             this.Quantity = quantity;

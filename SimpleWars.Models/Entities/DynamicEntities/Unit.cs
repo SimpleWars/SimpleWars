@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Diagnostics;
 
     using Microsoft.Xna.Framework;
 
@@ -57,7 +58,7 @@
         /// The scale.
         /// </param>
         protected Unit(int maxHealth, int health, float speed, int armor, Vector3 position, float scale = 1)
-         : this(maxHealth, health, speed, armor, position, Vector3.Zero, scale)
+         : this(maxHealth, health, speed, armor, position, Quaternion.Identity, scale)
         {
         }
 
@@ -82,7 +83,7 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Unit(int maxHealth, int health, float speed, int armor, Vector3 position, Vector3 rotation, float scale = 1)
+        protected Unit(int maxHealth, int health, float speed, int armor, Vector3 position, Quaternion rotation, float scale = 1)
             : this(maxHealth, health, speed, armor, position, rotation, 1f, scale)
         {
         }
@@ -111,7 +112,7 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Unit(int maxHealth, int health, float speed, int armor, Vector3 position, Vector3 rotation, float weight = 1, float scale = 1)
+        protected Unit(int maxHealth, int health, float speed, int armor, Vector3 position, Quaternion rotation, float weight = 1, float scale = 1)
             : base(position, rotation, weight, scale)
         {
             this.MaxHealth = maxHealth;
@@ -236,20 +237,33 @@
             this.movementDistance = Vector3.Distance(this.Position, destination);
             this.startPosition = this.Position;
 
-            float dot = Vector3.Dot(Vector3.Normalize(this.Rotation), this.movementDirection);
-            float rotAngle = (float)Math.Acos(dot) * 360;
-            this.Rotation = new Vector3(0, rotAngle, 0);
+            Vector3 lockedDirection = new Vector3(this.movementDirection.X, 0, this.movementDirection.Z);
+
+            float dot = Vector3.Dot(Vector3.Forward, lockedDirection);
+
+            if (Math.Abs(dot - (-1.0f)) < 0.000001f)
+            {
+                // vector a and b point exactly in the opposite direction, 
+                // so it is a 180 degrees turn around the up-axis
+                this.Rotation = new Quaternion(Vector3.Up, MathHelper.ToRadians(180.0f));
+            }
+            if (Math.Abs(dot - (1.0f)) < 0.000001f)
+            {
+                // vector a and b point exactly in the same direction
+                // so we return the identity quaternion
+                this.Rotation = Quaternion.Identity;
+            }
+
+            float rotAngle = (float)Math.Acos(dot);
+            Vector3 rotAxis = Vector3.Normalize(Vector3.Cross(Vector3.Forward, lockedDirection));
+            Quaternion orientation = Quaternion.CreateFromAxisAngle(rotAxis, rotAngle);
+            this.Rotation = orientation;
         }
 
-        /// <summary>
-        /// Rotates entities around their own axes.
-        /// </summary>
-        /// <param name="angle">
-        /// The rotation in degrees around x, y, z represented as vector.
-        /// </param>
-        public virtual void Rotate(Vector3 angle)
+        public virtual void Rotate(GameTime gameTime, float angle)
         {
-            this.Rotation += angle;
+            float rotFraction = (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed;
+            this.Rotation += Quaternion.CreateFromAxisAngle(Vector3.Up, angle * rotFraction);
         }
         #endregion
     }

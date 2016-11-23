@@ -43,7 +43,7 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public Tree(Vector3 position, Vector3 rotation, float scale = 1)
+        public Tree(Vector3 position, Quaternion rotation, float scale = 1)
             : base(BaseResourceQuantity, BaseResourceType, position, rotation, scale)
         {
         }
@@ -63,7 +63,7 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        public Tree(Vector3 position, Vector3 rotation, float weight = 1, float scale = 1) 
+        public Tree(Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) 
             : base(BaseResourceQuantity, BaseResourceType, position, rotation, weight, scale)
         {
         }

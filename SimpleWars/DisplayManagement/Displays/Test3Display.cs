@@ -56,7 +56,7 @@
                     var weight = random.Next(5, 10);
                     var y = 100;
 
-                    var tree = new Tree(new Vector3(x, y, z), Vector3.Zero, weight, 1);
+                    var tree = new Tree(new Vector3(x, y, z), Quaternion.Identity, weight, 1);
                     UsersManager.CurrentPlayer.ResourceProviders.Add(tree);
                 }
             }

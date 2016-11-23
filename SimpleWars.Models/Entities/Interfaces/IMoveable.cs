@@ -25,14 +25,14 @@
         void ChangeDestination(Vector3 destination);
 
         /// <summary>
-        /// The rotate.
+        /// Rotates around the world up axis.
         /// </summary>
+        /// <param name="gameTime">
+        /// The game time.
+        /// </param>
         /// <param name="angle">
         /// The angle.
         /// </param>
-        /// <param name="gameTime">
-        /// The game Time.
-        /// </param>
-        void Rotate(Vector3 angle);
+        void Rotate(GameTime gameTime, float angle);
     }
 }
