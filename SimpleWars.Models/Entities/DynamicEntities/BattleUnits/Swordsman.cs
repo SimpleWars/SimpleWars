@@ -18,27 +18,30 @@
         private const int BaseHealth = 100;
         private const int BaseDamage = 25;
         private const int BaseArmor = 10;
+        private const int BaseAttackDelay = 500;
         private const float BaseSpeed = 5;
         private const float BaseAttackRange = 5;
+
 
         protected Swordsman()
         {
             this.MaxHealth = BaseMaxHealth;
+            this.TimeBetweenAttacks = BaseAttackDelay;
             this.Speed = BaseSpeed;
             this.Damage = BaseDamage;
             this.Armor = BaseArmor;
             this.AttackRange = BaseAttackRange;
         }
 
-        public Swordsman(Vector3 position, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, scale)
+        public Swordsman(Vector3 position, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, BaseAttackDelay, position, scale)
         {
         }
 
-        public Swordsman(Vector3 position, Quaternion rotation, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, scale)
+        public Swordsman(Vector3 position, Quaternion rotation, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, BaseAttackDelay, position, rotation, scale)
         {
         }
 
-        public Swordsman(Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, position, rotation, weight, scale)
+        public Swordsman(Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, BaseAttackDelay, position, rotation, weight, scale)
         {
         }
 

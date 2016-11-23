@@ -12,24 +12,27 @@
     {
         private int damage;
 
+        private double timeSinceLastAttack;
+
         protected CombatUnit()
         {
         }
 
-        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, Vector3 position, float scale = 1) 
-            : this(maxHealth, health, speed, damage, armor, attackRange, position, Quaternion.Identity, 1, scale)
+        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, int timeBetweenAttacks, Vector3 position, float scale = 1) 
+            : this(maxHealth, health, speed, damage, armor, attackRange, timeBetweenAttacks, position, Quaternion.Identity, 1, scale)
         {
         }
 
-        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, Vector3 position, Quaternion rotation, float scale = 1) 
-            : this(maxHealth, health, speed, damage, armor, attackRange, position, rotation, 1, scale)
+        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, int timeBetweenAttacks, Vector3 position, Quaternion rotation, float scale = 1) 
+            : this(maxHealth, health, speed, damage, armor, attackRange, timeBetweenAttacks, position, rotation, 1, scale)
         {       
         }
 
-        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) 
+        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, int timeBetweenAttacks, Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) 
             : base(maxHealth, health, speed, armor, position, rotation, weight, scale)
         {
             this.AttackRange = attackRange;
+            this.TimeBetweenAttacks = timeBetweenAttacks;
             this.Damage = damage;
         }
 
@@ -60,9 +63,17 @@
             }
         }
 
+        [NotMapped]
+        public int TimeBetweenAttacks { get; protected set; }
+
         public override void Update(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
         {
             base.Update(gameTime, terrain, others);
+
+            if (this.timeSinceLastAttack < this.TimeBetweenAttacks)
+            {
+                this.timeSinceLastAttack += gameTime.ElapsedGameTime.TotalMilliseconds;
+            }
 
             this.TryAttack();
         }
@@ -77,9 +88,11 @@
                 return;
             }
 
-            if (Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange)
+            if (Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange
+                && this.timeSinceLastAttack >= this.TimeBetweenAttacks)
             {
                 this.Target.TakeDamage(this.Damage);
+                this.timeSinceLastAttack = 0;
             }
             else
             {

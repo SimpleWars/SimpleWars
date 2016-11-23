@@ -1,8 +1,12 @@
 ﻿namespace SimpleWars.Models.Entities.Interfaces
 {
+    using System;
+
     public interface IFight : IEntity
     {
         IKillable Target { get; }
+
+        int TimeBetweenAttacks { get; }
 
         /// <summary>
         /// Gets or sets the damage.
