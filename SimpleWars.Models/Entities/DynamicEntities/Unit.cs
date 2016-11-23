@@ -26,6 +26,8 @@
 
         private Vector3 startPosition;
 
+        private Quaternion orientationDestination;
+
         private float? movementDistance;
 
         #endregion
@@ -228,6 +230,11 @@
                 this.movementDistance = null;
             }
 
+            this.Rotation = Quaternion.Slerp(
+                this.Rotation,
+                this.orientationDestination,
+                (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed);
+
             this.GravityAffect(gameTime, terrain);
         }
 
@@ -241,29 +248,29 @@
 
             float dot = Vector3.Dot(Vector3.Forward, lockedDirection);
 
-            if (Math.Abs(dot - (-1.0f)) < 0.000001f)
+            if (Math.Abs(dot + 1.0f) < 0.000001f)
             {
                 // vector a and b point exactly in the opposite direction, 
                 // so it is a 180 degrees turn around the up-axis
-                this.Rotation = new Quaternion(Vector3.Up, MathHelper.ToRadians(180.0f));
+                this.orientationDestination = new Quaternion(Vector3.Up, MathHelper.ToRadians(180.0f));
             }
             if (Math.Abs(dot - (1.0f)) < 0.000001f)
             {
                 // vector a and b point exactly in the same direction
                 // so we return the identity quaternion
-                this.Rotation = Quaternion.Identity;
+                this.orientationDestination = Quaternion.Identity;
             }
 
             float rotAngle = (float)Math.Acos(dot);
             Vector3 rotAxis = Vector3.Normalize(Vector3.Cross(Vector3.Forward, lockedDirection));
             Quaternion orientation = Quaternion.CreateFromAxisAngle(rotAxis, rotAngle);
-            this.Rotation = orientation;
+            this.orientationDestination = orientation;
         }
 
         public virtual void Rotate(GameTime gameTime, float angle)
         {
             float rotFraction = (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed;
-            this.Rotation += Quaternion.CreateFromAxisAngle(Vector3.Up, angle * rotFraction);
+            this.Rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, angle * rotFraction);
         }
         #endregion
     }
