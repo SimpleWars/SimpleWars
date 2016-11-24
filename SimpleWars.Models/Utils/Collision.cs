@@ -12,7 +12,7 @@
     public static class Collision
     {
         /// <summary>
-        /// Fast check if the entity collides with any of the other entities.
+        /// Checks if the entity collides with any of the other entities.
         /// </summary>
         /// <param name="entity">
         /// The entity.
@@ -23,7 +23,7 @@
         /// <returns>
         /// The <see cref="bool"/>.
         /// </returns>
-        public static bool CheckCollisionFast(IEntity entity, IEnumerable<IEntity> others)
+        public static bool CheckCollision(IEntity entity, IEnumerable<IEntity> others)
         {
             ICollection<BoundingSphere> boundingSpheres = new HashSet<BoundingSphere>();
             foreach (var mesh in entity.Model.Meshes)
@@ -58,7 +58,7 @@
         /// <returns>
         /// The <see cref="IEnumerable"/>.
         /// </returns>
-        public static IEnumerable<IEntity> GetAllCollisions(
+        public static IEnumerable<IEntity> GetCollisions(
             IEntity entity, 
             IEnumerable<IEntity> others)
         {
@@ -68,7 +68,7 @@
                 boundingSpheres.Add(mesh.BoundingSphere.Transform(entity.TransformationMatrix));
             }
 
-            float minCollisionRange = boundingSpheres.Average(bs => bs.Radius) * 2;
+            float minCollisionRange = boundingSpheres.Max(bs => bs.Radius) * 2;
 
             return
                 others.Where(
@@ -82,6 +82,39 @@
                     mesh.BoundingSphere
                     .Transform(other.TransformationMatrix)
                     .Intersects(bs))));
+        }
+
+        /// <summary>
+        /// Checks for collision between 2 entities
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// <param name="other">
+        /// The other entity.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public static bool CheckSingleCollision(IEntity entity, IEntity other)
+        {
+            ICollection<BoundingSphere> boundingSpheres = new HashSet<BoundingSphere>();
+            foreach (var mesh in entity.Model.Meshes)
+            {
+                boundingSpheres.Add(mesh.BoundingSphere.Transform(entity.TransformationMatrix));
+            }
+
+            float minCollisionRange = boundingSpheres.Max(bs => bs.Radius) * 2;
+
+            return Vector3.Distance(entity.Position, other.Position) < minCollisionRange
+                && other.Model.Meshes
+                .Any(mesh =>
+                boundingSpheres
+                .Any(bs =>
+                mesh.BoundingSphere
+                .Transform(other.TransformationMatrix)
+                .Intersects(bs)));
+
         }
 
         /// <summary>

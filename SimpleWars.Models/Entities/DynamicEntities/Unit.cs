@@ -231,7 +231,7 @@
             this.Position += direction * timeFactor;
             this.AdjustRotation(direction, timeFactor);
 
-            IEnumerable<IEntity> collidees = Collision.GetAllCollisions(this, others).ToArray();
+            IEnumerable<IEntity> collidees = Collision.GetCollisions(this, others).ToArray();
 
             if (collidees.Any())
             {
@@ -264,25 +264,27 @@
             this.GravityAffect(gameTime, terrain);
         }
 
-        protected virtual void AdjustRotation(Vector3 direction, float timeFactor)
-        {
-            direction.Y = 0;
-
-            float dot = Vector3.Dot(Vector3.Forward, direction);
-
-            float rotAngle = (float)Math.Acos(dot);
-            Vector3 rotAxis = Vector3.Normalize(Vector3.Cross(Vector3.Forward, direction));
-
-            this.Rotation = Quaternion.Slerp(
-                this.Rotation,
-                Quaternion.CreateFromAxisAngle(rotAxis, rotAngle),
-                timeFactor);
-        }
-
         public virtual void Rotate(GameTime gameTime, float angle)
         {
             float rotFraction = (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed;
             this.Rotation *= Quaternion.CreateFromAxisAngle(Vector3.Up, angle * rotFraction);
+        }
+
+        protected virtual void AdjustRotation(Vector3 direction, float timeFactor)
+        {
+            direction.Y = 0;
+
+            this.Rotation = Quaternion.Slerp(
+                this.Rotation,
+                Calc.GetRotationForDirection(direction),
+                timeFactor);
+        }
+
+        protected virtual void AdjustRotationImmediate(Vector3 direction)
+        {
+            direction.Y = 0;
+
+            this.Rotation = Calc.GetRotationForDirection(direction);
         }
         #endregion
     }

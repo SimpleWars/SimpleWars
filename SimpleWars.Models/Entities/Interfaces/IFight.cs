@@ -15,7 +15,7 @@
 
         float AttackRange { get; set; }
 
-        void TryAttack();
+        bool TryAttack();
 
         void ChangeAttackTarget(IKillable target);
     }

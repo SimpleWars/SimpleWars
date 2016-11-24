@@ -8,6 +8,8 @@
 
     using SimpleWars.Environment.Terrain.Interfaces;
     using SimpleWars.Models.Entities.Interfaces;
+    using SimpleWars.Models.Utils;
+
     public abstract class CombatUnit : Unit, ICombatUnit
     {
         private const int MaxTimeBetweenAttacksInMs = 10000;
@@ -77,35 +79,41 @@
 
         public override void Update(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
         {
-            base.Update(gameTime, terrain, others);
-
             if (this.timeSinceLastAttack < this.AttackDelay)
             {
                 this.timeSinceLastAttack += gameTime.ElapsedGameTime.TotalMilliseconds;
             }
 
-            this.TryAttack();
+            bool attacked = this.TryAttack();
+
+            if (!attacked)
+            {
+                base.Move(gameTime, terrain, others);
+            }
         }
 
         [NotMapped]
         public float AttackRange { get; set; }
 
-        public virtual void TryAttack()
+        public virtual bool TryAttack()
         {
             if (this.Target == null)
             {
-                return;
+                return false;
             }
 
-            if (Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange
+            if ((Collision.CheckSingleCollision(this, this.Target) || 
+                Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange)
                 && this.CanAttack)
             {
                 this.Target.TakeDamage(this.Damage);
                 this.timeSinceLastAttack = 0;
+                return true;
             }
             else
             {
                 this.Destination = this.Target.Position;
+                return false;
             }
         }
 

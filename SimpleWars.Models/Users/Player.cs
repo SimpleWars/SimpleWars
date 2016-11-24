@@ -9,6 +9,7 @@
     using Microsoft.Xna.Framework;
 
     using SimpleWars.Models.Economy;
+    using SimpleWars.Models.Entities;
     using SimpleWars.Models.Entities.DynamicEntities;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Entities.StaticEntities;
@@ -19,7 +20,7 @@
         private int homeSeed;
 
         /// <summary>
-        /// Empty constructor for stupid ORM
+        /// Empty constructor for EF
         /// </summary>
         protected Player()
         {

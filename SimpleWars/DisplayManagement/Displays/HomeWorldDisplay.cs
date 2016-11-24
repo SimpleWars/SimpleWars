@@ -84,7 +84,7 @@
         {
             this.CleanDead();
 
-            var allEntities = UsersManager.CurrentPlayer.AllEntities;
+            var allEntities = UsersManager.CurrentPlayer.AllEntities.ToArray();
 
             foreach (var entity in allEntities)
             {
