@@ -84,9 +84,9 @@
                 this.timeSinceLastAttack += gameTime.ElapsedGameTime.TotalMilliseconds;
             }
 
-            bool attacked = this.TryAttack();
+            bool inRange = this.TryAttack();
 
-            if (!attacked)
+            if (!inRange)
             {
                 base.Move(gameTime, terrain, others);
             }
@@ -103,11 +103,14 @@
             }
 
             if ((Collision.CheckSingleCollision(this, this.Target) || 
-                Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange)
-                && this.CanAttack)
+                Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange))
             {
-                this.Target.TakeDamage(this.Damage);
-                this.timeSinceLastAttack = 0;
+                if (this.CanAttack)
+                {
+                    this.Target.TakeDamage(this.Damage);
+                    this.timeSinceLastAttack = 0;
+                }
+                
                 return true;
             }
             else
