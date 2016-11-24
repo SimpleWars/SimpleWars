@@ -14,11 +14,11 @@
         bool IsAlive { get; }
 
         /// <summary>
-        /// The take damageTaken.
+        /// The take damageToTake.
         /// </summary>
-        /// <param name="damageTaken">
-        /// The damageTaken.
+        /// <param name="damageToTake">
+        /// The damageToTake.
         /// </param>
-        void TakeDamage(int damageTaken);
+        void TakeDamage(int damageToTake);
     }
 }

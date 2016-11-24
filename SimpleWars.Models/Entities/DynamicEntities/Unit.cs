@@ -41,7 +41,7 @@
         /// The health.
         /// </param>
         /// <param name="damage">
-        /// The damageTaken.
+        /// The damageToTake.
         /// </param>
         /// <param name="armor">
         /// The armor.
@@ -64,7 +64,7 @@
         /// The health.
         /// </param>
         /// <param name="damage">
-        /// The damageTaken.
+        /// The damageToTake.
         /// </param>
         /// <param name="armor">
         /// The armor.
@@ -90,7 +90,7 @@
         /// The health.
         /// </param>
         /// <param name="damage">
-        /// The damageTaken.
+        /// The damageToTake.
         /// </param>
         /// <param name="armor">
         /// The armor.
@@ -151,14 +151,8 @@
             }
         }
 
-        public Vector3 MovementDirection { get; protected set; }
-
-        public Vector3 MovementStartPosition { get; protected set; }
-
-        public Quaternion OrientDirection { get; protected set; }
-
         [NotMapped]
-        public float? MovementDistance { get; protected set; }
+        public Vector3? Destination { get; set; }
 
         [NotMapped]
         public float Speed { get; protected set; }
@@ -195,12 +189,12 @@
         /// <summary>
         /// The take damage.
         /// </summary>
-        /// <param name="damageTaken">
+        /// <param name="damageToTake">
         /// The damage taken.
         /// </param>
-        public void TakeDamage(int damageTaken)
+        public void TakeDamage(int damageToTake)
         {
-            this.Health -= damageTaken - this.Armor;
+            this.Health -= damageToTake - this.Armor;
         }
 
         public virtual void Update(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
@@ -224,66 +218,52 @@
         /// </param>
         public virtual void Move(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
         {
-            if (this.MovementDistance == null)
+            if (this.Destination == null)
             {
                 return;
             }
 
+            float timeFactor = (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed;
+            Vector3 startPosition = this.Position;
+            Vector3 direction = Vector3.Normalize(this.Destination.Value - this.Position);
 
-            float movementFactor = (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed;
-            Vector3 prevPosition = this.Position;
+            this.Position += direction * timeFactor;
+            this.AdjustRotation(direction, timeFactor);
 
-            this.Position += this.MovementDirection * movementFactor;
-
-            this.Rotation = Quaternion.Slerp(
-                this.Rotation,
-                this.OrientDirection,
-                (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed);
-
-            Tuple<bool, float> collisionResult = Collision.CheckCollision(this, others);
+            Tuple<bool, Vector3?> collisionResult = Collision.CheckCollision(this, others);
 
             if (collisionResult.Item1)
             {
-                this.Position = prevPosition;
-                this.MovementDistance = null;
-                return;
+                this.Position = startPosition;
+                if (collisionResult.Item2 != null)
+                {
+                    Vector3 directionOffset = collisionResult.Item2.Value;
+                    this.Position += directionOffset * timeFactor;
+                    this.AdjustRotation(directionOffset, timeFactor);
+                }
             }
 
-            if (Vector3.Distance(this.Position, this.MovementStartPosition) >= this.MovementDistance.Value)
+            if (Vector3.Distance(this.Position, this.Destination.Value) < 0.2f)
             {
-                this.MovementDistance = null;
+                this.Destination = null;
             }
 
             this.GravityAffect(gameTime, terrain);
         }
 
-        public virtual void ChangeDestination(Vector3 destination)
+        protected virtual void AdjustRotation(Vector3 direction, float timeFactor)
         {
-            this.MovementDirection = Vector3.Normalize(destination - this.Position);           
-            this.MovementDistance = Vector3.Distance(this.Position, destination);
-            this.MovementStartPosition = this.Position;
+            direction.Y = 0;
 
-            Vector3 lockedDirection = new Vector3(this.MovementDirection.X, 0, this.MovementDirection.Z);
-
-            float dot = Vector3.Dot(Vector3.Forward, lockedDirection);
-
-            if (Math.Abs(dot + 1.0f) < 0.000001f)
-            {
-                // vector a and b point exactly in the opposite direction, 
-                // so it is a 180 degrees turn around the up-axis
-                this.OrientDirection = new Quaternion(Vector3.Up, MathHelper.ToRadians(180.0f));
-            }
-            if (Math.Abs(dot - (1.0f)) < 0.000001f)
-            {
-                // vector a and b point exactly in the same direction
-                // so we return the identity quaternion
-                this.OrientDirection = Quaternion.Identity;
-            }
+            float dot = Vector3.Dot(Vector3.Forward, direction);
 
             float rotAngle = (float)Math.Acos(dot);
-            Vector3 rotAxis = Vector3.Normalize(Vector3.Cross(Vector3.Forward, lockedDirection));
-            Quaternion orientation = Quaternion.CreateFromAxisAngle(rotAxis, rotAngle);
-            this.OrientDirection = orientation;
+            Vector3 rotAxis = Vector3.Normalize(Vector3.Cross(Vector3.Forward, direction));
+
+            this.Rotation = Quaternion.Slerp(
+                this.Rotation,
+                Quaternion.CreateFromAxisAngle(rotAxis, rotAngle),
+                timeFactor);
         }
 
         public virtual void Rotate(GameTime gameTime, float angle)

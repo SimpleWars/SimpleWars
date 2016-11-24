@@ -206,7 +206,7 @@
                     this.camera.ViewMatrix,
                     this.terrain);
 
-                ((IMoveable)selected).ChangeDestination(destination);
+                ((IMoveable)selected).Destination = destination;
             }
         }
 

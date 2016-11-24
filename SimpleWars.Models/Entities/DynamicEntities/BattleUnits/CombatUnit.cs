@@ -105,7 +105,7 @@
             }
             else
             {
-                this.ChangeDestination(this.Target.Position);
+                this.Destination = this.Target.Position;
             }
         }
 

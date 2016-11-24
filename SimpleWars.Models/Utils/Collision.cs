@@ -11,7 +11,7 @@
 
     public static class Collision
     {
-        public static Tuple<bool, float> CheckCollision(IEntity entity, IEnumerable<IEntity> others)
+        public static Tuple<bool, Vector3?> CheckCollision(IEntity entity, IEnumerable<IEntity> others)
         {
             ICollection<BoundingSphere> boundingSpheres = new HashSet<BoundingSphere>();
             foreach (var mesh in entity.Model.Meshes)
@@ -21,27 +21,43 @@
 
             float minCollisionRange = boundingSpheres.Average(bs => bs.Radius) * 2;
 
-            IEntity collisionOther = others
-                .Where(other => other != entity 
+            IEntity collided = others
+                    .Where(other => 
+                    other != entity 
                     && Vector3.Distance(entity.Position, other.Position) < minCollisionRange)
                     .FirstOrDefault(other => 
                     other.Model.Meshes
-                    .Any(mesh => boundingSpheres
+                    .Any(mesh => 
+                    boundingSpheres
                     .Any(bs => mesh.BoundingSphere.Transform(other.TransformationMatrix)
                     .Intersects(bs))));
 
-            if (collisionOther != null)
+            if (collided != null && entity is IMoveable)
             {
-                Vector3 positionChecked = entity.Position;
-                Vector3 positionOther = collisionOther.Position;
+                IMoveable movingEntity = (IMoveable)entity;
+                if (movingEntity.Destination != null)
+                {
+                        Vector3 direction = Vector3.Normalize(Vector3.Cross(
+                            Vector3.Up,
+                            Vector3.Normalize(movingEntity.Position - collided.Position)));
+                        direction.Y = 0;
+              
 
-                float angle =
-                    (float)Math.Acos(Vector3.Dot(Vector3.Normalize(positionChecked), Vector3.Normalize(positionOther)));
+                    if (Vector3.Distance(movingEntity.Position + direction, movingEntity.Destination.Value)
+                        > Vector3.Distance(movingEntity.Position, movingEntity.Destination.Value))
+                    {
+                        direction = -direction;
+                    }
 
-                return new Tuple<bool, float>(true, angle);
+                    return new Tuple<bool, Vector3?>(true, direction);
+                }
+            }
+            else if (collided != null)
+            {
+                return new Tuple<bool, Vector3?>(true, null);
             }
 
-            return new Tuple<bool, float>(false, 0);
+            return new Tuple<bool, Vector3?>(false, null);
         }
     }
 }

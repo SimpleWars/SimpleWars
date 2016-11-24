@@ -141,7 +141,7 @@
         [Key]
         public int Id { get; private set; }
 
-        #region Idiotic ORM Transforms
+        #region Idiotic Transforms for EF ( who the hell builds games with ef? :| )
         public float PosX
         {
             get
@@ -193,7 +193,7 @@
                         - this.Rotation.Y * this.Rotation.Y + this.Rotation.Z * this.Rotation.Z);
             }
 
-            protected set
+            private set
             {
                 this.rotX = value;
                 this.GenerateQuaternion();
@@ -207,7 +207,7 @@
                 return (float)Math.Asin(2 * (this.Rotation.X * this.Rotation.Z + this.Rotation.W * this.Rotation.Y));
             }
 
-            protected set
+            private set
             {
                 this.rotY = value;
                 this.GenerateQuaternion();
@@ -226,7 +226,7 @@
                         - this.Rotation.Y * this.Rotation.Y - this.Rotation.Z * this.Rotation.Z);
             }
 
-            protected set
+            private set
             {
                 this.rotZ = value;
                 this.GenerateQuaternion();

@@ -11,11 +11,7 @@
     /// </summary>
     public interface IMoveable : IEntity
     {
-        Vector3 MovementDirection { get; }
-        Vector3 MovementStartPosition { get; }
-        Quaternion OrientDirection { get; }
-
-        float? MovementDistance { get; }
+        Vector3? Destination { get; set; }
 
         float Speed { get; }
 
@@ -29,8 +25,6 @@
         /// The terrain.
         /// </param>
         void Move(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others);
-
-        void ChangeDestination(Vector3 destination);
 
         /// <summary>
         /// Rotates around the world up axis.
