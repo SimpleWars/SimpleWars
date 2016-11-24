@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Diagnostics;
+    using System.Linq;
 
     using Microsoft.Xna.Framework;
 
@@ -230,20 +231,32 @@
             this.Position += direction * timeFactor;
             this.AdjustRotation(direction, timeFactor);
 
-            Tuple<bool, Vector3?> collisionResult = Collision.CheckCollision(this, others);
+            IEnumerable<IEntity> collidees = Collision.GetAllCollisions(this, others).ToArray();
 
-            if (collisionResult.Item1)
+            if (collidees.Any())
             {
-                this.Position = startPosition;
-                if (collisionResult.Item2 != null)
+                Vector3 bestPath = startPosition;
+                Vector3 bestDirectionOffset = Collision.GetGoRoundDirection(this, collidees.First());
+
+                Vector3 currentPath = startPosition;
+
+                foreach (var other in collidees)
                 {
-                    Vector3 directionOffset = collisionResult.Item2.Value;
-                    this.Position += directionOffset * timeFactor;
-                    this.AdjustRotation(directionOffset, timeFactor);
+                    Vector3 directionOffset = Collision.GetGoRoundDirection(this, other);
+                    currentPath += directionOffset * timeFactor;
+                    if (Vector3.Distance(currentPath, this.Destination.Value)
+                        < Vector3.Distance(bestPath, this.Destination.Value))
+                    {
+                        bestPath = currentPath;
+                        bestDirectionOffset = directionOffset;
+                    }
                 }
+
+                this.Position = bestPath;
+                this.AdjustRotation(bestDirectionOffset, timeFactor);
             }
 
-            if (Vector3.Distance(this.Position, this.Destination.Value) < 0.2f)
+            if (Vector3.Distance(this.Position, this.Destination.Value) < 0.1f)
             {
                 this.Destination = null;
             }

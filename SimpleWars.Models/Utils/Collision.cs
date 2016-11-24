@@ -11,7 +11,19 @@
 
     public static class Collision
     {
-        public static Tuple<bool, Vector3?> CheckCollision(IEntity entity, IEnumerable<IEntity> others)
+        /// <summary>
+        /// Fast check if the entity collides with any of the other entities.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// <param name="others">
+        /// The other entities.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        public static bool CheckCollisionFast(IEntity entity, IEnumerable<IEntity> others)
         {
             ICollection<BoundingSphere> boundingSpheres = new HashSet<BoundingSphere>();
             foreach (var mesh in entity.Model.Meshes)
@@ -21,43 +33,84 @@
 
             float minCollisionRange = boundingSpheres.Average(bs => bs.Radius) * 2;
 
-            IEntity collided = others
-                    .Where(other => 
-                    other != entity 
+            return others
+                    .Where(other =>
+                    other != entity
                     && Vector3.Distance(entity.Position, other.Position) < minCollisionRange)
-                    .FirstOrDefault(other => 
+                    .Any(other =>
                     other.Model.Meshes
-                    .Any(mesh => 
+                    .Any(mesh =>
                     boundingSpheres
-                    .Any(bs => mesh.BoundingSphere.Transform(other.TransformationMatrix)
+                    .Any(bs => mesh.BoundingSphere
+                    .Transform(other.TransformationMatrix)
                     .Intersects(bs))));
+        }
 
-            if (collided != null && entity is IMoveable)
+        /// <summary>
+        /// Gets all other entities that the entity collides with.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// <param name="others">
+        /// The other entities.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable"/>.
+        /// </returns>
+        public static IEnumerable<IEntity> GetAllCollisions(
+            IEntity entity, 
+            IEnumerable<IEntity> others)
+        {
+            ICollection<BoundingSphere> boundingSpheres = new HashSet<BoundingSphere>();
+            foreach (var mesh in entity.Model.Meshes)
             {
-                IMoveable movingEntity = (IMoveable)entity;
-                if (movingEntity.Destination != null)
-                {
-                        Vector3 direction = Vector3.Normalize(Vector3.Cross(
-                            Vector3.Up,
-                            Vector3.Normalize(movingEntity.Position - collided.Position)));
-                        direction.Y = 0;
-              
-
-                    if (Vector3.Distance(movingEntity.Position + direction, movingEntity.Destination.Value)
-                        > Vector3.Distance(movingEntity.Position, movingEntity.Destination.Value))
-                    {
-                        direction = -direction;
-                    }
-
-                    return new Tuple<bool, Vector3?>(true, direction);
-                }
-            }
-            else if (collided != null)
-            {
-                return new Tuple<bool, Vector3?>(true, null);
+                boundingSpheres.Add(mesh.BoundingSphere.Transform(entity.TransformationMatrix));
             }
 
-            return new Tuple<bool, Vector3?>(false, null);
+            float minCollisionRange = boundingSpheres.Average(bs => bs.Radius) * 2;
+
+            return
+                others.Where(
+                    other => other != entity && Vector3.Distance(entity.Position, other.Position) < minCollisionRange)
+                    .Where(
+                    other =>
+                    other.Model.Meshes.Any(
+                    mesh =>
+                    boundingSpheres
+                    .Any(bs => 
+                    mesh.BoundingSphere
+                    .Transform(other.TransformationMatrix)
+                    .Intersects(bs))));
+        }
+
+        /// <summary>
+        /// Returns direction vector pointing at the 
+        /// shortest path that the entity can take to go 
+        /// around the other entity.
+        /// </summary>
+        /// <param name="entity">
+        /// The entity.
+        /// </param>
+        /// <param name="other">
+        /// The other entity.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Vector3"/>.
+        /// </returns>
+        public static Vector3 GetGoRoundDirection(IMoveable entity, IEntity other)
+        {
+            Vector3 direction = Vector3.Normalize(Vector3.Cross(
+                Vector3.Up,
+                Vector3.Normalize(entity.Position - other.Position)));
+
+            if (Vector3.Distance(entity.Position + direction, entity.Destination.Value)
+                > Vector3.Distance(entity.Position, entity.Destination.Value))
+            {
+                direction = -direction;
+            }
+
+            return direction;
         }
     }
 }
