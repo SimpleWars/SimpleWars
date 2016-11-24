@@ -240,9 +240,9 @@
                 this.OrientDirection,
                 (float)gameTime.ElapsedGameTime.TotalSeconds * this.Speed);
 
-            bool collides = Collision.CheckCollision(this, others);
+            Tuple<bool, float> collisionResult = Collision.CheckCollision(this, others);
 
-            if (collides)
+            if (collisionResult.Item1)
             {
                 this.Position = prevPosition;
                 this.MovementDistance = null;
