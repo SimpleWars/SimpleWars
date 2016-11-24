@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Microsoft.Xna.Framework;
+
     public interface IFight : IEntity
     {
         IKillable Target { get; }
@@ -15,7 +17,7 @@
 
         float AttackRange { get; set; }
 
-        bool TryAttack();
+        void TryAttack();
 
         void ChangeAttackTarget(IKillable target);
     }

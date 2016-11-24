@@ -79,44 +79,42 @@
 
         public override void Update(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
         {
+            base.Update(gameTime, terrain, others);
+
             if (this.timeSinceLastAttack < this.AttackDelay)
             {
                 this.timeSinceLastAttack += gameTime.ElapsedGameTime.TotalMilliseconds;
             }
 
-            bool inRange = this.TryAttack();
-
-            if (!inRange)
-            {
-                base.Move(gameTime, terrain, others);
-            }
+            this.TryAttack();
         }
 
         [NotMapped]
         public float AttackRange { get; set; }
 
-        public virtual bool TryAttack()
+        public virtual void TryAttack()
         {
             if (this.Target == null)
             {
-                return false;
+                return;
             }
 
-            if ((Collision.CheckSingleCollision(this, this.Target) || 
-                Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange))
+            bool inRange = Collision.CheckSingleCollision(this, this.Target)
+                            || Vector3.Distance(this.Position, this.Target.Position) <= this.AttackRange;
+
+            if (inRange && this.CanAttack)
             {
-                if (this.CanAttack)
-                {
-                    this.Target.TakeDamage(this.Damage);
-                    this.timeSinceLastAttack = 0;
-                }
-                
-                return true;
+                this.Target.TakeDamage(this.Damage);
+                this.timeSinceLastAttack = 0;
+            }
+
+            if (inRange)
+            {
+                this.AdjustRotationImmediate(Vector3.Normalize(this.Target.Position - this.Position));
             }
             else
             {
                 this.Destination = this.Target.Position;
-                return false;
             }
         }
 
