@@ -11,7 +11,6 @@
 
     using SimpleWars.Assets;
     using SimpleWars.Camera;
-    using SimpleWars.Data.Contexts;
     using SimpleWars.Environment.Skybox;
     using SimpleWars.Environment.Terrain;
     using SimpleWars.Environment.Terrain.Terrains;
@@ -76,8 +75,6 @@
             ModelsManager.Instance.DisposeAll();
             EntitySelector.Deselect();
             EntitySelector.PlaceEntity();
-            this.Context.SaveChanges();
-            this.Context.Dispose();
         }
 
         public override void Update(GameTime gameTime)

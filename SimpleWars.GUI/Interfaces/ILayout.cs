@@ -5,8 +5,6 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Data.Contexts;
-
     public interface ILayout : IGui
     {
         ICollection<IButton> Buttons { get; }

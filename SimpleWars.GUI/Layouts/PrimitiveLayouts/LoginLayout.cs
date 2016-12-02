@@ -4,7 +4,6 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
-    using SimpleWars.Data.Contexts;
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Users;
@@ -17,7 +16,7 @@
         private ITextBox passwordTb;
         private IButton loginButton;
 
-        public LoginLayout(Texture2D background, GameContext context)
+        public LoginLayout(Texture2D background)
             : base(background)
         {
             this.LoginState = LoginState.None;
@@ -25,7 +24,7 @@
             this.Dimensions = new Vector2(240, 140);
             this.Position = new Vector2(500, 300);
 
-            this.InitializeComponents(context);
+            this.InitializeComponents();
         }
 
         public LoginState LoginState { get; private set; }
@@ -45,7 +44,7 @@
         }
 
 
-        private void InitializeComponents(GameContext context)
+        private void InitializeComponents()
         {
             this.usernameTb = new TextBox(
                 this.Position + new Vector2(20, 20),
@@ -113,7 +112,7 @@
                 2,
                 () =>
                     {
-                        this.LoginState = UsersManager.LoginUser(this.usernameTb.TextNode.TextContent, this.passwordTb.TextNode.TextContent, context);
+                        this.LoginState = UsersManager.LoginUser(this.usernameTb.TextNode.TextContent, this.passwordTb.TextNode.TextContent);
                     });
 
             var loginButtonTextNode = new TextNode(this.loginButton, new Vector2(70, -2), Vector2.One, "Log In", SpriteFontManager.Instance.GetFont("Arial_22"), Color.White);

@@ -24,7 +24,7 @@
         /// <summary>
         /// Gets the owner.
         /// </summary>
-        Player Player { get; }
+        int OwnerId { get; }
 
         /// <summary>
         /// Gets or sets the position.

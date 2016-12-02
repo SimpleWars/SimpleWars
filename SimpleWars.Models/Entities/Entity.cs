@@ -1,16 +1,11 @@
 ﻿namespace SimpleWars.Models.Entities
 {
-    using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Diagnostics;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Environment.Terrain.Interfaces;
-    using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Users;
     using SimpleWars.Utils;
@@ -35,12 +30,6 @@
         /// The rotation.
         /// </summary>
         private Quaternion rotation;
-
-        private float? rotX;
-
-        private float? rotY;
-
-        private float? rotZ;
 
         /// <summary>
         /// The scale.
@@ -137,108 +126,13 @@
 
         /// <summary>
         /// Gets the id.
-        /// </summary>
-        [Key]
+        /// </summary> 
         public int Id { get; private set; }
-
-        #region Idiotic Transforms for EF ( who the hell builds games with ef? :| )
-        public float PosX
-        {
-            get
-            {
-                return this.Position.X;
-            }
-
-            private set
-            {
-                this.Position = new Vector3(value, this.Position.Y, this.Position.Z);
-            }
-        }
-
-        public float PosY
-        {
-            get
-            {
-                return this.Position.Y;
-            }
-
-            private set
-            {
-                this.Position = new Vector3(this.Position.X, value, this.Position.Z);
-            }
-        }
-
-        public float PosZ
-        {
-            get
-            {
-                return this.Position.Z;
-            }
-
-            private set
-            {
-                this.Position = new Vector3(this.Position.X, this.Position.Y, value);
-            }
-        }
-
-        public float RotX
-        {
-            get
-            {
-                return
-                    (float)
-                    Math.Atan2(
-                        -2 * (this.Rotation.Y * this.Rotation.Z - this.Rotation.W * this.Rotation.X),
-                        this.Rotation.W * this.Rotation.W - this.Rotation.X * this.Rotation.X
-                        - this.Rotation.Y * this.Rotation.Y + this.Rotation.Z * this.Rotation.Z);
-            }
-
-            private set
-            {
-                this.rotX = value;
-                this.GenerateQuaternion();
-            }
-        }
-
-        public float RotY
-        {
-            get
-            {
-                return (float)Math.Asin(2 * (this.Rotation.X * this.Rotation.Z + this.Rotation.W * this.Rotation.Y));
-            }
-
-            private set
-            {
-                this.rotY = value;
-                this.GenerateQuaternion();
-            }
-        }
-
-        public float RotZ
-        {
-            get
-            {
-                return
-                    (float)
-                    Math.Atan2(
-                        -2 * (this.Rotation.X * this.Rotation.Y - this.Rotation.W * this.Rotation.Z),
-                        this.Rotation.W * this.Rotation.W + this.Rotation.X * this.Rotation.X
-                        - this.Rotation.Y * this.Rotation.Y - this.Rotation.Z * this.Rotation.Z);
-            }
-
-            private set
-            {
-                this.rotZ = value;
-                this.GenerateQuaternion();
-            }
-        }
-        #endregion
 
         #region Public World Transformations
         /// <summary>
         /// Gets or sets the position of the entity.
-        /// </summary>
-        [NotMapped]
+        /// </summary>    
         public Vector3 Position
         {
             get
@@ -253,8 +147,7 @@
                 this.transformationMatrixDirty = true;
             }
         }
-
-        [NotMapped]
+       
         public Quaternion Rotation
         {
             get
@@ -296,7 +189,7 @@
         /// <summary>
         /// Gets the transformation matrix (entity position with rotation and scale applied).
         /// </summary>
-        [NotMapped]
+        
         public Matrix TransformationMatrix
         {
             get
@@ -316,7 +209,7 @@
         /// <summary>
         /// Gets or sets the model of the entity.
         /// </summary>
-        [NotMapped]
+        
         public Model Model
         {
             get
@@ -331,20 +224,14 @@
         }
         #endregion
 
-        #region Owner Data
-
-        /// <summary>
-        /// Gets the owner.
-        /// </summary>
-        public virtual Player Player { get; private set; }
-        #endregion
+        public int OwnerId { get; private set; }
 
         #region Shader Options
         /// <summary>
         /// Gets or sets a value indicating whether 
         /// the entity is highlighted by the mouse cursor
         /// </summary>
-        [NotMapped]
+        
         public bool IsHighlighted { get; set; }
 
         /// <summary>
@@ -483,36 +370,6 @@
                     }
                 }
             }
-        }
-        #endregion
-
-        #region Utility Methods
-
-        /// <summary>
-        /// Creates a quaternion based on euler angles.
-        /// Only used when entity is initialized from Entity Framework.
-        /// </summary>
-        private void GenerateQuaternion()
-        {
-            if (this.rotX == null || this.rotY == null || this.rotZ == null)
-            {
-                return;
-            }
-
-            float c1 = (float)Math.Cos(this.rotX.Value / 2);
-            float s1 = (float)Math.Sin(this.rotX.Value / 2);
-            float c2 = (float)Math.Cos(this.rotY.Value / 2);
-            float s2 = (float)Math.Sin(this.rotY.Value / 2);
-            float c3 = (float)Math.Cos(this.rotZ.Value / 2);
-            float s3 = (float)Math.Sin(this.rotZ.Value / 2);
-
-            this.rotation.W = c1 * c2 * c3 - s1 * s2 * s3;
-            this.rotation.X = s1 * c2 * c3 + c1 * s2 * s3;
-            this.rotation.Y = c1 * s2 * c3 - s1 * c2 * s3;
-            this.rotation.Z = c1 * c2 * s3 + s1 * s2 * c3;
-
-            this.RotationMatrix = Matrix.CreateFromQuaternion(this.Rotation);
-            this.transformationMatrixDirty = true;
         }
         #endregion
     }

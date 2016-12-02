@@ -3,15 +3,11 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Data.Contexts;
-
     /// <summary>
     /// The Display interface.
     /// </summary>
     public interface IDisplay
     {
-        GameContext Context { get; }
-
         /// <summary>
         /// The load content.
         /// </summary>

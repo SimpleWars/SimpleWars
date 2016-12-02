@@ -4,7 +4,6 @@
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Models.Economy.Resources;
     using SimpleWars.Models.Entities.Interfaces;
 
     /// <summary>
@@ -64,31 +63,6 @@
         public void Gather(int amount)
         {
             int mined = this.Quantity - amount < 0 ? Math.Abs(this.Quantity - amount) : amount;
-
-            if (this.ResourceType == typeof(Gold).Name)
-            {
-                this.Player.ResourceSet.Gold.Quantity += mined;
-            }
-            else if (this.ResourceType == typeof(Food).Name)
-            {
-                this.Player.ResourceSet.Food.Quantity += mined;
-            }
-            else if (this.ResourceType == typeof(Wood).Name)
-            {
-                this.Player.ResourceSet.Wood.Quantity += mined;
-            }
-            else if (this.ResourceType == typeof(Rock).Name)
-            {
-                this.Player.ResourceSet.Rock.Quantity += mined;
-            }
-            else if (this.ResourceType == typeof(Metal).Name)
-            {
-                this.Player.ResourceSet.Metal.Quantity += mined;
-            }
-            else if (this.ResourceType == typeof(Population).Name)
-            {
-                this.Player.ResourceSet.Population.Quantity += mined;
-            }
 
             this.Quantity -= amount;
         }

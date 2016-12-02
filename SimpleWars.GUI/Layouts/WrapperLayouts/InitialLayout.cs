@@ -4,7 +4,6 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
-    using SimpleWars.Data.Contexts;
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.Layouts.PrimitiveLayouts;
     using SimpleWars.GUI.PrimitiveComponents;
@@ -19,13 +18,13 @@
 
         private readonly RegisterLayout registerLayout;
 
-        public InitialLayout(Texture2D background, GameContext context)
+        public InitialLayout(Texture2D background)
             : base(background)
         {
-            this.loginLayout = new LoginLayout(PointTextures.TransparentPoint, context);
+            this.loginLayout = new LoginLayout(PointTextures.TransparentPoint);
             this.activeLayout = this.loginLayout;
 
-            this.registerLayout = new RegisterLayout(PointTextures.TransparentPoint, context);
+            this.registerLayout = new RegisterLayout(PointTextures.TransparentPoint);
 
             this.InitializeComponents();
         }

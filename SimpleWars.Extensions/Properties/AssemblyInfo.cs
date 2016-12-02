@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SimpleWars.Data")]
+[assembly: AssemblyTitle("SimpleWars.Extensions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SimpleWars.Data")]
+[assembly: AssemblyProduct("SimpleWars.Extensions")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b13c8882-c73b-4fe3-9813-a397e57b5abf")]
+[assembly: Guid("6f013a2c-25d9-4c49-9bd9-c8d3bb041e63")]
 
 // Version information for an assembly consists of the following four values:
 //

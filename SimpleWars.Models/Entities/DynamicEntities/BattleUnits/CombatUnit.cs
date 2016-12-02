@@ -41,7 +41,7 @@
             this.AttackDelay = MaxTimeBetweenAttacksInMs / (double)this.AttackSpeed;
         }
 
-        [NotMapped]
+        
         public IKillable Target { get; protected set; }
 
         /// <summary>
@@ -49,7 +49,7 @@
         /// </summary>
         /// <exception cref="ArgumentException">
         /// </exception>
-        [NotMapped]
+        
         public int Damage
         {
             get
@@ -67,14 +67,12 @@
                 this.damage = value;
             }
         }
-
-        [NotMapped]
+ 
         protected bool CanAttack => this.timeSinceLastAttack >= this.AttackDelay;
-
-        [NotMapped]
+      
         protected double AttackDelay { get; set; }
 
-        [NotMapped]
+        
         public int AttackSpeed { get; protected set; }
 
         public override void Update(GameTime gameTime, ITerrain terrain, IEnumerable<IEntity> others)
@@ -89,7 +87,7 @@
             this.TryAttack();
         }
 
-        [NotMapped]
+        
         public float AttackRange { get; set; }
 
         public virtual void TryAttack()

@@ -6,7 +6,6 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
-    using SimpleWars.Data.Contexts;
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.Layouts;
     using SimpleWars.GUI.Layouts.WrapperLayouts;
@@ -41,7 +40,7 @@
 
             this.background = TexturesManager.Instance.GetTexture("Menu", "background");
 
-            this.initialGui = new InitialLayout(PointTextures.TransparentPoint, this.Context);
+            this.initialGui = new InitialLayout(PointTextures.TransparentPoint);
         }
 
         /// <summary>
@@ -50,8 +49,6 @@
         public override void UnloadContent()
         {
             TexturesManager.Instance.DisposeAll();
-            this.Context.SaveChanges();
-            this.Context.Dispose();
         }
 
         /// <summary>

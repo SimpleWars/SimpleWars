@@ -43,7 +43,7 @@
         /// <summary>
         /// Gets the world map pos.
         /// </summary>
-        [NotMapped]
+        
         Vector2 WorldMapPos { get; }
 
         /// <summary>

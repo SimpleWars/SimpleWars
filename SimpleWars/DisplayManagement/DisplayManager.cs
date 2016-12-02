@@ -7,8 +7,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-
-    using SimpleWars.Data.Contexts;
+    
     using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.DisplayManagement.Interfaces;
     using SimpleWars.Models.Users;
@@ -109,8 +108,6 @@
             this.CurrentDisplay.UnloadContent();
             // changing the display
             this.CurrentDisplay = display;
-            // attaching the player to the new context
-            this.CurrentDisplay.Context.Players.Attach(UsersManager.CurrentPlayer);
             // loading the fresh display content
             this.CurrentDisplay.LoadContent();
 

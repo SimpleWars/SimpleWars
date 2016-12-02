@@ -2,8 +2,7 @@
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
-
-    using SimpleWars.Data.Contexts;
+    
     using SimpleWars.DisplayManagement.Interfaces;
 
     /// <summary>
@@ -11,11 +10,8 @@
     /// </summary>
     public abstract class Display : IDisplay
     {
-        public GameContext Context { get; }
-
         protected Display()
         {
-            this.Context = new GameContext();
         }
 
         /// <summary>

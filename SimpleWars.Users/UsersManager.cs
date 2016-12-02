@@ -1,16 +1,12 @@
 ﻿namespace SimpleWars.Users
 {
     using System;
-    using System.Linq;
-    using System.Data.Entity;
     using System.Security.Cryptography;
     using System.Text;
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Data.Contexts;
     using SimpleWars.Models.Users;
-    using SimpleWars.Models.Users.Interfaces;
     using SimpleWars.Users.Enums;
 
     public static class UsersManager
@@ -19,22 +15,15 @@
 
         public static Player CurrentPlayer { get; private set; }
 
-        public static LoginState LoginUser(string username, string password, GameContext context)
+        public static LoginState LoginUser(string username, string password)
         {
             try
             {
                 string hashedPassword = HashPassword(password);
-                var player =
-                    context.Players.FirstOrDefault(p => p.Username == username && p.HashedPassword == hashedPassword);
 
                 hashedPassword = string.Empty;
 
-                if (player == null)
-                {
-                    return LoginState.Invalid;
-                }
-
-                CurrentPlayer = player;
+                //return LoginState.Invalid;
 
                 return LoginState.Successful;
             }
@@ -44,27 +33,16 @@
             }
         }
 
-        public static RegisterState RegisterUser(string username, string password, GameContext context)
+        public static RegisterState RegisterUser(string username, string password)
         {
             try
             {
-                var player = context.Players.FirstOrDefault(p => p.Username == username);
-
-                if (player != null)
-                {
-                    return RegisterState.UsernameTaken;
-                }
-
                 int homeWorldSeed = RandomSeeder.Next(0, 1000000000);
                 float homeX = (float)RandomSeeder.NextDouble() * 1000;
                 float homeY = (float)RandomSeeder.NextDouble() * 500;
 
                 string hashedPassword = HashPassword(password);
                 var registeredPlayer = new Player(username, hashedPassword, homeWorldSeed, new Vector2(homeX, homeY));
-                context.Players.Add(registeredPlayer);
-                context.SaveChanges();
-                CurrentPlayer =
-                    context.Players.FirstOrDefault(p => p.Username == username && p.HashedPassword == hashedPassword);
 
                 hashedPassword = string.Empty;
 
@@ -76,7 +54,7 @@
             }
         }
 
-        public static LogoutState LogoutCurrentUser(GameContext context)
+        public static LogoutState LogoutCurrentUser()
         {
             try
             {
@@ -85,7 +63,6 @@
                     return LogoutState.NotLogged;
                 }
 
-                context.SaveChanges();
                 CurrentPlayer = null;
 
                 return LogoutState.Successful;

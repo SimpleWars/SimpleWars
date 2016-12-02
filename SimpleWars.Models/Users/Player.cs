@@ -119,10 +119,10 @@
 
         public virtual ICollection<Unit> Units { get; private set; }
 
-        [NotMapped]
+        
         public IEnumerable<IEntity> AllEntities => this.ResourceProviders.Concat<IEntity>(this.Units);
 
-        [NotMapped]
+        
         public Vector2 WorldMapPos { get; private set; }
     }
 }

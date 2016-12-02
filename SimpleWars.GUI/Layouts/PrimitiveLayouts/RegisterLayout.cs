@@ -4,7 +4,6 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
-    using SimpleWars.Data.Contexts;
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Users;
@@ -27,7 +26,7 @@
 
         private bool usernameEmpty;
 
-        public RegisterLayout(Texture2D background, GameContext context)
+        public RegisterLayout(Texture2D background)
             : base(background)
         {
             this.RegisterState = RegisterState.None;
@@ -35,7 +34,7 @@
             this.Dimensions = new Vector2(240, 140);
             this.Position = new Vector2(500, 300);
 
-            this.InitializeComponents(context);
+            this.InitializeComponents();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -86,7 +85,7 @@
 
         public RegisterState RegisterState { get; private set; }
 
-        private void InitializeComponents(GameContext context)
+        private void InitializeComponents()
         {
             this.usernameTb = new TextBox(
                this.Position + new Vector2(20, 20),
@@ -198,8 +197,7 @@
                     {
                         this.RegisterState = UsersManager.RegisterUser(
                             this.usernameTb.TextNode.TextContent,
-                            this.passwordTb.TextNode.TextContent,
-                            context);
+                            this.passwordTb.TextNode.TextContent);
                     }
                     else
                     {

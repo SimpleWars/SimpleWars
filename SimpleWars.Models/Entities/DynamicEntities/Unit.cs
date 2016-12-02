@@ -9,6 +9,7 @@
     using Microsoft.Xna.Framework;
 
     using SimpleWars.Environment.Terrain.Interfaces;
+    using SimpleWars.Extensions;
     using SimpleWars.Models.Economy.Interfaces;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Utils;
@@ -120,7 +121,7 @@
         #endregion
 
         #region Properties
-        [NotMapped]
+        
         public int MaxHealth { get; protected set; }
 
         /// <summary>
@@ -151,11 +152,9 @@
                 this.health = value;
             }
         }
-
-        [NotMapped]
+    
         public Vector3? Destination { get; set; }
-
-        [NotMapped]
+      
         public float Speed { get; protected set; }
 
         /// <summary>
@@ -163,7 +162,7 @@
         /// </summary>
         /// <exception cref="ArgumentException">
         /// </exception>
-        [NotMapped]
+        
         public int Armor
         {
             get
@@ -276,7 +275,7 @@
 
             this.Rotation = Quaternion.Slerp(
                 this.Rotation,
-                Calc.GetRotationForDirection(direction),
+                direction.FromDirectionToQuaternion(),
                 timeFactor);
         }
 
@@ -284,7 +283,7 @@
         {
             direction.Y = 0;
 
-            this.Rotation = Calc.GetRotationForDirection(direction);
+            this.Rotation = direction.FromDirectionToQuaternion();
         }
         #endregion
     }

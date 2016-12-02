@@ -6,12 +6,8 @@ namespace SimpleWars
     using Microsoft.Xna.Framework.Input;
 
     using SimpleWars.Assets;
-    using SimpleWars.Data.Contexts;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.Displays;
-    using SimpleWars.GUI;
-    using SimpleWars.GUI.PrimitiveComponents;
-    using SimpleWars.Users;
     using SimpleWars.Utils;
 
     /// <summary>
