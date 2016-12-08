@@ -1,13 +1,13 @@
-﻿namespace ModelDTOs
+﻿namespace SimpleWars.ModelDTOs
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using ModelDTOs.Entities;
-    using ModelDTOs.Resources;
-
     using ProtoBuf;
+
+    using SimpleWars.ModelDTOs.Entities;
+    using SimpleWars.ModelDTOs.Resources;
 
     [ProtoContract]
     public class PlayerDTO

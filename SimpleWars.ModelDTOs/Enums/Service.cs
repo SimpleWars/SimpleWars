@@ -1,4 +1,4 @@
-﻿namespace ModelDTOs.Enums
+﻿namespace SimpleWars.ModelDTOs.Enums
 {
     public enum Service
     {

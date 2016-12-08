@@ -1,6 +1,8 @@
-﻿namespace ServerUtils
+﻿namespace SimpleWars.Comms
 {
     using System;
+
+    using SimpleWars.Utils;
 
     public class MessageReader : IDisposable
     {

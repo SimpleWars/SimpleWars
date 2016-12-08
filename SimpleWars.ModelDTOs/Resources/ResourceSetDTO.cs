@@ -1,6 +1,7 @@
-﻿namespace ModelDTOs.Resources
+﻿namespace SimpleWars.ModelDTOs.Resources
 {
     using System;
+
     using ProtoBuf;
 
     [ProtoContract]

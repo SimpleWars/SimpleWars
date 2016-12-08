@@ -1,10 +1,10 @@
-﻿namespace ModelDTOs.Entities
+﻿namespace SimpleWars.ModelDTOs.Entities
 {
     using System;
 
-    using ModelDTOs.Resources;
-
     using ProtoBuf;
+
+    using SimpleWars.ModelDTOs.Resources;
 
     [ProtoContract]
     public class ResourceProviderDTO : EntityDTO

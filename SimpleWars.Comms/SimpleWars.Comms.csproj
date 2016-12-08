@@ -40,11 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageReader.cs" />
-    <Compile Include="PrefixReader.cs" />
+    <Compile Include="AsynchronousSocketClient.cs" />
+    <Compile Include="Handlers\DefaultReader.cs" />
+    <Compile Include="Handlers\DefaultWriter.cs" />
+    <Compile Include="Handlers\Interfaces\Reader.cs" />
+    <Compile Include="Handlers\Interfaces\Writer.cs" />
+    <Compile Include="Utils\MessageReader.cs" />
+    <Compile Include="Utils\PrefixReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimpleWars.ModelDTOs\SimpleWars.ModelDTOs.csproj">
+      <Project>{63d1bba3-7e60-4ec2-93db-a1924ba3ab8e}</Project>
+      <Name>SimpleWars.ModelDTOs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Serialization\SimpleWars.Serialization.csproj">
+      <Project>{6a5155b4-fe77-4c9c-806b-837ab002d637}</Project>
+      <Name>SimpleWars.Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Utils\SimpleWars.Utils.csproj">
       <Project>{d01a7838-51c9-41f1-be53-ace04714d8ee}</Project>
       <Name>SimpleWars.Utils</Name>

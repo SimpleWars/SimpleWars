@@ -1,4 +1,4 @@
-﻿namespace ServerUtils
+﻿namespace SimpleWars.Utils
 {
     using System;
     using System.Collections.Concurrent;

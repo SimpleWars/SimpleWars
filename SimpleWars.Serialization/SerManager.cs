@@ -1,4 +1,4 @@
-﻿namespace Serialization
+﻿namespace SimpleWars.Serialization
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
 
     using ProtoBuf;
 
-    using ServerUtils;
+    using SimpleWars.Utils;
 
     public static class SerManager
     {

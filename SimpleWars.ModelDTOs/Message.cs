@@ -1,11 +1,12 @@
-﻿namespace ModelDTOs
+﻿namespace SimpleWars.ModelDTOs
 {
     using System.Collections.Generic;
-    using ModelDTOs.Entities;
-    using ModelDTOs.Enums;
-    using ModelDTOs.Resources;
 
     using ProtoBuf;
+
+    using SimpleWars.ModelDTOs.Entities;
+    using SimpleWars.ModelDTOs.Enums;
+    using SimpleWars.ModelDTOs.Resources;
 
     [ProtoContract]
     [ProtoInclude(7, typeof(Message<byte>))]

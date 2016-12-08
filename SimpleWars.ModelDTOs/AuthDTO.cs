@@ -1,4 +1,4 @@
-﻿namespace ModelDTOs
+﻿namespace SimpleWars.ModelDTOs
 {
     using ProtoBuf;
 

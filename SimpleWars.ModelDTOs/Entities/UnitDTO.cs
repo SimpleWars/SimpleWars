@@ -1,4 +1,4 @@
-﻿namespace ModelDTOs.Entities
+﻿namespace SimpleWars.ModelDTOs.Entities
 {
     using System;
 
