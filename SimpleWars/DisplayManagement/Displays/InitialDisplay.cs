@@ -6,10 +6,7 @@
     using Microsoft.Xna.Framework.Graphics;
 
     using SimpleWars.Assets;
-    using SimpleWars.GUI.Interfaces;
-    using SimpleWars.GUI.Layouts;
     using SimpleWars.GUI.Layouts.WrapperLayouts;
-    using SimpleWars.Users;
     using SimpleWars.Users.Enums;
     using SimpleWars.Utils;
 
@@ -75,6 +72,7 @@
         /// </param>
         public override void Draw(SpriteBatch spriteBatch)
         {
+            base.Draw(spriteBatch);
             spriteBatch.Draw(this.background, null, this.mainFrame);
 
             this.initialGui.Draw(spriteBatch);

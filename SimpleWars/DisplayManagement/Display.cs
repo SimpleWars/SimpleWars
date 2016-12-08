@@ -1,9 +1,12 @@
 ﻿namespace SimpleWars.DisplayManagement
 {
+    using System.Collections.Generic;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     
     using SimpleWars.DisplayManagement.Interfaces;
+    using SimpleWars.GUI.Interfaces;
 
     /// <summary>
     /// The game display.
@@ -12,7 +15,10 @@
     {
         protected Display()
         {
+            this.Guis = new List<IGui>();
         }
+
+        public ICollection<IGui> Guis { get; set; }
 
         /// <summary>
         /// The load content.
@@ -38,6 +44,12 @@
         /// <param name="spriteBatch">
         /// The sprite batch.
         /// </param>
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (var gui in this.Guis)
+            {
+                gui.Draw(spriteBatch);
+            }
+        }
     }
 }

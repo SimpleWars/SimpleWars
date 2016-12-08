@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{242078A7-8E6B-45B7-8DD3-4C12DF5585E0}</ProjectGuid>
+    <ProjectGuid>{6A3738D2-BE24-4384-BDD7-511E1115C8D9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimpleWars.Comms</RootNamespace>
-    <AssemblyName>SimpleWars.Comms</AssemblyName>
+    <RootNamespace>SimpleWars.Factories</RootNamespace>
+    <AssemblyName>SimpleWars.Factories</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="protobuf-net, Version=2.1.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <HintPath>..\packages\protobuf-net.2.1.0\lib\net45\protobuf-net.dll</HintPath>
+    <Reference Include="MonoGame.Framework, Version=3.5.1.1679, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.5.1.1679\lib\net40\MonoGame.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -45,28 +45,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsynchronousSocketClient.cs" />
-    <Compile Include="Handlers\DefaultReader.cs" />
-    <Compile Include="Handlers\DefaultWriter.cs" />
-    <Compile Include="Handlers\Interfaces\Reader.cs" />
-    <Compile Include="Handlers\Interfaces\Writer.cs" />
-    <Compile Include="Utils\MessageQueue.cs" />
-    <Compile Include="Utils\MessageReader.cs" />
-    <Compile Include="Utils\PrefixReader.cs" />
+    <Compile Include="ResProvFactory.cs" />
+    <Compile Include="UnitFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimpleWars.Extensions\SimpleWars.Extensions.csproj">
+      <Project>{6f013a2c-25d9-4c49-9bd9-c8d3bb041e63}</Project>
+      <Name>SimpleWars.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleWars.ModelDTOs\SimpleWars.ModelDTOs.csproj">
       <Project>{63d1bba3-7e60-4ec2-93db-a1924ba3ab8e}</Project>
       <Name>SimpleWars.ModelDTOs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SimpleWars.Serialization\SimpleWars.Serialization.csproj">
-      <Project>{6a5155b4-fe77-4c9c-806b-837ab002d637}</Project>
-      <Name>SimpleWars.Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimpleWars.Utils\SimpleWars.Utils.csproj">
-      <Project>{d01a7838-51c9-41f1-be53-ace04714d8ee}</Project>
-      <Name>SimpleWars.Utils</Name>
+    <ProjectReference Include="..\SimpleWars.Models\SimpleWars.Models.csproj">
+      <Project>{9744dc53-f59f-4998-8438-f44d5688e368}</Project>
+      <Name>SimpleWars.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

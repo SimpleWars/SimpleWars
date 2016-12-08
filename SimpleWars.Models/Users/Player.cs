@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
     using Microsoft.Xna.Framework;
@@ -45,15 +43,10 @@
         /// </param>
         public Player(
             string name,
-            string hashedPassword,
-            int homeSeed,
-            Vector2 worldMapPos)
+            int homeSeed)
         {
             this.Username = name;
-            this.HashedPassword = hashedPassword;
-
             this.HomeSeed = homeSeed;         
-            this.WorldMapPos = worldMapPos;
 
             this.ResourceProviders = new HashSet<ResourceProvider>();
             this.Units = new HashSet<Unit>();
@@ -62,11 +55,7 @@
 
         public int Id { get; private set; }
 
-        [Required]
         public string Username { get; private set; }
-
-        [Required]
-        public string HashedPassword { get; private set; }
 
         public int HomeSeed
         {
@@ -86,43 +75,18 @@
             }
         }
 
-        [Required]
-        public virtual ResourceSet ResourceSet { get; private set; }
+        public ResourceSet ResourceSet { get; private set; }
 
-        public float WorldX
+        public ICollection<ResourceProvider> ResourceProviders { get; private set; }
+
+        public ICollection<Unit> Units { get; private set; }
+
+        public ICollection<Entity> AllEntities { get; private set; }
+
+        public void MapEntities()
         {
-            get
-            {
-                return this.WorldMapPos.X;
-            }
-
-            private set
-            {
-                this.WorldMapPos = new Vector2(value, this.WorldMapPos.Y);
-            }
+            this.AllEntities = 
+                this.ResourceProviders.Concat<Entity>(this.Units).ToList();
         }
-
-        public float WorldY
-        {
-            get
-            {
-                return this.WorldMapPos.Y;
-            }
-
-            private set
-            {
-                this.WorldMapPos = new Vector2(this.WorldMapPos.X, value);
-            }
-        }
-
-        public virtual ICollection<ResourceProvider> ResourceProviders { get; private set; }
-
-        public virtual ICollection<Unit> Units { get; private set; }
-
-        
-        public IEnumerable<IEntity> AllEntities => this.ResourceProviders.Concat<IEntity>(this.Units);
-
-        
-        public Vector2 WorldMapPos { get; private set; }
     }
 }

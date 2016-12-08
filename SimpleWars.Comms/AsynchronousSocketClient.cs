@@ -23,6 +23,8 @@
 
         public readonly Buffers Buffers;
 
+        public readonly MessageQueue MsgQueue;
+
         public AsynchronousSocketClient(IPEndPoint connectionEndPoint)
         {
             this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -31,6 +33,7 @@
             this.Reader = new DefaultReader(this);
             this.Writer = new DefaultWriter(this);
             this.Buffers = new Buffers(BufferPoolSize, MaxBufferSize);
+            this.MsgQueue = new MessageQueue();
         }
 
         public void Dispose()

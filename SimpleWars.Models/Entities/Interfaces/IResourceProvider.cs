@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Models.Entities.Interfaces
 {
+    using SimpleWars.ModelDTOs.Resources;
+
     /// <summary>
     /// The ResourceProvider interface.
     /// </summary>
@@ -13,7 +15,7 @@
         /// <summary>
         /// Gets the resource type.
         /// </summary>
-        string ResourceType { get; }
+        ResourceType ResourceType { get; }
 
         /// <summary>
         /// The gather.

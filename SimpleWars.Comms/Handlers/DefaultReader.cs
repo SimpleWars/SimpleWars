@@ -65,6 +65,8 @@
 
                     packetAssembler.Dispose();
 
+                    this.client.MsgQueue.Enqueue(message);
+
                     if (listenForNextMessage)
                     {
                         this.ReadLengthPrefix(listenForNextMessage);

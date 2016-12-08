@@ -94,6 +94,10 @@
       <Project>{6f013a2c-25d9-4c49-9bd9-c8d3bb041e63}</Project>
       <Name>SimpleWars.Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.ModelDTOs\SimpleWars.ModelDTOs.csproj">
+      <Project>{63d1bba3-7e60-4ec2-93db-a1924ba3ab8e}</Project>
+      <Name>SimpleWars.ModelDTOs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Utils\SimpleWars.Utils.csproj">
       <Project>{d01a7838-51c9-41f1-be53-ace04714d8ee}</Project>
       <Name>SimpleWars.Utils</Name>

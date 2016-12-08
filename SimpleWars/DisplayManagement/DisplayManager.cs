@@ -1,8 +1,6 @@
 ﻿namespace SimpleWars.DisplayManagement
 {
     using System;
-    using System.Diagnostics;
-    using System.Linq;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
@@ -10,9 +8,6 @@
     
     using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.DisplayManagement.Interfaces;
-    using SimpleWars.Models.Users;
-    using SimpleWars.Models.Users.Interfaces;
-    using SimpleWars.Users;
 
     /// <summary>
     /// The display manager.

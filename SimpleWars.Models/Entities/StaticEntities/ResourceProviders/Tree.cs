@@ -3,6 +3,7 @@
     using Microsoft.Xna.Framework;
 
     using SimpleWars.Assets;
+    using SimpleWars.ModelDTOs.Resources;
 
     /// <summary>
     /// The tree.
@@ -15,7 +16,7 @@
 
         private const int BaseResourceQuantity = 50;
 
-        private const string BaseResourceType = "Wood";
+        private const ResourceType BaseResType = ResourceType.Wood;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Tree"/> class.
@@ -27,7 +28,7 @@
         /// The scale.
         /// </param>
         public Tree(Vector3 position, float scale = 1)
-            : base(BaseResourceQuantity, BaseResourceType, position, scale)
+            : base(BaseResourceQuantity, BaseResType, position, scale)
         {
         }
 
@@ -44,7 +45,7 @@
         /// The scale.
         /// </param>
         public Tree(Vector3 position, Quaternion rotation, float scale = 1)
-            : base(BaseResourceQuantity, BaseResourceType, position, rotation, scale)
+            : base(BaseResourceQuantity, BaseResType, position, rotation, scale)
         {
         }
 
@@ -64,12 +65,12 @@
         /// The scale.
         /// </param>
         public Tree(Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) 
-            : base(BaseResourceQuantity, BaseResourceType, position, rotation, weight, scale)
+            : base(BaseResourceQuantity, BaseResType, position, rotation, weight, scale)
         {
         }
 
-        protected Tree()
-            :base()
+        public Tree(int quantity, Vector3 position, Quaternion rotation, float weight = 1, float scale = 1)
+            : base(quantity, BaseResType, position, rotation, weight, scale)
         {
         }
 

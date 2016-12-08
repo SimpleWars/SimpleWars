@@ -84,6 +84,10 @@
       <Project>{4e449526-c79f-4b2b-9e2e-36f93c7d2ca2}</Project>
       <Name>SimpleWars.Input</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.ModelDTOs\SimpleWars.ModelDTOs.csproj">
+      <Project>{63d1bba3-7e60-4ec2-93db-a1924ba3ab8e}</Project>
+      <Name>SimpleWars.ModelDTOs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Models\SimpleWars.Models.csproj">
       <Project>{9744dc53-f59f-4998-8438-f44d5688e368}</Project>
       <Name>SimpleWars.Models</Name>

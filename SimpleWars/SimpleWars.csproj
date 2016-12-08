@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Camera\CameraPerspective.cs" />
-    <Compile Include="Comms\MessageQueue.cs" />
+    <Compile Include="Comms\Parser.cs" />
     <Compile Include="DisplayManagement\Displays\HomeWorldDisplay.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
     <Compile Include="DisplayManagement\DisplayManager.cs" />
@@ -117,6 +117,10 @@
     <ProjectReference Include="..\SimpleWars.Extensions\SimpleWars.Extensions.csproj">
       <Project>{6f013a2c-25d9-4c49-9bd9-c8d3bb041e63}</Project>
       <Name>SimpleWars.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Factories\SimpleWars.Factories.csproj">
+      <Project>{6a3738d2-be24-4384-bdd7-511e1115c8d9}</Project>
+      <Name>SimpleWars.Factories</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleWars.GUI\SimpleWars.GUI.csproj">
       <Project>{a9d76521-f2b8-4070-8493-09a76e61ab4d}</Project>

@@ -164,6 +164,7 @@
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            base.Draw(spriteBatch);
             this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
             this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
 
@@ -240,14 +241,6 @@
             else if (this.details.Command == DetailCommand.GatherResource)
             {
                 ((IResourceProvider)this.details.Entity).Gather(5);
-            }
-            else if (this.details.Command == DetailCommand.CommandMovement)
-            {
-                // logic for units movement command execution
-            }
-            else if (this.details.Command == DetailCommand.DestroyEntity)
-            {
-                // logic for entity destruction (mark as death in db and ignore)
             }
             else if (this.details.Command == DetailCommand.Close)
             {

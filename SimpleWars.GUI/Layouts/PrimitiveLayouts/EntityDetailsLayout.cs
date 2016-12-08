@@ -172,7 +172,7 @@
                 this,
                 new Vector2(20, 50),
                 Vector2.One,
-                resourceType,
+                resourceType.ToString(),
                 SpriteFontManager.Instance.GetFont("Arial_18"),
                 Color.White);
 

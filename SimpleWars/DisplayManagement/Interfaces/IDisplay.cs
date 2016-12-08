@@ -1,13 +1,22 @@
 ﻿namespace SimpleWars.DisplayManagement.Interfaces
 {
+    using System.Collections.Generic;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
+
+    using SimpleWars.GUI.Interfaces;
 
     /// <summary>
     /// The Display interface.
     /// </summary>
     public interface IDisplay
     {
+        /// <summary>
+        /// Gets the guis.
+        /// </summary>
+        ICollection<IGui> Guis { get; }
+
         /// <summary>
         /// The load content.
         /// </summary>

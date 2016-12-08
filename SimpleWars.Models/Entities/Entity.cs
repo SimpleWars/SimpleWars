@@ -7,7 +7,6 @@
 
     using SimpleWars.Environment.Terrain.Interfaces;
     using SimpleWars.Models.Entities.Interfaces;
-    using SimpleWars.Models.Users;
     using SimpleWars.Utils;
 
     /// <summary>

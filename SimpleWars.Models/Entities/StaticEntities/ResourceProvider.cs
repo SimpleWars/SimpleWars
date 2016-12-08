@@ -4,6 +4,7 @@
 
     using Microsoft.Xna.Framework;
 
+    using SimpleWars.ModelDTOs.Resources;
     using SimpleWars.Models.Entities.Interfaces;
 
     /// <summary>
@@ -12,22 +13,17 @@
     public abstract class ResourceProvider : Entity, IResourceProvider
     {
         #region Constructors
-        protected ResourceProvider()
-            : base()
-        {
-        }
-
-        protected ResourceProvider(int quantity, string resourceType, Vector3 position, float scale = 1) 
+        protected ResourceProvider(int quantity, ResourceType resourceType, Vector3 position, float scale = 1) 
             : this(quantity, resourceType, position, Quaternion.Identity, scale)
         {
         }
 
-        protected ResourceProvider(int quantity, string resourceType, Vector3 position, Quaternion rotation, float scale = 1) 
+        protected ResourceProvider(int quantity, ResourceType resourceType, Vector3 position, Quaternion rotation, float scale = 1) 
             : this(quantity, resourceType, position, rotation, 1f, scale)
         {
         }
 
-        protected ResourceProvider(int quantity, string resourceType, Vector3 position, Quaternion rotation, float weight, float scale) 
+        protected ResourceProvider(int quantity, ResourceType resourceType, Vector3 position, Quaternion rotation, float weight, float scale) 
             : base(position, rotation, weight, scale)
         {
             this.Quantity = quantity;
@@ -58,7 +54,7 @@
             }
         }
 
-        public string ResourceType { get; protected set; }
+        public ResourceType ResourceType { get; set; }
 
         public void Gather(int amount)
         {
