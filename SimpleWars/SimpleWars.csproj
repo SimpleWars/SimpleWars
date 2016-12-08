@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Camera\CameraPerspective.cs" />
+    <Compile Include="Comms\MessageQueue.cs" />
     <Compile Include="DisplayManagement\Displays\HomeWorldDisplay.cs" />
     <Compile Include="DisplayManagement\DisplayType.cs" />
     <Compile Include="DisplayManagement\DisplayManager.cs" />
@@ -105,9 +106,17 @@
       <Project>{ca3dafcf-5fd5-4762-9dd0-0d05760f2148}</Project>
       <Name>SimpleWars.Assets</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Comms\SimpleWars.Comms.csproj">
+      <Project>{242078a7-8e6b-45b7-8dd3-4c12df5585e0}</Project>
+      <Name>SimpleWars.Comms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Environment\SimpleWars.Environment.csproj">
       <Project>{bd533a57-22bd-4fbd-8937-110156009a69}</Project>
       <Name>SimpleWars.Environment</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Extensions\SimpleWars.Extensions.csproj">
+      <Project>{6f013a2c-25d9-4c49-9bd9-c8d3bb041e63}</Project>
+      <Name>SimpleWars.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleWars.GUI\SimpleWars.GUI.csproj">
       <Project>{a9d76521-f2b8-4070-8493-09a76e61ab4d}</Project>
@@ -117,9 +126,17 @@
       <Project>{4e449526-c79f-4b2b-9e2e-36f93c7d2ca2}</Project>
       <Name>SimpleWars.Input</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.ModelDTOs\SimpleWars.ModelDTOs.csproj">
+      <Project>{63d1bba3-7e60-4ec2-93db-a1924ba3ab8e}</Project>
+      <Name>SimpleWars.ModelDTOs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Models\SimpleWars.Models.csproj">
       <Project>{9744dc53-f59f-4998-8438-f44d5688e368}</Project>
       <Name>SimpleWars.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.Serialization\SimpleWars.Serialization.csproj">
+      <Project>{6a5155b4-fe77-4c9c-806b-837ab002d637}</Project>
+      <Name>SimpleWars.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Users\SimpleWars.Users.csproj">
       <Project>{02a85fb2-11b1-4a29-9051-2d86094ffbf7}</Project>
