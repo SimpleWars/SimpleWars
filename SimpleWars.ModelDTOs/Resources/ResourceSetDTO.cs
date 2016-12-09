@@ -11,6 +11,17 @@
         {
         }
 
+        public ResourceSetDTO(Guid ownerId, ResourceDTO gold, ResourceDTO wood, ResourceDTO food, ResourceDTO rock, ResourceDTO metal, ResourceDTO population)
+        {
+            this.Id = ownerId;
+            this.Gold = gold;
+            this.Wood = wood;
+            this.Food = food;
+            this.Rock = rock;
+            this.Metal = metal;
+            this.Population = population;
+        }
+
         [ProtoMember(7)]
         public Guid Id { get; set; }
 

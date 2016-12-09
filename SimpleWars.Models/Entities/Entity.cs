@@ -144,6 +144,8 @@
         /// </summary>
         public float Weight { get; set; }
 
+        public bool Modified { get; set; }
+
         /// <summary>
         /// Gets the transformation matrix (entity position with rotation and scale applied).
         /// </summary>
@@ -154,6 +156,7 @@
             {
                 if (this.transformationMatrixDirty)
                 {
+                    this.Modified = true;
                     this.transformationMatrix = this.ScaleMatrix * this.RotationMatrix * this.WorldMatrix;
                     this.transformationMatrixDirty = false;
                 }

@@ -47,7 +47,7 @@
 
         private void HandleInfo(string content)
         {
-            DisplayManager.Instance.CurrentDisplay.ResponseText = new TextNode(null, new Vector2(0, 0), new Vector2(1, 1), content, SpriteFontManager.Instance.GetFont("Arial_18"), Color.Red);
+            DisplayManager.Instance.ResponseText = new TextNode(null, new Vector2(0, 0), new Vector2(1, 1), content, SpriteFontManager.Instance.GetFont("Arial_18"), Color.Red);
         }
 
         private void HandleLogin(PlayerDTO playerDto)

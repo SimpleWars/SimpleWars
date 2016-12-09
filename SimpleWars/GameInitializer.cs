@@ -12,6 +12,7 @@ namespace SimpleWars
     using SimpleWars.Comms;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.Displays;
+    using SimpleWars.GUI.Interfaces;
     using SimpleWars.ModelDTOs;
     using SimpleWars.ModelDTOs.Enums;
     using SimpleWars.Utils;

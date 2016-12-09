@@ -51,6 +51,7 @@
             int mined = this.Quantity - amount < 0 ? Math.Abs(this.Quantity - amount) : amount;
 
             this.Quantity -= amount;
+            this.Modified = true;
         }
 
         public void Disappear()

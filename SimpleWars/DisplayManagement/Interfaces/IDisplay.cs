@@ -12,8 +12,6 @@
     /// </summary>
     public interface IDisplay
     {
-        ITextNode ResponseText { get; set; }
-
         /// <summary>
         /// The load content.
         /// </summary>

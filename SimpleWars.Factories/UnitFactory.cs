@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SimpleWars.Factories
+﻿namespace SimpleWars.Factories
 {
     using Microsoft.Xna.Framework;
 
@@ -27,6 +21,22 @@ namespace SimpleWars.Factories
                 default:
                     return null;
             }
+        }
+
+        public static UnitDTO ToDto(Unit unit)
+        {
+            return new UnitDTO(
+                unit.Id,
+                unit.Health,
+                unit.Position.X,
+                unit.Position.Y,
+                unit.Position.Z,
+                unit.Rotation.X,
+                unit.Rotation.Y,
+                unit.Rotation.Z,
+                unit.Scale,
+                unit.Weight,
+                unit.OwnerId);
         }
     }
 }

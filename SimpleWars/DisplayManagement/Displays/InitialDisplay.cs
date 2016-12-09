@@ -44,7 +44,6 @@
         /// </summary>
         public override void UnloadContent()
         {
-            TexturesManager.Instance.DisposeAll();
         }
 
         /// <summary>
@@ -69,10 +68,6 @@
             spriteBatch.Draw(this.background, null, this.mainFrame);
 
             this.initialGui.Draw(spriteBatch);
-            if (this.ResponseText != null)
-            {
-                this.ResponseText?.Draw(spriteBatch);
-            }
         }
     }
 }

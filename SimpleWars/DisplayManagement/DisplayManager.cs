@@ -8,6 +8,7 @@
     
     using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.DisplayManagement.Interfaces;
+    using SimpleWars.GUI.Interfaces;
 
     /// <summary>
     /// The display manager.
@@ -69,6 +70,8 @@
         /// </summary>
         public IDisplay CurrentDisplay { get; private set; }
 
+        public IGui ResponseText { get; set; }
+
         /// <summary>
         /// The load content.
         /// </summary>
@@ -99,8 +102,8 @@
         /// </param>
         public void ChangeDisplay(IDisplay display)
         {
-            this.CurrentDisplay.UnloadContent();
             display.LoadContent();
+            this.CurrentDisplay.UnloadContent();
             this.CurrentDisplay = display;
 
             GC.Collect();
@@ -145,6 +148,7 @@
         public void Draw(SpriteBatch spriteBatch)
         {
             this.CurrentDisplay.Draw(spriteBatch);
+            this.ResponseText?.Draw(spriteBatch);
         }
     }
 }

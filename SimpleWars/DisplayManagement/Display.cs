@@ -13,8 +13,6 @@
     /// </summary>
     public abstract class Display : IDisplay
     {
-        public ITextNode ResponseText { get; set; }
-
         /// <summary>
         /// The load content.
         /// </summary>

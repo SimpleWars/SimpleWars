@@ -1,7 +1,5 @@
 ﻿namespace SimpleWars.Factories
 {
-    using System;
-
     using Microsoft.Xna.Framework;
 
     using SimpleWars.Extensions;

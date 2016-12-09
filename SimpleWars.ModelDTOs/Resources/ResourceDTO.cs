@@ -9,6 +9,13 @@
         {
         }
 
+        public ResourceDTO(int id, int quantity, ResourceType resourceType)
+        {
+            this.Id = id;
+            this.Quantity = quantity;
+            this.ResourceType = resourceType;
+        }
+
         [ProtoMember(1)]
         public int Id { get; protected set; }
 

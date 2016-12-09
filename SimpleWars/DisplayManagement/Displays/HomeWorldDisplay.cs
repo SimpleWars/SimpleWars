@@ -1,9 +1,10 @@
 ﻿namespace SimpleWars.DisplayManagement.Displays
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -16,13 +17,12 @@
     using SimpleWars.Environment.Terrain;
     using SimpleWars.Environment.Terrain.Terrains;
     using SimpleWars.Factories;
-    using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.Layouts.PrimitiveLayouts;
     using SimpleWars.Input;
     using SimpleWars.ModelDTOs;
     using SimpleWars.ModelDTOs.Entities;
     using SimpleWars.ModelDTOs.Enums;
-    using SimpleWars.Models.Entities.DynamicEntities;
+    using SimpleWars.ModelDTOs.Resources;
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
@@ -39,8 +39,13 @@
 
         private EntityDetailsLayout details;
 
+        private Thread updateThread;
+
+        private bool active;
+
         public override void LoadContent()
         {
+            this.active = true;
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
             this.camera = new CameraPerspective(
                 aspectRatio,
@@ -75,11 +80,18 @@
                 {
                     entity.LoadModel();
                 }
-            }            
+            }       
+
+            this.updateThread = new Thread(this.SendUpdates);
+            
+            this.updateThread.Start();  
         }
 
         public override void UnloadContent()
         {
+            this.active = false;
+            this.updateThread.Abort();
+            UsersManager.LogoutCurrentUser();
             ModelsManager.Instance.DisposeAll();
             EntitySelector.Deselect();
             EntitySelector.PlaceEntity();
@@ -186,7 +198,6 @@
             }
 
             this.details?.Draw(spriteBatch);
-            this.ResponseText?.Draw(spriteBatch);
         }
 
         private void CommandSelectedEntity(IEntity selected, IEnumerable<IEntity> others)
@@ -273,6 +284,39 @@
                 {
                     this.details = null;
                 }
+            }
+        }
+
+        private void SendUpdates()
+        {
+            while (this.active)
+            {
+                Thread.Sleep(10000);
+
+                List<UnitDTO> units = UsersManager.CurrentPlayer.Units.Where(u => u.Modified).ToArray().Select(UnitFactory.ToDto).ToList();
+
+                List<ResourceProviderDTO> resProvs = UsersManager.CurrentPlayer.ResourceProviders.Where(rp => rp.Modified).ToArray().Select(ResProvFactory.ToDto).ToList();
+
+                ResourceSetDTO resSet = ResourceSetFactory.ToDto(UsersManager.CurrentPlayer.ResourceSet);
+
+                ICollection<EntityDTO> modifiedEntities = units.Concat<EntityDTO>(resProvs).ToArray();
+
+                if (modifiedEntities.Count > 0)
+                {
+                    Client.Socket.Writer.Send(Message.Create(Service.UpdateEntities, modifiedEntities));
+                }
+
+                foreach (var unit in UsersManager.CurrentPlayer.Units)
+                {
+                    unit.Modified = false;
+                }
+
+                foreach (var rp in UsersManager.CurrentPlayer.ResourceProviders)
+                {
+                    rp.Modified = false;
+                }
+
+                Client.Socket.Writer.Send(Message.Create(Service.UpdateResourceSet, resSet));
             }
         }
     }

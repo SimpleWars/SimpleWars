@@ -3,11 +3,16 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
+
+    using SimpleWars.GUI.Interfaces;
+
     /// <summary>
     /// The DisplayManager interface.
     /// </summary>
     public interface IDisplayManager
     {
+        IGui ResponseText { get; set; }
+
         /// <summary>
         /// Gets the dimensions.
         /// </summary>

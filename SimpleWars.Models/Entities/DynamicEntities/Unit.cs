@@ -58,6 +58,7 @@
                 if (value > this.MaxHealth)
                 {
                     this.health = this.MaxHealth;
+                    this.Modified = true;
                     return;
                 }
 
@@ -65,10 +66,12 @@
                 {
                     this.health = 0;
                     this.IsAlive = false;
+                    this.Modified = true;
                     return;
                 }
 
                 this.health = value;
+                this.Modified = true;
             }
         }
     
