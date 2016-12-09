@@ -33,7 +33,6 @@
         {
             this.MaxHealth = maxHealth;
             this.Speed = speed;
-            this.IsAlive = true;
             this.Health = health;
             this.Armor = armor;
         }
@@ -65,7 +64,6 @@
                 if (value <= 0)
                 {
                     this.health = 0;
-                    this.IsAlive = false;
                     this.Modified = true;
                     return;
                 }
@@ -103,7 +101,8 @@
             }
         }
 
-        public bool IsAlive { get; protected set; }
+        public bool IsAlive => this.Health > 0;
+
         #endregion
 
         #region Utility Methods

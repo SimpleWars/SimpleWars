@@ -25,7 +25,7 @@
 
         public static UnitDTO ToDto(Unit unit)
         {
-            return new UnitDTO(
+            var unitDto = new UnitDTO(
                 unit.Id,
                 unit.Health,
                 unit.Position.X,
@@ -37,6 +37,15 @@
                 unit.Scale,
                 unit.Weight,
                 unit.OwnerId);
+
+            switch (unit.GetType().Name)
+            {
+                case "Swordsman":
+                    unitDto.Type = UnitDTO.UnitType.Swordsman;
+                    break;
+            }
+
+            return unitDto;
         }
     }
 }

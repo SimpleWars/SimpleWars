@@ -42,10 +42,10 @@ namespace SimpleWars
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
 
-            Client.Socket.Connect(new IPEndPoint(AsynchronousSocketClient.GetLocalIPAddress(), 3000));
+            Client.Socket.Connect(new IPEndPoint(Client.GetLocalIPAddress(), 3000));
+            Client.Socket.Reader.ReadMessagesContinuously();
             this.parser = new Parser(Client.Socket);
             Task.Run(() => this.parser.StartParsing());
-            Client.Socket.Reader.ReadMessagesContinuously();
 
             ContentServiceProvider.ContentService = this.Content.ServiceProvider;
             ContentServiceProvider.RootDirectory = this.Content.RootDirectory;

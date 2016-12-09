@@ -15,7 +15,7 @@
         // ~1 MB
         private const int MaxBufferSize = 1048576;
 
-        public readonly Socket Socket;
+        public Socket Socket;
 
         public readonly Reader Reader;
 
@@ -27,8 +27,6 @@
 
         public AsynchronousSocketClient()
         {
-            this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-           
             this.Reader = new DefaultReader(this);
             this.Writer = new DefaultWriter(this);
             this.Buffers = new Buffers(BufferPoolSize, MaxBufferSize);
@@ -43,21 +41,8 @@
 
         public void Connect(IPEndPoint endPoint)
         {
+            this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.Socket.Connect(endPoint);
-        }
-
-        public static IPAddress GetLocalIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip;
-                }
-            }
-
-            return IPAddress.Parse("127.0.0.1");
         }
     }
 }

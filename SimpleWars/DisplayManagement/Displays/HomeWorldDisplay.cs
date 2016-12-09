@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
-    using System.Threading.Tasks;
 
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -23,6 +22,7 @@
     using SimpleWars.ModelDTOs.Entities;
     using SimpleWars.ModelDTOs.Enums;
     using SimpleWars.ModelDTOs.Resources;
+    using SimpleWars.Models.Entities.DynamicEntities;
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.Models.Entities.Interfaces;
     using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
@@ -31,6 +31,8 @@
 
     public class HomeWorldDisplay : Display
     {
+        private const int SendUpdateInterval = 30000;
+
         private CameraPerspective camera;
 
         private Terrain terrain;
@@ -41,10 +43,13 @@
 
         private Thread updateThread;
 
+        private Queue<Unit> deadUnits; 
+
         private bool active;
 
         public override void LoadContent()
         {
+            this.deadUnits = new Queue<Unit>();
             this.active = true;
             var aspectRatio = DisplayManager.Instance.Dimensions.X / DisplayManager.Instance.Dimensions.Y;
             this.camera = new CameraPerspective(
@@ -89,12 +94,14 @@
 
         public override void UnloadContent()
         {
-            this.active = false;
-            this.updateThread.Abort();
-            UsersManager.LogoutCurrentUser();
-            ModelsManager.Instance.DisposeAll();
             EntitySelector.Deselect();
             EntitySelector.PlaceEntity();
+            this.active = false;
+            this.updateThread.Abort();
+            this.SendUpdate();
+            UsersManager.LogoutCurrentUser();
+            UsersManager.CurrentPlayer = null;
+            ModelsManager.Instance.DisposeAll();           
         }
 
         public override void Update(GameTime gameTime)
@@ -124,7 +131,9 @@
                 else
                 {
                     var unit = new Swordsman(Guid.NewGuid(), UsersManager.CurrentPlayer.Id, Vector3.Zero, Quaternion.Identity);
+                    Client.Socket.Writer.Send(Message.Create(Service.AddUnit, UnitFactory.ToDto(unit)));
                     UsersManager.CurrentPlayer.Units.Add(unit);
+                    UsersManager.CurrentPlayer.AllEntities.Add(unit);
                     EntitySelector.EntityPicked = unit;
                 }
             }
@@ -273,7 +282,9 @@
 
             foreach (var unit in markedForDestruction)
             {
+                this.deadUnits.Enqueue(unit);
                 UsersManager.CurrentPlayer.Units.Remove(unit);
+                UsersManager.CurrentPlayer.AllEntities.Remove(unit);
                 if (EntitySelector.EntityPicked == unit || EntitySelector.EntitySelected == unit)
                 {
                     EntitySelector.Deselect();
@@ -287,36 +298,47 @@
             }
         }
 
+        private void SendUpdate()
+        {
+            Unit[] currentlyDeadUnits = new Unit[this.deadUnits.Count];
+            for (int i = 0; i < currentlyDeadUnits.Length; i++)
+            {      
+                currentlyDeadUnits[i] = this.deadUnits.Dequeue();
+            }
+
+            List<UnitDTO> units = UsersManager.CurrentPlayer.Units.Where(u => u.Modified).Concat(currentlyDeadUnits).Select(UnitFactory.ToDto).ToList();
+
+            List<ResourceProviderDTO> resProvs = UsersManager.CurrentPlayer.ResourceProviders.Where(rp => rp.Modified).Select(ResProvFactory.ToDto).ToList();
+
+            ResourceSetDTO resSet = ResourceSetFactory.ToDto(UsersManager.CurrentPlayer.ResourceSet);
+
+            ICollection<EntityDTO> modifiedEntities = units.Concat<EntityDTO>(resProvs).ToArray();
+
+            if (modifiedEntities.Count > 0)
+            {
+                Client.Socket.Writer.Send(Message.Create(Service.UpdateEntities, modifiedEntities));
+            }
+
+            foreach (var unit in UsersManager.CurrentPlayer.Units)
+            {
+                unit.Modified = false;
+            }
+
+            foreach (var rp in UsersManager.CurrentPlayer.ResourceProviders)
+            {
+                rp.Modified = false;
+            }
+
+            Client.Socket.Writer.Send(Message.Create(Service.UpdateResourceSet, resSet));
+        }
+
         private void SendUpdates()
         {
             while (this.active)
             {
-                Thread.Sleep(10000);
+                Thread.Sleep(5000);
 
-                List<UnitDTO> units = UsersManager.CurrentPlayer.Units.Where(u => u.Modified).ToArray().Select(UnitFactory.ToDto).ToList();
-
-                List<ResourceProviderDTO> resProvs = UsersManager.CurrentPlayer.ResourceProviders.Where(rp => rp.Modified).ToArray().Select(ResProvFactory.ToDto).ToList();
-
-                ResourceSetDTO resSet = ResourceSetFactory.ToDto(UsersManager.CurrentPlayer.ResourceSet);
-
-                ICollection<EntityDTO> modifiedEntities = units.Concat<EntityDTO>(resProvs).ToArray();
-
-                if (modifiedEntities.Count > 0)
-                {
-                    Client.Socket.Writer.Send(Message.Create(Service.UpdateEntities, modifiedEntities));
-                }
-
-                foreach (var unit in UsersManager.CurrentPlayer.Units)
-                {
-                    unit.Modified = false;
-                }
-
-                foreach (var rp in UsersManager.CurrentPlayer.ResourceProviders)
-                {
-                    rp.Modified = false;
-                }
-
-                Client.Socket.Writer.Send(Message.Create(Service.UpdateResourceSet, resSet));
+                this.SendUpdate();
             }
         }
     }

@@ -66,7 +66,5 @@
 
         [ProtoMember(10)]
         public Guid OwnerId { get; private set; }
-
-        public bool Modified { get; set; }
     }
 }

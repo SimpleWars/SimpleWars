@@ -25,7 +25,7 @@
 
         public static ResourceProviderDTO ToDto(ResourceProvider resProv)
         {
-            return new ResourceProviderDTO(
+            var resProvDto = new ResourceProviderDTO(
                         resProv.Id,
                         resProv.Quantity,
                         resProv.ResourceType,
@@ -38,6 +38,15 @@
                         resProv.Scale,
                         resProv.Weight,
                         resProv.OwnerId);
+
+            switch (resProv.GetType().Name)
+            {
+                case "Tree":
+                    resProvDto.Type = ResourceProviderDTO.ProviderType.Tree;
+                    break;
+            }
+
+            return resProvDto;
         }
     }
 }
