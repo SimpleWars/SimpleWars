@@ -7,7 +7,6 @@
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.Layouts.PrimitiveLayouts;
     using SimpleWars.GUI.PrimitiveComponents;
-    using SimpleWars.Users.Enums;
     using SimpleWars.Utils;
 
     public class InitialLayout : Layout
@@ -28,10 +27,6 @@
 
             this.InitializeComponents();
         }
-
-        public LoginState LoginState => this.loginLayout.LoginState;
-
-        public RegisterState RegisterState => this.registerLayout.RegisterState;
 
         public override void Update(GameTime gameTime)
         {

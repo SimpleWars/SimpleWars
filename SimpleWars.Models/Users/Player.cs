@@ -18,15 +18,6 @@
         private int homeSeed;
 
         /// <summary>
-        /// Empty constructor for EF
-        /// </summary>
-        protected Player()
-        {
-            this.ResourceProviders = new HashSet<ResourceProvider>();
-            this.Units = new HashSet<Unit>();
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Player"/> class.
         /// </summary>
         /// <param name="name">
@@ -42,18 +33,21 @@
         /// The world map pos.
         /// </param>
         public Player(
+            Guid id,
             string name,
-            int homeSeed)
+            int homeSeed,
+            ResourceSet resourceSet)
         {
+            this.Id = id;
             this.Username = name;
             this.HomeSeed = homeSeed;         
 
             this.ResourceProviders = new HashSet<ResourceProvider>();
             this.Units = new HashSet<Unit>();
-            this.ResourceSet = new ResourceSet(true);
+            this.ResourceSet = resourceSet;
         }
 
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
 
         public string Username { get; private set; }
 

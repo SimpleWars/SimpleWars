@@ -1,5 +1,6 @@
 ﻿namespace SimpleWars.Models.Users.Interfaces
 {
+    using System;
     using System.Collections.Generic;
     using SimpleWars.Models.Economy;
     using SimpleWars.Models.Entities.DynamicEntities;
@@ -13,7 +14,7 @@
         /// <summary>
         /// Gets the id.
         /// </summary>
-        int Id { get; }
+        Guid Id { get; }
 
         /// <summary>
         /// Gets the username.

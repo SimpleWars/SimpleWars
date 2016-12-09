@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsynchronousSocketClient.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="Handlers\DefaultReader.cs" />
     <Compile Include="Handlers\DefaultWriter.cs" />
     <Compile Include="Handlers\Interfaces\Reader.cs" />

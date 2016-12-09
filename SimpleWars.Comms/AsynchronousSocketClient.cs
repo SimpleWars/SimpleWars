@@ -25,11 +25,10 @@
 
         public readonly MessageQueue MsgQueue;
 
-        public AsynchronousSocketClient(IPEndPoint connectionEndPoint)
+        public AsynchronousSocketClient()
         {
             this.Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
            
-            this.Socket.Connect(connectionEndPoint);
             this.Reader = new DefaultReader(this);
             this.Writer = new DefaultWriter(this);
             this.Buffers = new Buffers(BufferPoolSize, MaxBufferSize);
@@ -40,6 +39,25 @@
         {
             this.Socket.Close();
             this.Socket.Dispose();
+        }
+
+        public void Connect(IPEndPoint endPoint)
+        {
+            this.Socket.Connect(endPoint);
+        }
+
+        public static IPAddress GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip;
+                }
+            }
+
+            return IPAddress.Parse("127.0.0.1");
         }
     }
 }

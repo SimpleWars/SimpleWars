@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Models.Entities.Interfaces
 {
+    using System;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -19,12 +21,12 @@
         /// <summary>
         /// Gets the id.
         /// </summary>
-        int Id { get; }
+        Guid Id { get; }
 
         /// <summary>
         /// Gets the owner.
         /// </summary>
-        int OwnerId { get; }
+        Guid OwnerId { get; }
 
         /// <summary>
         /// Gets or sets the position.

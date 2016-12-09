@@ -50,7 +50,7 @@
             /// </param>
             public Asset3D(string dir, string name)
             : base(name)
-        {
+            {
                 this.LoadAsset(dir, name);
             }
 

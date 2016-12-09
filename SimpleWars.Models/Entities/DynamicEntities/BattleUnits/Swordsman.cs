@@ -1,5 +1,7 @@
 ﻿namespace SimpleWars.Models.Entities.DynamicEntities.BattleUnits
 {
+    using System;
+
     using Microsoft.Xna.Framework;
     using SimpleWars.Assets;
 
@@ -16,20 +18,8 @@
         private const float BaseSpeed = 5;
         private const float BaseAttackRange = 5;
 
-        public Swordsman(Vector3 position, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, BaseAttackSpeed, position, scale)
-        {
-        }
-
-        public Swordsman(Vector3 position, Quaternion rotation, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, BaseAttackSpeed, position, rotation, scale)
-        {
-        }
-
-        public Swordsman(Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) : base(BaseMaxHealth, BaseHealth, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, BaseAttackSpeed, position, rotation, weight, scale)
-        {
-        }
-
-        public Swordsman(Vector3 position, Quaternion rotation, int health = BaseHealth, float weight = 1, float scale = 1) 
-            : base(BaseMaxHealth, health, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, BaseAttackSpeed, position, rotation, weight, scale)
+        public Swordsman(Guid id, Guid ownerId, Vector3 position, Quaternion rotation, float weight = 1, float scale = 1, int health = BaseHealth) 
+            : base(id, ownerId, BaseMaxHealth, health, BaseSpeed, BaseDamage, BaseArmor, BaseAttackRange, BaseAttackSpeed, position, rotation, weight, scale)
         { }
 
         public override void LoadModel()

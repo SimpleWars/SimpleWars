@@ -7,7 +7,6 @@
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Users;
-    using SimpleWars.Users.Enums;
     using SimpleWars.Utils;
 
     public class LoginLayout : Layout
@@ -19,28 +18,15 @@
         public LoginLayout(Texture2D background)
             : base(background)
         {
-            this.LoginState = LoginState.None;
-
             this.Dimensions = new Vector2(240, 140);
             this.Position = new Vector2(500, 300);
 
             this.InitializeComponents();
         }
 
-        public LoginState LoginState { get; private set; }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-
-            if (this.LoginState == LoginState.Invalid)
-            {
-                spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Arial_18"), "Invalid credentials", this.Position + new Vector2(20, -20), Color.Red);
-            }
-            else if (this.LoginState == LoginState.Error)
-            {
-                spriteBatch.DrawString(SpriteFontManager.Instance.GetFont("Arial_18"), "Internal error", this.Position + new Vector2(20, -20), Color.Red);
-            }
         }
 
 
@@ -112,7 +98,7 @@
                 2,
                 () =>
                     {
-                        this.LoginState = UsersManager.LoginUser(this.usernameTb.TextNode.TextContent, this.passwordTb.TextNode.TextContent);
+                      UsersManager.LoginUser(this.usernameTb.TextNode.TextContent, this.passwordTb.TextNode.TextContent);
                     });
 
             var loginButtonTextNode = new TextNode(this.loginButton, new Vector2(70, -2), Vector2.One, "Log In", SpriteFontManager.Instance.GetFont("Arial_22"), Color.White);

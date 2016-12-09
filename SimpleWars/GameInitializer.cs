@@ -1,13 +1,19 @@
 ﻿
 namespace SimpleWars
 {
+    using System.Net;
+    using System.Threading.Tasks;
+
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
     using SimpleWars.Assets;
+    using SimpleWars.Comms;
     using SimpleWars.DisplayManagement;
     using SimpleWars.DisplayManagement.Displays;
+    using SimpleWars.ModelDTOs;
+    using SimpleWars.ModelDTOs.Enums;
     using SimpleWars.Utils;
 
     /// <summary>
@@ -19,6 +25,8 @@ namespace SimpleWars
         /// The graphics.
         /// </summary>
         private readonly GraphicsDeviceManager graphics;
+
+        private readonly Parser parser;
 
         /// <summary>
         /// The sprite batch.
@@ -32,6 +40,11 @@ namespace SimpleWars
         {
             this.graphics = new GraphicsDeviceManager(this);
             this.Content.RootDirectory = "Content";
+
+            Client.Socket.Connect(new IPEndPoint(AsynchronousSocketClient.GetLocalIPAddress(), 3000));
+            this.parser = new Parser(Client.Socket);
+            Task.Run(() => this.parser.StartParsing());
+            Client.Socket.Reader.ReadMessagesContinuously();
 
             ContentServiceProvider.ContentService = this.Content.ServiceProvider;
             ContentServiceProvider.RootDirectory = this.Content.RootDirectory;
@@ -80,11 +93,14 @@ namespace SimpleWars
         /// </summary>
         protected override void UnloadContent()
         {
+            Client.Socket.Writer.Send(new Message<byte>(Service.Logout, 1));
+
             TexturesManager.Instance.DisposeAll();
             ModelsManager.Instance.DisposeAll();
 
             DisplayManager.Instance.UnloadContent();
-
+            Client.Socket.Dispose();
+        
             this.Content.Unload();
         }
 

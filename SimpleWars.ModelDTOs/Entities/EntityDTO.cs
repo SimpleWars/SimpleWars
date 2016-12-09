@@ -14,6 +14,7 @@
         }
 
         public EntityDTO(
+            Guid id,
             float posX,
             float posY,
             float posZ,
@@ -24,7 +25,7 @@
             float weight,
             Guid ownerId)
         {
-            this.Id = Guid.NewGuid();
+            this.Id = id;
             this.PosX = posX;
             this.PosY = posY;
             this.PosZ = posZ;

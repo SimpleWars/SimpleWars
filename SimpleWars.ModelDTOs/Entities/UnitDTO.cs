@@ -17,6 +17,7 @@
         }
 
         public UnitDTO(
+            Guid id,
             int health,
             float posX,
             float posY,
@@ -27,7 +28,7 @@
             float scale,
             float weight,
             Guid ownerId)
-            : base(posX, posY, posZ, rotX, rotY, rotZ, scale, weight, ownerId)
+            : base(id, posX, posY, posZ, rotX, rotY, rotZ, scale, weight, ownerId)
         {
             this.Health = health;
         }

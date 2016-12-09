@@ -1,5 +1,6 @@
 ﻿namespace SimpleWars.Models.Entities
 {
+    using System;
     using System.Collections.Generic;
 
     using Microsoft.Xna.Framework;
@@ -48,51 +49,6 @@
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="Entity"/> class. 
-        /// Empty constructor for stupid ORM
-        /// </summary>
-        protected Entity()
-        {
-            this.LoadModel();
-            this.FogStart = 100;
-            this.FogEnd = 600;
-
-            // Cornflower blue
-            this.FogColor = Color.CornflowerBlue.ToVector3();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Entity"/> class.
-        /// </summary>
-        /// <param name="position">
-        /// The position.
-        /// </param>
-        /// <param name="scale">
-        /// The scale.
-        /// </param>
-        protected Entity(Vector3 position, float scale = 1)
-        : this(position, Quaternion.Identity, scale)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Entity"/> class.
-        /// </summary>
-        /// <param name="position">
-        /// The position.
-        /// </param>
-        /// <param name="rotation">
-        /// The rotation.
-        /// </param>
-        /// <param name="scale">
-        /// The scale.
-        /// </param>
-        protected Entity(Vector3 position, Quaternion rotation, float scale = 1)
-            : this(position, rotation, 1f, scale)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
         /// </summary>
         /// <param name="position">
@@ -107,9 +63,12 @@
         /// <param name="scale">
         /// The scale.
         /// </param>
-        protected Entity(Vector3 position, Quaternion rotation, float weight, float scale)
+        protected Entity(Guid id, Guid ownerId, Vector3 position, Quaternion rotation, float weight, float scale)
         {
             this.LoadModel();
+
+            this.Id = id;
+            this.OwnerId = ownerId;
             this.Position = position;
             this.Rotation = rotation;
             this.Scale = scale;
@@ -126,7 +85,7 @@
         /// <summary>
         /// Gets the id.
         /// </summary> 
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
 
         #region Public World Transformations
         /// <summary>
@@ -223,7 +182,7 @@
         }
         #endregion
 
-        public int OwnerId { get; private set; }
+        public Guid OwnerId { get; private set; }
 
         #region Shader Options
         /// <summary>

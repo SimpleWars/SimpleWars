@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResourceSetFactory.cs" />
     <Compile Include="ResProvFactory.cs" />
     <Compile Include="UnitFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,7 +7,6 @@
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.Users;
-    using SimpleWars.Users.Enums;
     using SimpleWars.Utils;
 
     public class RegisterLayout : Layout
@@ -29,8 +28,6 @@
         public RegisterLayout(Texture2D background)
             : base(background)
         {
-            this.RegisterState = RegisterState.None;
-
             this.Dimensions = new Vector2(240, 140);
             this.Position = new Vector2(500, 300);
 
@@ -65,25 +62,7 @@
                     this.Position + new Vector2(20, -20),
                     Color.Red);
             }
-            else if (this.RegisterState == RegisterState.UsernameTaken)
-            {
-                spriteBatch.DrawString(
-                    SpriteFontManager.Instance.GetFont("Arial_18"),
-                    "Username already taken",
-                    this.Position + new Vector2(20, -20),
-                    Color.Red);
-            }
-            else if (this.RegisterState == RegisterState.Error)
-            {
-                spriteBatch.DrawString(
-                    SpriteFontManager.Instance.GetFont("Arial_18"),
-                    "Internal error",
-                    this.Position + new Vector2(20, -20),
-                    Color.Red);
-            }
         }
-
-        public RegisterState RegisterState { get; private set; }
 
         private void InitializeComponents()
         {
@@ -195,7 +174,7 @@
                     }
                     else if (this.passwordTb.TextNode.TextContent == this.confirmPasswordTb.TextNode.TextContent)
                     {
-                        this.RegisterState = UsersManager.RegisterUser(
+                        UsersManager.RegisterUser(
                             this.usernameTb.TextNode.TextContent,
                             this.passwordTb.TextNode.TextContent);
                     }

@@ -1,76 +1,29 @@
 ﻿namespace SimpleWars.Users
 {
-    using System;
     using System.Security.Cryptography;
     using System.Text;
-
-    using Microsoft.Xna.Framework;
-
+    using SimpleWars.Comms;
+    using SimpleWars.ModelDTOs;
+    using SimpleWars.ModelDTOs.Enums;
     using SimpleWars.Models.Users;
-    using SimpleWars.Users.Enums;
 
     public static class UsersManager
     {
-        private static readonly Random RandomSeeder = new Random();
-
         public static Player CurrentPlayer { get; set; }
 
-        public static LoginState LoginUser(string username, string password)
+        public static void LoginUser(string username, string password)
         {
-            try
-            {
-                string hashedPassword = HashPassword(password);
-
-                hashedPassword = string.Empty;
-
-                //return LoginState.Invalid;
-
-                return LoginState.Successful;
-            }
-            catch (Exception)
-            {
-                return LoginState.Error;
-            }
+            Client.Socket.Writer.Send(Message.Create(Service.Login, new AuthDTO(username, HashPassword(password))));;
         }
 
-        public static RegisterState RegisterUser(string username, string password)
+        public static void RegisterUser(string username, string password)
         {
-            try
-            {
-                int homeWorldSeed = RandomSeeder.Next(0, 1000000000);
-                float homeX = (float)RandomSeeder.NextDouble() * 1000;
-                float homeY = (float)RandomSeeder.NextDouble() * 500;
-
-                string hashedPassword = HashPassword(password);
-                var registeredPlayer = new Player(username, homeWorldSeed);
-
-                hashedPassword = string.Empty;
-
-                return RegisterState.Successful;
-            }
-            catch (Exception)
-            {
-                return RegisterState.Error;
-            }
+            Client.Socket.Writer.Send(Message.Create(Service.Registration, new AuthDTO(username, HashPassword(password))));
         }
 
-        public static LogoutState LogoutCurrentUser()
+        public static void LogoutCurrentUser()
         {
-            try
-            {
-                if (CurrentPlayer == null)
-                {
-                    return LogoutState.NotLogged;
-                }
-
-                CurrentPlayer = null;
-
-                return LogoutState.Successful;
-            }
-            catch (Exception)
-            {
-                return LogoutState.Error;
-            }
+            Client.Socket.Writer.Send(new Message<byte>(Service.Logout, 1));
         }
 
         private static string HashPassword(string password)

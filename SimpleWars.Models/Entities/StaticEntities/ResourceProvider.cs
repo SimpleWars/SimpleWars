@@ -13,18 +13,8 @@
     public abstract class ResourceProvider : Entity, IResourceProvider
     {
         #region Constructors
-        protected ResourceProvider(int quantity, ResourceType resourceType, Vector3 position, float scale = 1) 
-            : this(quantity, resourceType, position, Quaternion.Identity, scale)
-        {
-        }
-
-        protected ResourceProvider(int quantity, ResourceType resourceType, Vector3 position, Quaternion rotation, float scale = 1) 
-            : this(quantity, resourceType, position, rotation, 1f, scale)
-        {
-        }
-
-        protected ResourceProvider(int quantity, ResourceType resourceType, Vector3 position, Quaternion rotation, float weight, float scale) 
-            : base(position, rotation, weight, scale)
+        protected ResourceProvider(Guid id, Guid ownerId, int quantity, ResourceType resourceType, Vector3 position, Quaternion rotation, float weight, float scale) 
+            : base(id, ownerId, position, rotation, weight, scale)
         {
             this.Quantity = quantity;
             this.ResourceType = resourceType;

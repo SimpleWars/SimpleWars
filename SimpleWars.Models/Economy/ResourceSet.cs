@@ -1,10 +1,10 @@
 ﻿namespace SimpleWars.Models.Economy
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using SimpleWars.Models.Economy.Interfaces;
-    using SimpleWars.Models.Economy.Resources;
     using SimpleWars.Models.Users;
 
     /// <summary>
@@ -15,57 +15,48 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceSet"/> class.
         /// </summary>
-        protected ResourceSet()
-        {            
-        }
-
-        public ResourceSet(bool initNew)
+        public ResourceSet(Guid ownerId, IResource gold, IResource wood, IResource food, IResource rock, IResource metal, IResource population)
         {
-            this.Gold = new Gold(0);
-            this.Wood = new Wood(0);
-            this.Food = new Food(0);
-            this.Metal = new Metal(0);
-            this.Rock = new Rock(0);
-            this.Population = new Population(0);
+            this.OwnerId = ownerId;
+            this.Gold = gold;
+            this.Wood = wood;
+            this.Food = food;
+            this.Rock = rock;
+            this.Metal = metal;
+            this.Population = population;
         }
 
-        /// <summary>
-        /// Gets the id.
-        /// </summary>
-        [Key, ForeignKey("Player")]
-        public int Id { get; private set; }
+        public Guid OwnerId { get; private set; }
 
         /// <summary>
         /// Gets the gold.
         /// </summary>
-        public virtual Gold Gold { get; private set; }
+        public IResource Gold { get; private set; }
 
         /// <summary>
         /// Gets the wood.
         /// </summary>
-        public virtual Wood Wood { get; private set; }
+        public IResource Wood { get; private set; }
 
         /// <summary>
         /// Gets the food.
         /// </summary>
-        public virtual Food Food { get; private set; }
+        public IResource Food { get; private set; }
 
         /// <summary>
         /// Gets the metal.
         /// </summary>
-        public virtual Metal Metal { get; private set; }
+        public IResource Metal { get; private set; }
 
 
         /// <summary>
         /// Gets the rock.
         /// </summary>
-        public virtual Rock Rock { get; private set; }
+        public IResource Rock { get; private set; }
 
         /// <summary>
         /// Gets the population.
         /// </summary>
-        public virtual Population Population { get; private set; }
-
-        public virtual Player Player { get; private set; }
+        public IResource Population { get; private set; }
     }
 }

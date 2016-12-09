@@ -4,10 +4,12 @@
 
     using SimpleWars.Assets;
     using SimpleWars.DisplayManagement;
+    using SimpleWars.DisplayManagement.Displays;
     using SimpleWars.Factories;
     using SimpleWars.GUI.PrimitiveComponents;
     using SimpleWars.ModelDTOs;
     using SimpleWars.ModelDTOs.Enums;
+    using SimpleWars.Models.Economy;
     using SimpleWars.Models.Users;
     using SimpleWars.Users;
 
@@ -20,36 +22,42 @@
             this.client = client;
         }
 
-        public void Parse()
+        public void StartParsing()
         {
-            Message message = this.client.MsgQueue.TryDequeue();
-
-            switch (message.Service)
+            while (true)
             {
-                case Service.Info:
-                    this.HandleInfo(((Message<string>)message).Data);
-                break;
-                case Service.OwnPlayerData:
-                    this.HandleLogin(((Message<PlayerDTO>)message).Data);
-                    break;
+                Message message = this.client.MsgQueue.TryDequeue();
 
+                switch (message.Service)
+                {
+                    case Service.Ping:
+                        break;
+                    case Service.Info:
+                        this.HandleInfo(((Message<string>)message).Data);
+                        break;
+                    case Service.OwnPlayerData:
+                        this.HandleLogin(((Message<PlayerDTO>)message).Data);
+                        DisplayManager.Instance.ChangeDisplay(new HomeWorldDisplay());
+                        break;
+                }
             }
         }
 
         private void HandleInfo(string content)
         {
-            DisplayManager.Instance.CurrentDisplay.Guis.Add(new TextNode(null, new Vector2(20, 20), new Vector2(100, 1000), content, SpriteFontManager.Instance.GetFont("Ariel_18"), Color.Red));
+            DisplayManager.Instance.CurrentDisplay.Guis.Add(new TextNode(null, new Vector2(20, 20), new Vector2(100, 1000), content, SpriteFontManager.Instance.GetFont("Arial_18"), Color.Red));
         }
 
         private void HandleLogin(PlayerDTO playerDto)
-        {
-            
+        {   
             UsersManager.CurrentPlayer = this.MapPlayerDto(playerDto);
         }
 
         private Player MapPlayerDto(PlayerDTO playerDto)
         {
-            var player = new Player(playerDto.Username, playerDto.WorldSeed);
+            ResourceSet resSet = ResourceSetFactory.FromDto(playerDto.ResourceSet);
+
+            var player = new Player(playerDto.Id, playerDto.Username, playerDto.WorldSeed, resSet);
             foreach (var unitDto in playerDto.Units)
             {
                 var unit = UnitFactory.FromDto(unitDto);
@@ -66,6 +74,7 @@
                 player.ResourceProviders.Add(resProv);
             }
 
+            player.MapEntities();
             return player;
         }
     }

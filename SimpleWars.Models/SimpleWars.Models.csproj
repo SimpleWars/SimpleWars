@@ -49,12 +49,6 @@
     <Compile Include="Economy\Interfaces\IResourceSet.cs" />
     <Compile Include="Economy\Resource.cs" />
     <Compile Include="Economy\ResourceSet.cs" />
-    <Compile Include="Economy\Resources\Food.cs" />
-    <Compile Include="Economy\Resources\Gold.cs" />
-    <Compile Include="Economy\Resources\Metal.cs" />
-    <Compile Include="Economy\Resources\Population.cs" />
-    <Compile Include="Economy\Resources\Rock.cs" />
-    <Compile Include="Economy\Resources\Wood.cs" />
     <Compile Include="Entities\DynamicEntities\BattleUnits\CombatUnit.cs" />
     <Compile Include="Entities\DynamicEntities\BattleUnits\Swordsman.cs" />
     <Compile Include="Entities\DynamicEntities\Unit.cs" />
@@ -74,7 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Users\Interfaces\IPlayer.cs" />
     <Compile Include="Users\Player.cs" />
-    <Compile Include="Utils\Calc.cs" />
     <Compile Include="Utils\Collision.cs" />
   </ItemGroup>
   <ItemGroup>

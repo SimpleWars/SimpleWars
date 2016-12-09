@@ -23,7 +23,7 @@ namespace SimpleWars.Factories
                     Vector3 pos = new Vector3(unitDto.PosX, unitDto.PosY, unitDto.PosZ);
                     Vector3 rotEuler = new Vector3(unitDto.RotX, unitDto.RotY, unitDto.RotZ);
                     Quaternion rot = rotEuler.ToQuaternion();
-                    return new Swordsman(pos, rot, unitDto.Health, unitDto.Weight, unitDto.Scale);
+                    return new Swordsman(unitDto.Id, unitDto.OwnerId, pos, rot, unitDto.Weight, unitDto.Scale, unitDto.Health);
                 default:
                     return null;
             }

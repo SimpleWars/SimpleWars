@@ -11,12 +11,17 @@
 
     using SimpleWars.Assets;
     using SimpleWars.Camera;
+    using SimpleWars.Comms;
     using SimpleWars.Environment.Skybox;
     using SimpleWars.Environment.Terrain;
     using SimpleWars.Environment.Terrain.Terrains;
+    using SimpleWars.Factories;
     using SimpleWars.GUI.Interfaces;
     using SimpleWars.GUI.Layouts.PrimitiveLayouts;
     using SimpleWars.Input;
+    using SimpleWars.ModelDTOs;
+    using SimpleWars.ModelDTOs.Entities;
+    using SimpleWars.ModelDTOs.Enums;
     using SimpleWars.Models.Entities.DynamicEntities;
     using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
     using SimpleWars.Models.Entities.Interfaces;
@@ -57,8 +62,11 @@
                     var weight = random.Next(5, 10);
                     var y = 100;
 
-                    var tree = new Tree(new Vector3(x, y, z), Quaternion.Identity, weight, 1);
+                    var tree = new Tree(Guid.NewGuid(), UsersManager.CurrentPlayer.Id, new Vector3(x, y, z), Quaternion.Identity, weight);
+                    Client.Socket.Writer.Send(Message.Create(Service.AddResProv, ResProvFactory.ToDto(tree)));
+
                     UsersManager.CurrentPlayer.ResourceProviders.Add(tree);
+                    UsersManager.CurrentPlayer.AllEntities.Add(tree);
                 }
             }
             else
@@ -81,7 +89,7 @@
         {
             this.CleanDead();
 
-            var allEntities = UsersManager.CurrentPlayer.AllEntities.ToArray();
+            var allEntities = UsersManager.CurrentPlayer.AllEntities;
 
             foreach (var entity in allEntities)
             {
@@ -103,7 +111,7 @@
                 }
                 else
                 {
-                    var unit = new Swordsman(Vector3.Zero);
+                    var unit = new Swordsman(Guid.NewGuid(), UsersManager.CurrentPlayer.Id, Vector3.Zero, Quaternion.Identity);
                     UsersManager.CurrentPlayer.Units.Add(unit);
                     EntitySelector.EntityPicked = unit;
                 }

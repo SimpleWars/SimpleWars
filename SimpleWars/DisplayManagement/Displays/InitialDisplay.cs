@@ -7,7 +7,6 @@
 
     using SimpleWars.Assets;
     using SimpleWars.GUI.Layouts.WrapperLayouts;
-    using SimpleWars.Users.Enums;
     using SimpleWars.Utils;
 
     /// <summary>
@@ -57,11 +56,6 @@
         public override void Update(GameTime gameTime)
         {
             this.initialGui.Update(gameTime);
-
-            if (this.initialGui.LoginState == LoginState.Successful || this.initialGui.RegisterState == RegisterState.Successful)
-            {
-                DisplayManager.Instance.ChangeDisplay(new HomeWorldDisplay());
-            }
         }
 
         /// <summary>

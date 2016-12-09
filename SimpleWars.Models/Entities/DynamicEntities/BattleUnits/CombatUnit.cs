@@ -18,22 +18,8 @@
 
         private double timeSinceLastAttack;
 
-        protected CombatUnit()
-        {
-        }
-
-        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, int attackSpeed, Vector3 position, float scale = 1) 
-            : this(maxHealth, health, speed, damage, armor, attackRange, attackSpeed, position, Quaternion.Identity, 1, scale)
-        {
-        }
-
-        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, int attackSpeed, Vector3 position, Quaternion rotation, float scale = 1) 
-            : this(maxHealth, health, speed, damage, armor, attackRange, attackSpeed, position, rotation, 1, scale)
-        {       
-        }
-
-        protected CombatUnit(int maxHealth, int health, float speed, int damage, int armor, float attackRange, int attackSpeed, Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) 
-            : base(maxHealth, health, speed, armor, position, rotation, weight, scale)
+        protected CombatUnit(Guid id, Guid ownerId, int maxHealth, int health, float speed, int damage, int armor, float attackRange, int attackSpeed, Vector3 position, Quaternion rotation, float weight = 1, float scale = 1) 
+            : base(id, ownerId, maxHealth, health, speed, armor, position, rotation, weight, scale)
         {
             this.AttackRange = attackRange;
             this.AttackSpeed = attackSpeed;

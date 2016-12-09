@@ -50,9 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\LoginState.cs" />
-    <Compile Include="Enums\LogoutState.cs" />
-    <Compile Include="Enums\RegisterState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsersManager.cs" />
   </ItemGroup>
@@ -61,6 +58,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SimpleWars.Comms\SimpleWars.Comms.csproj">
+      <Project>{242078a7-8e6b-45b7-8dd3-4c12df5585e0}</Project>
+      <Name>SimpleWars.Comms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleWars.ModelDTOs\SimpleWars.ModelDTOs.csproj">
+      <Project>{63d1bba3-7e60-4ec2-93db-a1924ba3ab8e}</Project>
+      <Name>SimpleWars.ModelDTOs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimpleWars.Models\SimpleWars.Models.csproj">
       <Project>{9744DC53-F59F-4998-8438-F44D5688E368}</Project>
       <Name>SimpleWars.Models</Name>

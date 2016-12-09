@@ -99,14 +99,10 @@
         /// </param>
         public void ChangeDisplay(IDisplay display)
         {
-            // disposing of the old display content and context
             this.CurrentDisplay.UnloadContent();
-            // changing the display
+            display.LoadContent();
             this.CurrentDisplay = display;
-            // loading the fresh display content
-            this.CurrentDisplay.LoadContent();
 
-            // manual garbage collection
             GC.Collect();
         }
 
