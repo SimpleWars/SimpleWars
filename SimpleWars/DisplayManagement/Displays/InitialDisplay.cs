@@ -66,10 +66,13 @@
         /// </param>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
             spriteBatch.Draw(this.background, null, this.mainFrame);
 
             this.initialGui.Draw(spriteBatch);
+            if (this.ResponseText != null)
+            {
+                this.ResponseText?.Draw(spriteBatch);
+            }
         }
     }
 }

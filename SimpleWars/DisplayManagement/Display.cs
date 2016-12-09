@@ -13,12 +13,7 @@
     /// </summary>
     public abstract class Display : IDisplay
     {
-        protected Display()
-        {
-            this.Guis = new List<IGui>();
-        }
-
-        public ICollection<IGui> Guis { get; set; }
+        public ITextNode ResponseText { get; set; }
 
         /// <summary>
         /// The load content.
@@ -44,12 +39,6 @@
         /// <param name="spriteBatch">
         /// The sprite batch.
         /// </param>
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (var gui in this.Guis)
-            {
-                gui.Draw(spriteBatch);
-            }
-        }
+        public abstract void Draw(SpriteBatch spriteBatch);
     }
 }

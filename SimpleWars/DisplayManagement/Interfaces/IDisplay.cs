@@ -12,10 +12,7 @@
     /// </summary>
     public interface IDisplay
     {
-        /// <summary>
-        /// Gets the guis.
-        /// </summary>
-        ICollection<IGui> Guis { get; }
+        ITextNode ResponseText { get; set; }
 
         /// <summary>
         /// The load content.

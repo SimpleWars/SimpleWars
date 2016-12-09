@@ -172,7 +172,6 @@
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
             this.skybox.Draw(this.camera.ProjectionMatrix, this.camera.ViewMatrix);
             this.terrain.Draw(this.camera.ViewMatrix, this.camera.ProjectionMatrix);
 
@@ -187,6 +186,7 @@
             }
 
             this.details?.Draw(spriteBatch);
+            this.ResponseText?.Draw(spriteBatch);
         }
 
         private void CommandSelectedEntity(IEntity selected, IEnumerable<IEntity> others)

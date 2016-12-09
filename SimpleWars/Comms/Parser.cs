@@ -27,6 +27,8 @@
             while (true)
             {
                 Message message = this.client.MsgQueue.TryDequeue();
+                if (message == null)
+                    continue;
 
                 switch (message.Service)
                 {
@@ -45,7 +47,7 @@
 
         private void HandleInfo(string content)
         {
-            DisplayManager.Instance.CurrentDisplay.Guis.Add(new TextNode(null, new Vector2(20, 20), new Vector2(100, 1000), content, SpriteFontManager.Instance.GetFont("Arial_18"), Color.Red));
+            DisplayManager.Instance.CurrentDisplay.ResponseText = new TextNode(null, new Vector2(0, 0), new Vector2(1, 1), content, SpriteFontManager.Instance.GetFont("Arial_18"), Color.Red);
         }
 
         private void HandleLogin(PlayerDTO playerDto)
