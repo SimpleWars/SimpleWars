@@ -4,9 +4,9 @@
 
     using ProtoBuf;
 
-    using SimpleWars.ModelDTOs.Entities;
-    using SimpleWars.ModelDTOs.Enums;
-    using SimpleWars.ModelDTOs.Resources;
+    using Entities;
+    using Enums;
+    using Resources;
 
     [ProtoContract]
     [ProtoInclude(7, typeof(Message<byte>))]

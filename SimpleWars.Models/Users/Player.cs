@@ -6,12 +6,11 @@
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Models.Economy;
-    using SimpleWars.Models.Entities;
-    using SimpleWars.Models.Entities.DynamicEntities;
-    using SimpleWars.Models.Entities.Interfaces;
-    using SimpleWars.Models.Entities.StaticEntities;
-    using SimpleWars.Models.Users.Interfaces;
+    using Economy;
+    using Entities;
+    using Entities.DynamicEntities;
+    using Entities.StaticEntities;
+    using Interfaces;
 
     public class Player : IPlayer
     {

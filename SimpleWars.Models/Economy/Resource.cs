@@ -1,11 +1,7 @@
 ﻿namespace SimpleWars.Models.Economy
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    using SimpleWars.ModelDTOs.Resources;
-    using SimpleWars.Models.Economy.Interfaces;
+    using ModelDTOs.Resources;
+    using Interfaces;
 
     /// <summary>
     /// The resource.

@@ -5,8 +5,8 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.GUI.Interfaces;
-    using SimpleWars.Utils;
+    using Interfaces;
+    using Utils;
 
     public class Button : IButton
     {

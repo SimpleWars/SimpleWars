@@ -3,7 +3,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.GUI.Interfaces;
+    using Interfaces;
 
     public class PasswordTextNode : PartialTextNode, IPasswordTextNode  
     {

@@ -4,8 +4,8 @@
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Assets;
-    using SimpleWars.ModelDTOs.Resources;
+    using Assets;
+    using ModelDTOs.Resources;
 
     /// <summary>
     /// The tree.

@@ -1,15 +1,11 @@
 ﻿namespace SimpleWars.DisplayManagement.Displays
 {
-    using System;
-    using System.Net;
-
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Assets;
-    using SimpleWars.Comms;
-    using SimpleWars.GUI.Layouts.WrapperLayouts;
-    using SimpleWars.Utils;
+    using Assets;
+    using GUI.Layouts.WrapperLayouts;
+    using Utils;
 
     /// <summary>
     /// The menu display.

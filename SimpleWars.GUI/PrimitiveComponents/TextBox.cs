@@ -8,9 +8,9 @@
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
-    using SimpleWars.GUI.Interfaces;
-    using SimpleWars.Input;
-    using SimpleWars.Utils;
+    using Interfaces;
+    using Input;
+    using Utils;
 
     public class TextBox : ITextBox
     {

@@ -1,18 +1,13 @@
 ﻿namespace SimpleWars.GUI.Layouts.PrimitiveLayouts
 {
-    using System;
-    using System.Collections.Generic;
-
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Assets;
-    using SimpleWars.GUI.Interfaces;
-    using SimpleWars.GUI.PrimitiveComponents;
-    using SimpleWars.Input;
-    using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
-    using SimpleWars.Models.Entities.Interfaces;
-    using SimpleWars.Utils;
+    using Assets;
+    using PrimitiveComponents;
+    using Input;
+    using Models.Entities.Interfaces;
+    using Utils;
 
     public enum DetailCommand
     {

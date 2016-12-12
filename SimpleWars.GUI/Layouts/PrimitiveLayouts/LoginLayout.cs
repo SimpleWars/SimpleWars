@@ -3,11 +3,11 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Assets;
-    using SimpleWars.GUI.Interfaces;
-    using SimpleWars.GUI.PrimitiveComponents;
-    using SimpleWars.Users;
-    using SimpleWars.Utils;
+    using Assets;
+    using Interfaces;
+    using PrimitiveComponents;
+    using Users;
+    using Utils;
 
     public class LoginLayout : Layout
     {

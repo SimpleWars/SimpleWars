@@ -1,13 +1,11 @@
 ﻿namespace SimpleWars.Models.Utils
 {
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Models.Entities.Interfaces;
+    using Entities.Interfaces;
 
     public static class Collision
     {

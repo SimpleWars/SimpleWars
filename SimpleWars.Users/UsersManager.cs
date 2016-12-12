@@ -2,10 +2,10 @@
 {
     using System.Security.Cryptography;
     using System.Text;
-    using SimpleWars.Comms;
-    using SimpleWars.ModelDTOs;
-    using SimpleWars.ModelDTOs.Enums;
-    using SimpleWars.Models.Users;
+    using Comms;
+    using ModelDTOs;
+    using ModelDTOs.Enums;
+    using Models.Users;
 
     public static class UsersManager
     {

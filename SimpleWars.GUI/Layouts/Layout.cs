@@ -5,8 +5,8 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.GUI.Interfaces;
-    using SimpleWars.Input;
+    using Interfaces;
+    using Input;
 
     public abstract class Layout : ILayout
     {

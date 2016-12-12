@@ -135,7 +135,8 @@
             if (gridX < 0 
                 || gridZ < 0 
                 || gridX >= this.heights.GetLength(0) - 1 
-                || gridZ >= this.heights.GetLength(1) - 1)
+                || gridZ >= this.heights.GetLength(1) - 1
+                )
             {
                 return 0;
             }

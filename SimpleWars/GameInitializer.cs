@@ -1,5 +1,4 @@
-﻿
-namespace SimpleWars
+﻿namespace SimpleWars
 {
     using System.Net;
     using System.Threading.Tasks;
@@ -8,14 +7,13 @@ namespace SimpleWars
     using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Input;
 
-    using SimpleWars.Assets;
-    using SimpleWars.Comms;
-    using SimpleWars.DisplayManagement;
-    using SimpleWars.DisplayManagement.Displays;
-    using SimpleWars.GUI.Interfaces;
-    using SimpleWars.ModelDTOs;
-    using SimpleWars.ModelDTOs.Enums;
-    using SimpleWars.Utils;
+    using Assets;
+    using Comms;
+    using DisplayManagement;
+    using DisplayManagement.Displays;
+    using ModelDTOs;
+    using ModelDTOs.Enums;
+    using Utils;
 
     /// <summary>
     /// This is the main type for your game.

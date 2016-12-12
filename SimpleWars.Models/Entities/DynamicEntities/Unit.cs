@@ -2,17 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Diagnostics;
     using System.Linq;
 
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Environment.Terrain.Interfaces;
-    using SimpleWars.Extensions;
-    using SimpleWars.Models.Economy.Interfaces;
-    using SimpleWars.Models.Entities.Interfaces;
-    using SimpleWars.Models.Utils;
+    using Environment.Terrain.Interfaces;
+    using Extensions;
+    using Interfaces;
+    using Utils;
 
     /// <summary>
     /// The dynamic entity.

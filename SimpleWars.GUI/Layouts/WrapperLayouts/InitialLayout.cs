@@ -3,11 +3,11 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Assets;
-    using SimpleWars.GUI.Interfaces;
-    using SimpleWars.GUI.Layouts.PrimitiveLayouts;
-    using SimpleWars.GUI.PrimitiveComponents;
-    using SimpleWars.Utils;
+    using Assets;
+    using Interfaces;
+    using PrimitiveLayouts;
+    using PrimitiveComponents;
+    using Utils;
 
     public class InitialLayout : Layout
     {

@@ -4,7 +4,7 @@
 
     using Microsoft.Xna.Framework.Graphics;
 
-    using SimpleWars.Assets.Interfaces;
+    using Interfaces;
 
     public class TexturesManager : AssetsManager
     {
