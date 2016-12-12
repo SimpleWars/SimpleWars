@@ -2,10 +2,10 @@
 {
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Extensions;
-    using SimpleWars.ModelDTOs.Entities;
-    using SimpleWars.Models.Entities.StaticEntities;
-    using SimpleWars.Models.Entities.StaticEntities.ResourceProviders;
+    using Extensions;
+    using ModelDTOs.Entities;
+    using Models.Entities.StaticEntities;
+    using Models.Entities.StaticEntities.ResourceProviders;
 
     public static class ResProvFactory
     {

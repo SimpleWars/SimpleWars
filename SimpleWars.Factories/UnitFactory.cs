@@ -2,10 +2,11 @@
 {
     using Microsoft.Xna.Framework;
 
-    using SimpleWars.Extensions;
-    using SimpleWars.ModelDTOs.Entities;
-    using SimpleWars.Models.Entities.DynamicEntities;
-    using SimpleWars.Models.Entities.DynamicEntities.BattleUnits;
+    using System;
+    using Extensions;
+    using ModelDTOs.Entities;
+    using Models.Entities.DynamicEntities;
+    using Models.Entities.DynamicEntities.BattleUnits;
 
     public static class UnitFactory
     {

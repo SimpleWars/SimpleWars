@@ -4,7 +4,7 @@
 
     using Microsoft.Xna.Framework.Content;
 
-    using SimpleWars.Assets.Interfaces;
+    using Interfaces;
 
     /// <summary>
     /// The asset.

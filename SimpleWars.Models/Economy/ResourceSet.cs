@@ -22,7 +22,10 @@
             this.Metal = metal;
             this.Population = population;
         }
-
+        /// <summary>
+        /// The owner Id.
+        /// Its a guid
+        /// </summary>
         public Guid OwnerId { get; private set; }
 
         /// <summary>

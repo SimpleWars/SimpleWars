@@ -9,9 +9,6 @@
     public class Resource : IResource
     {
         #region Private Fields
-        /// <summary>
-        /// The quantity.
-        /// </summary>
         private int quantity;
         #endregion
 

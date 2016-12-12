@@ -1,7 +1,7 @@
 ﻿namespace SimpleWars.Factories
 {
-    using SimpleWars.ModelDTOs.Resources;
-    using SimpleWars.Models.Economy;
+    using ModelDTOs.Resources;
+    using Models.Economy;
 
     public static class ResourceSetFactory
     {
