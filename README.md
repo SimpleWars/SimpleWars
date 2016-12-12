@@ -1,2 +1,3 @@
 # SimpleWars
-Online game for teamwork project
+- Teamwork project game
+- Based on MonoGame and Entity Framework
