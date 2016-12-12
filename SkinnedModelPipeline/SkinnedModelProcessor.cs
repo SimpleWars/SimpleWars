@@ -93,7 +93,7 @@ namespace SkinnedModelPipeline
             // Build up a table mapping bone names to indices.
             Dictionary<string, int> boneMap = new Dictionary<string, int>();
 
-            for (int i = 0; i < bones.Count; i++)
+            for (var i = 0; i < bones.Count; i++)
             {
                 string boneName = bones[i].Name;
 

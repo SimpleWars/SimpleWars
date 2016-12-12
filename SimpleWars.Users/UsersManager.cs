@@ -13,7 +13,7 @@
 
         public static void LoginUser(string username, string password)
         {
-            Client.Socket.Writer.Send(Message.Create(Service.Login, new AuthDTO(username, HashPassword(password))));;
+            Client.Socket.Writer.Send(Message.Create(Service.Login, new AuthDTO(username, HashPassword(password))));
         }
 
         public static void RegisterUser(string username, string password)

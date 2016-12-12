@@ -31,13 +31,13 @@ namespace SkinnedModel
 
 
         // Current animation transform matrices.
-        Matrix[] boneTransforms;
-        Matrix[] worldTransforms;
-        Matrix[] skinTransforms;
+        readonly Matrix[] boneTransforms;
+        readonly Matrix[] worldTransforms;
+        readonly Matrix[] skinTransforms;
 
 
         // Backlink to the bind pose and skeleton hierarchy data.
-        SkinningData skinningDataValue;
+        readonly SkinningData skinningDataValue;
 
 
         #endregion
@@ -170,9 +170,9 @@ namespace SkinnedModel
             this.worldTransforms[0] = this.boneTransforms[0] * rootTransform;
 
             // Child bones.
-            for (int bone = 1; bone < this.worldTransforms.Length; bone++)
+            for (var bone = 1; bone < this.worldTransforms.Length; bone++)
             {
-                int parentBone = this.skinningDataValue.SkeletonHierarchy[bone];
+                var parentBone = this.skinningDataValue.SkeletonHierarchy[bone];
 
                 this.worldTransforms[bone] = this.boneTransforms[bone] * this.worldTransforms[parentBone];
             }
@@ -184,7 +184,7 @@ namespace SkinnedModel
         /// </summary>
         public void UpdateSkinTransforms()
         {
-            for (int bone = 0; bone < this.skinTransforms.Length; bone++)
+            for (var bone = 0; bone < this.skinTransforms.Length; bone++)
             {
                 this.skinTransforms[bone] = this.skinningDataValue.InverseBindPose[bone] * this.worldTransforms[bone];
             }
@@ -222,18 +222,12 @@ namespace SkinnedModel
         /// <summary>
         /// Gets the clip currently being decoded.
         /// </summary>
-        public AnimationClip CurrentClip
-        {
-            get { return this.currentClipValue; }
-        }
+        public AnimationClip CurrentClip => this.currentClipValue;
 
 
         /// <summary>
         /// Gets the current play position.
         /// </summary>
-        public TimeSpan CurrentTime
-        {
-            get { return currentTimeValue; }
-        }
+        public TimeSpan CurrentTime => currentTimeValue;
     }
 }

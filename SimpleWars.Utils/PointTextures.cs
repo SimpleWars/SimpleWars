@@ -1,6 +1,5 @@
 ﻿namespace SimpleWars.Utils
 {
-    using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
     public static class PointTextures
